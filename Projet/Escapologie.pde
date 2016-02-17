@@ -2,20 +2,23 @@ interface onWinInterface { //<>//
   void toDo();
 }
 
-ArrayList<int[][]> patterns = new ArrayList<int[][]>();
-
-void loadPatterns() {
+/**
+ * Return all patterns
+ */
+ArrayList<int[][]> patternsSetup() {  
+  ArrayList<int[][]> patterns = new ArrayList<int[][]>();
+  
   int[][] blank = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
-    
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
+
   int[][] pattern ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 1, 0, 0, 0, 0, 0, 0, 2, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
@@ -30,17 +33,19 @@ void loadPatterns() {
   patterns.add(pattern);
 
   int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-    
-    patterns.add(pattern2);
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+
+  patterns.add(pattern2);
+  
+  return patterns;
 }
 
 class Map { //<>// //<>//
@@ -48,8 +53,8 @@ class Map { //<>// //<>//
 
   onWinInterface onWin;
 
-  Map(int[][] pattern) {
-    this.pattern = pattern;
+  Map(ArrayList<int[][]> patterns) {
+    this.pattern = patterns.get(0);
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
@@ -120,7 +125,7 @@ class Map { //<>// //<>//
           this.pattern[this.movableBlocks[i].y/50][this.movableBlocks[i].x/50] = this.movableBlocks[i].id;
         }
       }
-    }
+    } //<>//
     this.checkWin();
   }
 
@@ -178,7 +183,7 @@ class Block {
   void move(String direction) { // Idem que celle du dessus mais elle prend pas les mêmes paramètres. c'est pour ça qu'elles peuvent avoir le même nom
     fill(#FFFFFF); // Rempli en blanc l'ancienne place du carré
     rect(this.x, this.y, this.size, this.size);
-
+    
     if (direction == "left") {
       this.x -= 50;
     } else if (direction == "right") {
