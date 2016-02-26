@@ -33,14 +33,14 @@ ArrayList<int[][]> patternsSetup() {
   patterns.add(pattern);
 
   int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+    {1, 2, 0, 0, 0, 0, 0, 0, 3, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, -2, 0, 0, 0, 0, 0, 0, -3, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
   patterns.add(pattern2);
@@ -50,11 +50,11 @@ ArrayList<int[][]> patternsSetup() {
 
 class Map { //<>// //<>//
   int[][] pattern;
-
+  boolean win = false;
   onWinInterface onWin;
 
   Map(ArrayList<int[][]> patterns) {
-    this.pattern = patterns.get(0);
+    this.pattern = patterns.get(1);
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
@@ -127,6 +127,10 @@ class Map { //<>// //<>//
       }
     } //<>//
     this.checkWin();
+    
+    for(int i = 0; i < gates.length; i++) {
+       gates[i].show(); 
+    }
   }
 
   void checkWin() {
@@ -182,6 +186,7 @@ class Block {
 
   void move(String direction) { // Idem que celle du dessus mais elle prend pas les mêmes paramètres. c'est pour ça qu'elles peuvent avoir le même nom
     fill(#FFFFFF); // Rempli en blanc l'ancienne place du carré
+    noStroke();
     rect(this.x, this.y, this.size, this.size);
     
     if (direction == "left") {
