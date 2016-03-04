@@ -58,7 +58,7 @@ class Map { //<>// //<>//
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
-  Gate[] gates = new Gate[0];
+  Gate[] gates = new Gate[0]; // Tous les blocs qui sont les portes de sortie
 
   void init() { // Fonction pour dessiner la carte
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
@@ -66,16 +66,16 @@ class Map { //<>// //<>//
         if (pattern[i][j] == 1) {
           new Block(j*50, i*50, 50, 1, color(222, 184, 135)); // Si c'est un 1 on met un bloc marron
         } else if (pattern[i][j] < 0) {
-          Gate _gate;
+          Gate _gate; // Si c'est un négatif c'est une porte de sortie
           if (pattern[i][j] == -2) {
-            _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#FF0000));
+            _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#FF0000)); // Porte rouge
           } else {
-            _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#00FF00));
+            _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#00FF00)); // Porte verte
           }
           pattern[i][j] = 0;
-          gates = (Gate[])append(gates, _gate);
+          gates = (Gate[])append(gates, _gate); // Augmente la taille du tableau
         } else if (pattern[i][j] != 0) {
-          Block block; // Sinon on fait autre chose
+          Block block; // Sinon c'est un bloc déplaçable
           if (pattern[i][j] == 2) {
             block = new Block(j*50, i*50, 50, 2, color(#FF0000));
           } else if (pattern[i][j] == 3) {
@@ -90,7 +90,7 @@ class Map { //<>// //<>//
     }
   }
 
-  boolean allCantMove(boolean[] array) {
+  boolean allCantMove(boolean[] array) { // Si plus aucun ne peut bouger, retourne true
     boolean move = true;
     for (int i = 0; i < array.length; i++) {
       if (!array[i]) { 
@@ -133,7 +133,7 @@ class Map { //<>// //<>//
     }
   }
 
-  void checkWin() {
+  void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
       for (int j = 0; j < this.gates.length; j++) {
@@ -170,13 +170,13 @@ class Block {
     this.show();
   }
 
-  void show() {
+  void show() { // Affiche le bloc
     fill(this.blockColor);
     noStroke();
     rect(this.x, this.y, this.size, this.size);
   }
 
-  void move(int toX, int toY) { // C'est pas la final. C'est juste pour commencer. Il y aura les animations à faire
+  void move(int toX, int toY) { // Pour bouger, animations à faire même si elles me paraissent compliquer à faire
     fill(#FFFFFF);
     rect(this.x, this.y, this.size, this.size);
     this.x += toX;
@@ -202,7 +202,7 @@ class Block {
   }
 }
 
-class Gate {
+class Gate { // Class pour les portes de sortie
   int x;
   int y;
   int id;
@@ -221,13 +221,13 @@ class Gate {
     this.show();
   }
 
-  void show() {
+  void show() { // Affiche la porte
     stroke(this.gateColor);
     fill(#FFFFFF);
     rect(this.x, this.y, this.size, this.size);
   }
 
-  boolean hasBlock(int[][] pattern) {
+  boolean hasBlock(int[][] pattern) { // La porte à le bloc sur elle
     if (pattern[this.y/50][this.x/50] == this.id) {
       return true;
     }
