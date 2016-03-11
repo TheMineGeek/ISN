@@ -3,7 +3,7 @@ import processing.net.*; //<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 static Projet that;
-
+GUI gui;
 /* SETUP FONCTIONS */
 
 /**
@@ -37,45 +37,27 @@ void multiplayerSetup(String url) {
  */
 void setup() {
   background(#FFFFFF);
-  mapSetup();
-  /*GUI.addButton(new GUIButton(20, 20, 300, 40, "Mon premier boutton", 15, color(#000000), color(#444444), color(#444444), color(#AAAAAA), color(#DDDDDD), color(#FFFFFF), new IGUIButton() {
-    public void onClick() {
-      println("test");
-    }
-  }
-  ));*/
+  surface.setResizable(true);
+  gui.showMenu();
 }
 
 /**
  * Specific setup
  */
 void settings() {  
-  //size(750, 750);
-  that = this;
-  //multiplayerSetup("ws://localhost:8001/isn");
-  map = new Map(patternsSetup());
-  size(map.pattern[0].length*50, map.pattern.length*50);
+  size(340, 250);  
+  gui = new GUI();
 }
 
 
 void draw() {
-  //GUI.buttonHoverInteractions(mouseX, mouseY);
+  gui.buttonHoverInteractions(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  if (!map.win) {
-    if (keyCode == 37) { // Flèche gauche
-      map.move("left"); // Fonction que tu peux retrouver dans la classe map
-    } else if (keyCode == 38) { // Flèche haut
-      map.move("top");
-    } else if (keyCode == 39) { // Flèche droite
-      map.move("right");
-    } else if (keyCode == 40) { // Flechè bas
-      map.move("bottom");
-    }
-  }
+  
 }
 
 void mousePressed() {
-  //GUI.buttonClickInteractions(mouseX, mouseY);
+  gui.buttonClickInteractions(mouseX, mouseY);
 }
