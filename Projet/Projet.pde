@@ -1,7 +1,8 @@
 import processing.net.*; //<>// //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
-Map map;
+Map map; 
+Personnage personnage;
 static Projet that;
 
 /* SETUP FONCTIONS */
@@ -9,19 +10,6 @@ static Projet that;
 /**
  * Initialize map
  */
-void mapSetup() {  
-  map.init();
-  map.onWin = new onWinInterface() {
-    @Override
-      public void toDo() { // Ce qu'il faut faire quand on gagne la partie
-      map.win = true;
-      textAlign(CENTER);
-      fill(0);
-      textSize(30);
-      text("Bravo ! Vous avez gagné", pixelWidth/2, pixelHeight/2);
-    }
-  };
-}
 
 
 /**
@@ -37,42 +25,37 @@ void multiplayerSetup(String url) {
  */
 void setup() {
   background(#FFFFFF);
-  mapSetup();
-  /*GUI.addButton(new GUIButton(20, 20, 300, 40, "Mon premier boutton", 15, color(#000000), color(#444444), color(#444444), color(#AAAAAA), color(#DDDDDD), color(#FFFFFF), new IGUIButton() {
-    public void onClick() {
-      println("test");
-    }
-  }
-  ));*/
+  personnage = new Personnage();
 }
 
 /**
  * Specific setup
  */
+
 void settings() {  
-  //size(750, 750);
-  that = this;
-  //multiplayerSetup("ws://localhost:8001/isn");
-  map = new Map(patternsSetup());
-  size(map.pattern[0].length*50, map.pattern.length*50);
+  size (750, 750);
 }
 
 
 void draw() {
+    background(#FFFFFF);
+  personnage.affiche();
+
   //GUI.buttonHoverInteractions(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  if (!map.win) {
-    if (keyCode == 37) { // Flèche gauche
-      map.move("left"); // Fonction que tu peux retrouver dans la classe map
-    } else if (keyCode == 38) { // Flèche haut
-      map.move("top");
-    } else if (keyCode == 39) { // Flèche droite
-      map.move("right");
-    } else if (keyCode == 40) { // Flechè bas
-      map.move("bottom");
-    }
+println(keyCode);
+  if (keyCode == 37) { // Flèche gauche
+    personnage.move("left"); // Fonction que tu peux retrouver dans la classe map
+  } else if (keyCode == 38) { // Flèche haut
+    personnage.move("top");
+  } else if (keyCode == 39) { // Flèche droite
+    personnage.move("right");
+  } else if (keyCode == 40) { // Flechè bas
+    personnage.move("bottom");
+  } else if (keyCode == 32) { // Barre d'espace pour poser une bombe
+
   }
 }
 
