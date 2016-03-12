@@ -1,4 +1,4 @@
-import processing.net.*; //<>// //<>//
+import processing.net.*; //<>// //<>// //<>//
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -37,8 +37,8 @@ void multiplayerSetup(String url) {
  */
 void setup() {
   background(#FFFFFF);
-  surface.setResizable(true);
-  gui.showMenu();
+  frameRate(60);
+  gui.showMultiplayer();
 }
 
 /**
@@ -51,13 +51,19 @@ void settings() {
 
 
 void draw() {
-  gui.buttonHoverInteractions(mouseX, mouseY);
+  gui.hover(mouseX, mouseY);
+  gui.tick();
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  
+  if (key == 27) { // Empeche le programme de se fermer lorsque l'on appuie sur ECHAP
+    key = 0;
+    gui.keyboard('!', ESC);
+  } else {
+    gui.keyboard(key, keyCode);
+  }
 }
 
 void mousePressed() {
-  gui.buttonClickInteractions(mouseX, mouseY);
+  gui.click(mouseX, mouseY);
 }
