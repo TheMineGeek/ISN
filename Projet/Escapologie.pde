@@ -61,6 +61,7 @@ class Map { //<>// //<>//
   Gate[] gates = new Gate[0]; // Tous les blocs qui sont les portes de sortie
 
   void init() { // Fonction pour dessiner la carte
+    frameRate(60);
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         if (pattern[i][j] == 1) {
@@ -126,11 +127,15 @@ class Map { //<>// //<>//
         }
       }
     } //<>//
-    this.checkWin();
+    this.checkWin();  
     
     for(int i = 0; i < gates.length; i++) {
        gates[i].show(); 
     }
+  }
+  
+  void tick() {
+    
   }
 
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond

@@ -23,43 +23,25 @@ void mapSetup() {
   };
 }
 
-
-/**
- * Initialize multiplayer
- */
-void multiplayerSetup(String url) {
-  Multiplayer.connect(url);
-  Multiplayer.send("test 2");
-}
-
 /**
  * Global setup
  */
 void setup() {
   background(#FFFFFF);
   mapSetup();
-  /*GUI.addButton(new GUIButton(20, 20, 300, 40, "Mon premier boutton", 15, color(#000000), color(#444444), color(#444444), color(#AAAAAA), color(#DDDDDD), color(#FFFFFF), new IGUIButton() {
-    public void onClick() {
-      println("test");
-    }
-  }
-  ));*/
 }
 
 /**
  * Specific setup
  */
 void settings() {  
-  //size(750, 750);
   that = this;
-  //multiplayerSetup("ws://localhost:8001/isn");
   map = new Map(patternsSetup());
   size(map.pattern[0].length*50, map.pattern.length*50);
 }
 
 
 void draw() {
-  //GUI.buttonHoverInteractions(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
@@ -77,5 +59,4 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
 }
 
 void mousePressed() {
-  //GUI.buttonClickInteractions(mouseX, mouseY);
 }
