@@ -33,7 +33,6 @@ class GUI {
 
   void addButton(GUIButton button) {
     GUIButtons = (GUIButton[])append(GUIButtons, button);
-    button.init();
   }
 
   void flushButtons() {
@@ -63,7 +62,6 @@ class GUI {
 
   void addInput(GUIInput input) {
     GUIInputs = (GUIInput[])append(GUIInputs, input);
-    input.init();
   }
 
   void flushInputs() {
@@ -109,6 +107,8 @@ class GUI {
   /* MENUS CODE */
 
   void showMenu() {
+    this.flushButtons();
+    this.flushInputs();
     background(#FFFFFF);
 
     this.addButton(new GUIButton(20, 0, 300, 40, "Bienvenue", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
@@ -127,6 +127,7 @@ class GUI {
 
     this.addButton(new GUIButton(20, 100, 300, 40, "Multijoueur", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
+        gui.showMultiplayer();
       }
     }
     ));
@@ -146,6 +147,8 @@ class GUI {
   }
 
   void showNewGame() {
+    this.flushButtons();
+    this.flushInputs();
     background(#FFFFFF);
 
     textAlign(CENTER);
@@ -155,17 +158,27 @@ class GUI {
   }
 
   void showMultiplayer() {
+    this.flushButtons();
+    this.flushInputs();
     background(#FFFFFF);
+    println("showMultiplayer()");
+    background(#FFFFFF);
+    
+    this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
 
-    surface.setSize(400, 500);
-
-    this.addButton(new GUIButton(20, 250, 300, 40, "Quitter", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(20, 250, 300, 40, "Retour", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
+        gui.showMenu();
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(20, 300, 300, 40, "Quitter", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         exit();
       }
     }
     ));
-    this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
   }
 }
 
@@ -216,11 +229,12 @@ class GUIInput {
     this.inputHeight = this.maxY - this.y;
 
     this.cling = 29;
-
+    println("GUIInput");
     this.init();
   }
 
   void init() {
+    println("init()");
     this.unSelect();
   }
 
@@ -236,12 +250,13 @@ class GUIInput {
     text(this.text, (this.x + 10), (this.inputHeight / 2 + this.y + this.textSize / 2));
   }
 
-  void unSelect() {
+  void unSelect() { //<>//
     this.unCling();
     
     stroke(this.normalStroke);
     fill(this.normalBackground);
-    rect(x, y, sizeX, sizeY);
+    println(this.x + " " + this.y + " " + this.sizeX + " " + this.sizeY);
+    rect(this.x, this.y, this.sizeX, this.sizeY);
 
     textAlign(LEFT);
     fill(this.normalText);
@@ -287,7 +302,6 @@ class GUIInput {
     } else if(_key == 8) {
       this.unCling();
       if(this.text.length() > 0) {
-        println(this.text.length());
          this.text = this.text.substring(0, this.text.length()-1);
       }
     }
@@ -359,7 +373,7 @@ class GUIButton {
   void onLeave() {
     stroke(this.normalStroke);
     fill(this.normalBackground);
-    rect(x, y, sizeX, sizeY);
+    rect(this.x, this.y, this.sizeX, this.sizeY);
 
     textAlign(CENTER);
     fill(this.normalText);
@@ -370,7 +384,7 @@ class GUIButton {
   void onHover() {
     stroke(this.hoverStroke);
     fill(this.hoverBackground);
-    rect(x, y, sizeX, sizeY);
+    rect(this.x, this.y, this.sizeX, this.sizeY);
 
     textAlign(CENTER);
     fill(this.hoverText);

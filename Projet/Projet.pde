@@ -38,14 +38,14 @@ void multiplayerSetup(String url) {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showMultiplayer();
+  gui.showMenu();
 }
 
 /**
  * Specific setup
  */
 void settings() {  
-  size(340, 250);  
+  size(400, 600);  
   gui = new GUI();
 }
 
