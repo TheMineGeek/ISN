@@ -57,7 +57,7 @@ class Map { //<>// //<>// //<>//
   onWinInterface onWin;
 
   Map(ArrayList<int[][]> patterns) {
-    this.pattern = patterns.get(1);
+    this.pattern = patterns.get(0);
     this.speedX = this.speedY = 10;
   }  // La pseudo fonction pour initialiser la map
 
@@ -143,11 +143,11 @@ class Map { //<>// //<>// //<>//
       gates[i].show();
     }
     
-    for (int i = 0; i < this.movableBlocks.length; i++) {      
-      this.checkWin();
+    for (int i = 0; i < this.movableBlocks.length; i++) {   
       this.movableBlocks[i].move(this.speedX, this.speedY);
       _keyboardEvents = !this.movableBlocks[i].mustMove();
-    }
+    }   
+    this.checkWin();
     this.keyboardEvents = _keyboardEvents;
   }
 
@@ -155,7 +155,7 @@ class Map { //<>// //<>// //<>//
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
       for (int j = 0; j < this.gates.length; j++) {
-        if (this.movableBlocks[i].id == this.gates[j].id || !this.movableBlocks[i].mustMove()) {
+        if (this.movableBlocks[i].id == this.gates[j].id || this.movableBlocks[i].mustMove()) {
           if (!(this.movableBlocks[i].x == this.gates[j].x && this.movableBlocks[i].y == this.gates[j].y)) {
             win = false;
           }
