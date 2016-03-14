@@ -1,4 +1,4 @@
-interface onWinInterface { //<>//
+interface onWinInterface { //<>// //<>//
   void toDo();
 }
 
@@ -7,7 +7,7 @@ interface onWinInterface { //<>//
  */
 ArrayList<int[][]> patternsSetup() {  
   ArrayList<int[][]> patterns = new ArrayList<int[][]>();
-  
+
   int[][] blank = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -44,28 +44,31 @@ ArrayList<int[][]> patternsSetup() {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
   patterns.add(pattern2);
-  
+
   return patterns;
 }
 
-class Map { //<>// //<>//
+class Map { //<>// //<>// //<>//
   int[][] pattern;
   boolean win = false;
   onWinInterface onWin;
+  ArrayList<int[][]> patterns;
 
   Map(ArrayList<int[][]> patterns) {
-    this.pattern = patterns.get(1);
+    this.patterns = patterns;
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
   Gate[] gates = new Gate[0]; // Tous les blocs qui sont les portes de sortie
 
   void init() { // Fonction pour dessiner la carte
+    background(#FFFFFF);
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         if (pattern[i][j] == 1) {
           new Block(j*50, i*50, 50, 1, color(222, 184, 135)); // Si c'est un 1 on met un bloc marron
         } else if (pattern[i][j] < 0) {
+          println("here");
           Gate _gate; // Si c'est un négatif c'est une porte de sortie
           if (pattern[i][j] == -2) {
             _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#FF0000)); // Porte rouge
@@ -88,6 +91,15 @@ class Map { //<>// //<>//
         }
       }
     }
+
+    println(this.gates.length);
+    println(this.movableBlocks.length);
+    println();
+  }
+
+  void setPattern(int pattern) {
+    this.patterns = patternsSetup();
+    this.pattern = this.patterns.get(pattern);
   }
 
   boolean allCantMove(boolean[] array) { // Si plus aucun ne peut bouger, retourne true
@@ -113,7 +125,7 @@ class Map { //<>// //<>//
       y = 1;
     }
 
-    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous
+    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous //<>//
 
     while (!allCantMove(cantMove)) { 
       for (int i = 0; i < this.movableBlocks.length; i++) {
@@ -127,9 +139,9 @@ class Map { //<>// //<>//
       }
     } //<>//
     this.checkWin();
-    
-    for(int i = 0; i < gates.length; i++) {
-       gates[i].show(); 
+
+    for (int i = 0; i < gates.length; i++) {
+      gates[i].show();
     }
   }
 
@@ -147,6 +159,24 @@ class Map { //<>// //<>//
 
     if (win) {
       this.onWin.toDo();
+    }
+  }
+
+  void flushGates() {
+    this.gates = (Gate[])subset(this.gates, 0, 0);
+  }
+
+  void flushBlocks() {
+    this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0);
+  }
+
+  void screenshotAll(String path) {
+    for (int i = 0; i < this.patterns.size(); i++) {
+      this.flushBlocks();
+      this.flushGates();
+      this.pattern = this.patterns.get(i);
+      this.init();
+      screenshot.take(path + "\\escapologie-" + i + ".png");
     }
   }
 }
@@ -188,7 +218,7 @@ class Block {
     fill(#FFFFFF); // Rempli en blanc l'ancienne place du carré
     noStroke();
     rect(this.x, this.y, this.size, this.size);
-    
+
     if (direction == "left") {
       this.x -= 50;
     } else if (direction == "right") {

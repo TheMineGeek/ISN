@@ -1,7 +1,8 @@
-import processing.net.*; //<>// //<>//
+import processing.net.*; //<>// //<>// //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
 Map map;
+Screenshot screenshot;
 static Projet that;
 
 /* SETUP FONCTIONS */
@@ -10,6 +11,9 @@ static Projet that;
  * Initialize map
  */
 void mapSetup() {  
+  map.flushBlocks();
+  map.flushGates();
+  map.setPattern(1);
   map.init();
   map.onWin = new onWinInterface() {
     @Override
@@ -37,6 +41,7 @@ void multiplayerSetup(String url) {
  */
 void setup() {
   background(#FFFFFF);
+  map.screenshotAll("\\data\\img");
   mapSetup();
   /*GUI.addButton(new GUIButton(20, 20, 300, 40, "Mon premier boutton", 15, color(#000000), color(#444444), color(#444444), color(#AAAAAA), color(#DDDDDD), color(#FFFFFF), new IGUIButton() {
     public void onClick() {
@@ -54,7 +59,8 @@ void settings() {
   that = this;
   //multiplayerSetup("ws://localhost:8001/isn");
   map = new Map(patternsSetup());
-  size(map.pattern[0].length*50, map.pattern.length*50);
+  screenshot = new Screenshot();
+  size(500, 500);
 }
 
 
