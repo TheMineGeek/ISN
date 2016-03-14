@@ -1,4 +1,4 @@
-import processing.net.*; //<>// //<>//
+import processing.net.*;  //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -42,10 +42,11 @@ void settings() {
 
 
 void draw() {
+  map.tick();
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  if (!map.win) {
+  if (!map.win && map.keyboardEvents) {
     if (keyCode == 37) { // Flèche gauche
       map.move("left"); // Fonction que tu peux retrouver dans la classe map
     } else if (keyCode == 38) { // Flèche haut
@@ -56,7 +57,4 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
       map.move("bottom");
     }
   }
-}
-
-void mousePressed() {
 }
