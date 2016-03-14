@@ -33,14 +33,13 @@ class Personnage {
   }
 }
 
-class Bombe {
-int x;
-int y;
-int size;
-color couleur;
+  class Bombe {
+    int x;
+    int y;
+    int size;
+    color couleur;
 
-// constructeur
-Bombe() {
-
-
-}
+    // constructeur
+    Bombe() {
+    }
+  }
