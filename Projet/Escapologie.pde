@@ -1,4 +1,4 @@
-interface onWinInterface { //<>// //<>// //<>//
+interface onWinInterface {  //<>//
   void toDo();
 }
 
@@ -48,13 +48,14 @@ ArrayList<int[][]> patternsSetup() {
   return patterns;
 }
 
-class Map { //<>// //<>// //<>//
+class Map { //<>// //<>// //<>// //<>//
   int[][] pattern;
   int speedX;
   int speedY;
   boolean win = false;
   boolean keyboardEvents = true;
   onWinInterface onWin;
+  ArrayList<int[][]> patterns;
 
   Map(ArrayList<int[][]> patterns) {
     this.pattern = patterns.get(0);
@@ -71,6 +72,7 @@ class Map { //<>// //<>// //<>//
         if (pattern[i][j] == 1) {
           new Block(j*50, i*50, 50, 1, color(222, 184, 135)); // Si c'est un 1 on met un bloc marron
         } else if (pattern[i][j] < 0) {
+          println("here");
           Gate _gate; // Si c'est un négatif c'est une porte de sortie
           if (pattern[i][j] == -2) {
             _gate = new Gate(j * 50, i * 50, 50, (int)sqrt(sq(pattern[i][j])), color(#FF0000)); // Porte rouge
@@ -93,6 +95,15 @@ class Map { //<>// //<>// //<>//
         }
       }
     }
+
+    println(this.gates.length);
+    println(this.movableBlocks.length);
+    println();
+  }
+
+  void setPattern(int pattern) {
+    this.patterns = patternsSetup();
+    this.pattern = this.patterns.get(pattern);
   }
 
   boolean allCantMove(boolean[] array) { // Si plus aucun ne peut bouger, retourne true
@@ -114,11 +125,11 @@ class Map { //<>// //<>// //<>//
       x = 1;
     } else if (direction == "top") {
       y = -1;
-    } else if (direction == "bottom") {
+    } else if (direction == "bottom") { //<>//
       y = 1;
     }
 
-    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous
+    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous //<>//
 
     while (!allCantMove(cantMove)) { 
       for (int i = 0; i < this.movableBlocks.length; i++) {
@@ -138,7 +149,7 @@ class Map { //<>// //<>// //<>//
 
   void tick() {
     boolean _keyboardEvents = true;
-    
+
     for (int i = 0; i < gates.length; i++) {
       gates[i].show();
     }
@@ -165,6 +176,24 @@ class Map { //<>// //<>// //<>//
 
     if (win) {
       this.onWin.toDo();
+    }
+  }
+
+  void flushGates() {
+    this.gates = (Gate[])subset(this.gates, 0, 0);
+  }
+
+  void flushBlocks() {
+    this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0);
+  }
+
+  void screenshotAll(String path) {
+    for (int i = 0; i < this.patterns.size(); i++) {
+      this.flushBlocks();
+      this.flushGates();
+      this.pattern = this.patterns.get(i);
+      this.init();
+      screenshot.take(path + "\\escapologie-" + i + ".png");
     }
   }
 }

@@ -1,7 +1,8 @@
-import processing.net.*;  //<>// //<>//
+import processing.net.*; //<>//
  //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
+Screenshot screenshot;
 static Projet that;
 GUI gui;
 /* SETUP FONCTIONS */
@@ -10,6 +11,9 @@ GUI gui;
  * Initialize map
  */
 void mapSetup() {  
+  map.flushBlocks();
+  map.flushGates();
+  map.setPattern(1);
   map.init();
   map.onWin = new onWinInterface() {
     @Override
@@ -35,7 +39,7 @@ void setup() {
 /**
  * Specific setup
  */
-void settings() {  
+void settings() { 
   size(400, 600);  
   gui = new GUI();
 }
