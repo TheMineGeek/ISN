@@ -1,4 +1,4 @@
-interface onWinInterface { //<>//
+interface onWinInterface { //<>// //<>// //<>//
   void toDo();
 }
 
@@ -7,7 +7,7 @@ interface onWinInterface { //<>//
  */
 ArrayList<int[][]> patternsSetup() {  
   ArrayList<int[][]> patterns = new ArrayList<int[][]>();
-  
+
   int[][] blank = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -20,7 +20,7 @@ ArrayList<int[][]> patternsSetup() {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
   int[][] pattern ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 1, 0, 0, 0, 0, 0, 0, 2, 1}, 
+    {1, 1, 0, 0, 0, 2, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
     {1, 0, 1, 1, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -44,23 +44,28 @@ ArrayList<int[][]> patternsSetup() {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
   patterns.add(pattern2);
-  
+
   return patterns;
 }
 
-class Map { //<>// //<>//
+class Map { //<>// //<>// //<>//
   int[][] pattern;
+  int speedX;
+  int speedY;
   boolean win = false;
+  boolean keyboardEvents = true;
   onWinInterface onWin;
 
   Map(ArrayList<int[][]> patterns) {
-    this.pattern = patterns.get(1);
+    this.pattern = patterns.get(0);
+    this.speedX = this.speedY = 10;
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
   Gate[] gates = new Gate[0]; // Tous les blocs qui sont les portes de sortie
 
   void init() { // Fonction pour dessiner la carte
+    frameRate(60);
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         if (pattern[i][j] == 1) {
@@ -117,27 +122,40 @@ class Map { //<>// //<>//
 
     while (!allCantMove(cantMove)) { 
       for (int i = 0; i < this.movableBlocks.length; i++) {
-        if (this.pattern[this.movableBlocks[i].y/50 + y][this.movableBlocks[i].x/50 + x] != 0) { 
+        int indexX = this.movableBlocks[i].toMoveX/50 + this.movableBlocks[i].x/50 + x;
+        int indexY = this.movableBlocks[i].toMoveY/50 + this.movableBlocks[i].y/50 + y;
+
+        if (this.pattern[indexY][indexX] != 0) { //<>//
           cantMove[i] = true;
         } else {
-          this.pattern[this.movableBlocks[i].y/50][this.movableBlocks[i].x/50] = 0;
-          this.movableBlocks[i].move(direction); 
-          this.pattern[this.movableBlocks[i].y/50][this.movableBlocks[i].x/50] = this.movableBlocks[i].id;
+          this.pattern[indexY-y][indexX-x] = 0;
+          this.movableBlocks[i].toMove(x*50, y*50);
+          this.pattern[indexY][indexX] = this.movableBlocks[i].id;
         }
       }
-    } //<>//
-    this.checkWin();
-    
-    for(int i = 0; i < gates.length; i++) {
-       gates[i].show(); 
     }
+  }
+
+  void tick() {
+    boolean _keyboardEvents = true;
+    
+    for (int i = 0; i < gates.length; i++) {
+      gates[i].show();
+    }
+    
+    for (int i = 0; i < this.movableBlocks.length; i++) {   
+      this.movableBlocks[i].move(this.speedX, this.speedY);
+      _keyboardEvents = !this.movableBlocks[i].mustMove();
+    }   
+    this.checkWin();
+    this.keyboardEvents = _keyboardEvents;
   }
 
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
       for (int j = 0; j < this.gates.length; j++) {
-        if (this.movableBlocks[i].id == this.gates[j].id) {
+        if (this.movableBlocks[i].id == this.gates[j].id || this.movableBlocks[i].mustMove()) {
           if (!(this.movableBlocks[i].x == this.gates[j].x && this.movableBlocks[i].y == this.gates[j].y)) {
             win = false;
           }
@@ -155,6 +173,8 @@ class Block {
   int size;
   int x;
   int y;
+  int toMoveX;
+  int toMoveY;
   int id;
   color blockColor;
 
@@ -176,29 +196,58 @@ class Block {
     rect(this.x, this.y, this.size, this.size);
   }
 
-  void move(int toX, int toY) { // Pour bouger, animations à faire même si elles me paraissent compliquer à faire
+  void move(int vx, int vy) { 
     fill(#FFFFFF);
-    rect(this.x, this.y, this.size, this.size);
-    this.x += toX;
-    this.y += toY;
+    noStroke();
+    rect(this.x, this.y, this.size, this.size); // Efface l'ancien cube
+
+    if (this.toMoveX < 0) {
+      this.toMoveX += vx;
+      this.x -= vx;
+    } else if (this.toMoveX > 0) {
+      this.toMoveX -= vx;
+      this.x += vx;
+    }
+
+    if (this.toMoveY < 0) {
+      this.toMoveY += vy;
+      this.y -= vy;
+    } else if (this.toMoveY > 0) {
+      this.toMoveY -= vy;
+      this.y += vy;
+    }
+
     this.show();
   }
 
-  void move(String direction) { // Idem que celle du dessus mais elle prend pas les mêmes paramètres. c'est pour ça qu'elles peuvent avoir le même nom
-    fill(#FFFFFF); // Rempli en blanc l'ancienne place du carré
-    noStroke();
-    rect(this.x, this.y, this.size, this.size);
-    
-    if (direction == "left") {
-      this.x -= 50;
-    } else if (direction == "right") {
-      this.x += 50;
-    } else if (direction == "top") {
-      this.y -= 50;
-    } else if (direction == "bottom") {
-      this.y += 50;
+  /*void move(String direction) { // Idem que celle du dessus mais elle prend pas les mêmes paramètres. c'est pour ça qu'elles peuvent avoir le même nom
+   fill(#FFFFFF); // Rempli en blanc l'ancienne place du carré
+   noStroke();
+   rect(this.x, this.y, this.size, this.size);
+   
+   if (direction == "left") {
+   this.x -= 50;
+   } else if (direction == "right") {
+   this.x += 50;  
+   } else if (direction == "top") {
+   this.y -= 50;
+   } else if (direction == "bottom") {
+   this.y += 50;
+   }
+   this.show();
+   }*/
+
+  void toMove(int x, int y) {
+    this.toMoveX += x;
+    this.toMoveY += y;
+  }
+
+  Boolean mustMove() {
+    if (this.toMoveX == 0 && this.toMoveY == 0) {
+      return false;
+    } else {
+      return true;
     }
-    this.show();
   }
 }
 

@@ -1,4 +1,4 @@
-import processing.net.*; //<>//
+import processing.net.*;  //<>// //<>//
  //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -23,15 +23,6 @@ void mapSetup() {
   };
 }
 
-
-/**
- * Initialize multiplayer
- */
-void multiplayerSetup(String url) {
-  Multiplayer.connect(url);
-  Multiplayer.send("test 2");
-}
-
 /**
  * Global setup
  */
@@ -51,8 +42,13 @@ void settings() {
 
 
 void draw() {
-  gui.hover(mouseX, mouseY);
+    gui.hover(mouseX, mouseY);
   gui.tick();
+    map.tick();
+}
+
+void mousePressed() {
+  gui.click(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
@@ -62,8 +58,16 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
   } else {
     gui.keyboard(key, keyCode);
   }
-}
-
-void mousePressed() {
-  gui.click(mouseX, mouseY);
+  
+  if (!map.win && map.keyboardEvents) {
+    if (keyCode == 37) { // Flèche gauche
+      map.move("left"); // Fonction que tu peux retrouver dans la classe map
+    } else if (keyCode == 38) { // Flèche haut
+      map.move("top");
+    } else if (keyCode == 39) { // Flèche droite
+      map.move("right");
+    } else if (keyCode == 40) { // Flechè bas
+      map.move("bottom");
+    }
+  }
 }
