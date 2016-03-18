@@ -1,4 +1,4 @@
-import processing.net.*; //<>// //<>//
+import processing.net.*; //<>// //<>// //<>// //<>//
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -34,7 +34,7 @@ void mapSetup() {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  simon = new Simon();
+  simon = new Simon(width/2, height/2-50, 300);
 }
 
 /**
@@ -46,11 +46,11 @@ void settings() {
 
 
 void draw() {
+  simon.mouseHoverInteractions(mouseX, mouseY);
 }
 
 void mousePressed() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  
 }
