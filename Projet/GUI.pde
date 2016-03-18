@@ -211,8 +211,6 @@ class GUI {
     this.flushButtons();
     this.flushInputs();
     background(#FFFFFF);
-    println("showMultiplayer()");
-    background(#FFFFFF);
 
     this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
 
@@ -287,7 +285,6 @@ class GUIInput {
    * Function used to create the button when all parameters are registered
    */
   void init() {
-    println("init()");
     this.unSelect();
   }
 
@@ -297,7 +294,6 @@ class GUIInput {
   void onClick() {
     stroke(this.selectedStroke);
     fill(this.selectedBackground);
-    //println(this.x + " " + this.y + " " + this.sizeX + " " + this.sizeY);
     rect(x, y, sizeX, sizeY);
 
     textAlign(LEFT);
@@ -314,7 +310,6 @@ class GUIInput {
 
     stroke(this.normalStroke);
     fill(this.normalBackground);
-    println(this.x + " " + this.y + " " + this.sizeX + " " + this.sizeY);
     rect(this.x, this.y, this.sizeX, this.sizeY);
 
     textAlign(LEFT);

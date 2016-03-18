@@ -1,10 +1,11 @@
-import processing.net.*; //<>//
- //<>//
+import processing.net.*; //<>// //<>//
+
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
 static Projet that;
 GUI gui;
+Simon simon;
 /* SETUP FONCTIONS */
 
 /**
@@ -33,45 +34,23 @@ void mapSetup() {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showMenu();
+  simon = new Simon();
 }
 
 /**
  * Specific setup
  */
 void settings() { 
-  size(400, 600);  
-  gui = new GUI();
+  size(800, 500);
 }
 
 
 void draw() {
-    gui.hover(mouseX, mouseY);
-  gui.tick();
-    map.tick();
 }
 
 void mousePressed() {
-  gui.click(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  if (key == 27) { // Empeche le programme de se fermer lorsque l'on appuie sur ECHAP
-    key = 0;
-    gui.keyboard('!', ESC);
-  } else {
-    gui.keyboard(key, keyCode);
-  }
   
-  if (!map.win && map.keyboardEvents) {
-    if (keyCode == 37) { // Flèche gauche
-      map.move("left"); // Fonction que tu peux retrouver dans la classe map
-    } else if (keyCode == 38) { // Flèche haut
-      map.move("top");
-    } else if (keyCode == 39) { // Flèche droite
-      map.move("right");
-    } else if (keyCode == 40) { // Flechè bas
-      map.move("bottom");
-    }
-  }
 }
