@@ -3,6 +3,9 @@ import processing.net.*; //<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map; 
 Personnage personnage;
+Bombe bombe;
+int [] tbombe; // Création d'un tableau de bombes
+
 static Projet that;
 
 /* SETUP FONCTIONS */
@@ -15,10 +18,7 @@ static Projet that;
 /**
  * Initialize multiplayer
  */
-void multiplayerSetup(String url) {
-  Multiplayer.connect(url);
-  Multiplayer.send("test 2");
-}
+
 
 /**
  * Global setup
@@ -26,6 +26,11 @@ void multiplayerSetup(String url) {
 void setup() {
   background(#FFFFFF);
   personnage = new Personnage();
+  
+  int i; 
+  tbombe = new int [20];
+  for (i=0, i<20, i++) {
+    tbombe [i] = 0; // Toutes les bombes sont inactives
 }
 
 /**
@@ -38,14 +43,15 @@ void settings() {
 
 
 void draw() {
-    background(#FFFFFF);
+  background(#FFFFFF);
   personnage.affiche();
+  bombe.affiche();
 
   //GUI.buttonHoverInteractions(mouseX, mouseY);
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-println(keyCode);
+  println(keyCode);
   if (keyCode == 37) { // Flèche gauche
     personnage.move("left"); // Fonction que tu peux retrouver dans la classe map
   } else if (keyCode == 38) { // Flèche haut
@@ -55,7 +61,10 @@ println(keyCode);
   } else if (keyCode == 40) { // Flechè bas
     personnage.move("bottom");
   } else if (keyCode == 32) { // Barre d'espace pour poser une bombe
-
+    Bombe bombe = new Bombe(personnage.x, personnage.y);
+   for (i= 0, i < 20, i++) {
+    tbombe[i] = 1;
+   }
   }
 }
 

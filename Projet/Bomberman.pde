@@ -1,5 +1,4 @@
 
-
 class Personnage {
   int x;
   int y;
@@ -33,13 +32,27 @@ class Personnage {
   }
 }
 
-  class Bombe {
-    int x;
-    int y;
-    int size;
-    color couleur;
+class Bombe {
+  int x;
+  int y;
+  int size1;
+  int size2;
+  color couleur;
 
-    // constructeur
-    Bombe() {
-    }
+  // constructeur
+  Bombe() {
+    size1 = 25;
+    size2 = 12;
+    couleur = color(192, 192, 192);
+    
   }
+
+  void affiche () {
+    
+    fill (couleur);
+    rect (x, y, size1, size2);
+  }
+
+
+    
+}
