@@ -32,6 +32,7 @@ class Personnage {
   }
 }
 
+
 class Bombe {
   int x;
   int y;
@@ -40,19 +41,17 @@ class Bombe {
   color couleur;
 
   // constructeur
-  Bombe() {
+  Bombe(int x, int y) {
     size1 = 25;
     size2 = 12;
+    this.x = x;
+    this.y = y;
     couleur = color(192, 192, 192);
-    
   }
 
   void affiche () {
-    
+
     fill (couleur);
     rect (x, y, size1, size2);
   }
-
-
-    
 }

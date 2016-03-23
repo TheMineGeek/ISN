@@ -5,6 +5,8 @@ Map map;
 Personnage personnage;
 Bombe bombe;
 int [] tbombe; // Création d'un tableau de bombes
+int i;
+
 
 static Projet that;
 
@@ -26,11 +28,10 @@ static Projet that;
 void setup() {
   background(#FFFFFF);
   personnage = new Personnage();
-  
-  int i; 
   tbombe = new int [20];
-  for (i=0, i<20, i++) {
+  for (i=0; i < 20; i++) {
     tbombe [i] = 0; // Toutes les bombes sont inactives
+  }
 }
 
 /**
@@ -45,7 +46,12 @@ void settings() {
 void draw() {
   background(#FFFFFF);
   personnage.affiche();
-  bombe.affiche();
+  for (i=0; i<20; i++) {
+    if (tbombe[i] == 1) {
+      bombe.affiche();
+      i++;
+    }
+  }
 
   //GUI.buttonHoverInteractions(mouseX, mouseY);
 }
@@ -62,12 +68,8 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
     personnage.move("bottom");
   } else if (keyCode == 32) { // Barre d'espace pour poser une bombe
     Bombe bombe = new Bombe(personnage.x, personnage.y);
-   for (i= 0, i < 20, i++) {
-    tbombe[i] = 1;
-   }
+    for (i= 0; i < 20; i++) {
+      tbombe[i] = 1;
+    }
   }
-}
-
-void mousePressed() {
-  //GUI.buttonClickInteractions(mouseX, mouseY);
 }
