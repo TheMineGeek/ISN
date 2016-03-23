@@ -1,11 +1,10 @@
-import processing.net.*; //<>// //<>//
+import processing.net.*; //<>// //<>// //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
 Map map; 
 Personnage personnage;
 Bombe bombe;
-int [] tbombe; // Création d'un tableau de bombes
-int i;
+Bombe[] tbombe; // Création d'un tableau de bombes
 
 
 static Projet that;
@@ -28,9 +27,9 @@ static Projet that;
 void setup() {
   background(#FFFFFF);
   personnage = new Personnage();
-  tbombe = new int [20];
-  for (i=0; i < 20; i++) {
-    tbombe [i] = 0; // Toutes les bombes sont inactives
+  tbombe = new Bombe[20];
+  for(int i = 0; i < 20; i++) {
+   tbombe[i] = new Bombe(); 
   }
 }
 
@@ -46,10 +45,10 @@ void settings() {
 void draw() {
   background(#FFFFFF);
   personnage.affiche();
-  for (i=0; i<20; i++) {
-    if (tbombe[i] == 1) {
-      bombe.affiche();
-      i++;
+  for (int i=0; i<20; i++) {
+    if (tbombe[i].active) {
+      println(i);
+      tbombe[i].affiche();
     }
   }
 
@@ -57,7 +56,6 @@ void draw() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  println(keyCode);
   if (keyCode == 37) { // Flèche gauche
     personnage.move("left"); // Fonction que tu peux retrouver dans la classe map
   } else if (keyCode == 38) { // Flèche haut
@@ -67,9 +65,11 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
   } else if (keyCode == 40) { // Flechè bas
     personnage.move("bottom");
   } else if (keyCode == 32) { // Barre d'espace pour poser une bombe
-    Bombe bombe = new Bombe(personnage.x, personnage.y);
-    for (i= 0; i < 20; i++) {
-      tbombe[i] = 1;
+    int i = 0;
+    while(tbombe[i].active) {
+      i++;
     }
+    println(i);
+    tbombe[i].activate(personnage.x, personnage.y);
   }
 }
