@@ -1,10 +1,11 @@
-import processing.net.*; //<>// //<>// //<>//
+import processing.net.*; //<>// //<>// //<>// //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
 Map map; 
 Personnage personnage;
 Bombe bombe;
 Bombe[] tbombe; // Création d'un tableau de bombes
+BlockB blockb;
 
 
 static Projet that;
@@ -29,8 +30,9 @@ void setup() {
   personnage = new Personnage();
   tbombe = new Bombe[20];
   for(int i = 0; i < 20; i++) {
-   tbombe[i] = new Bombe(); 
+   tbombe[i] = new Bombe();
   }
+  blockb = new BlockB();
 }
 
 /**
@@ -46,10 +48,11 @@ void draw() {
   background(#FFFFFF);
   personnage.affiche();
   for (int i=0; i<20; i++) {
+    tbombe[i].tick();
     if (tbombe[i].active) {
-      println(i);
       tbombe[i].affiche();
     }
+    blockb.affiche();
   }
 
   //GUI.buttonHoverInteractions(mouseX, mouseY);
@@ -69,7 +72,6 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
     while(tbombe[i].active) {
       i++;
     }
-    println(i);
     tbombe[i].activate(personnage.x, personnage.y);
   }
 }
