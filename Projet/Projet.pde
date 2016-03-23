@@ -1,4 +1,5 @@
-import processing.net.*; //<>// //<>// //<>// //<>//
+import processing.net.*; //<>//
+import processing.sound.*;
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -6,6 +7,7 @@ Screenshot screenshot;
 static Projet that;
 GUI gui;
 Simon simon;
+PinkNoise noise;
 /* SETUP FONCTIONS */
 
 /**
@@ -35,6 +37,9 @@ void setup() {
   background(#FFFFFF);
   frameRate(60);
   simon = new Simon(width/2, height/2-50, 300);
+  
+  noise = new PinkNoise(this);
+  noise.play();
 }
 
 /**
