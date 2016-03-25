@@ -1,27 +1,23 @@
 
 class BlockB {
-  
- int x;
- int y;
- int size;
- color couleur;
- 
- // Constructeur 
- BlockB () {
-   size = 50;
-   couleur = #AE00DD;
-   x = 300;
-   y = 300;
- }
- 
- void affiche () {
-   fill (couleur);
-   rect (x, y, size, size);
- }
 
+  int x;
+  int y;
+  int size;
+  color couleur;
 
+  // Constructeur 
+  BlockB () {
+    size = 50;
+    couleur = #AE00DD;
+    x = 300;
+    y = 300;
+  }
 
-
+  void affiche () {
+    fill (couleur);
+    rect (x, y, size, size);
+  }
 }
 
 
@@ -68,6 +64,7 @@ class Bombe {
   color couleur;
   boolean active;
   Timer timer;
+  int duree;
 
   Bombe() {
     this.active = false;
@@ -88,15 +85,6 @@ class Bombe {
     couleur = color(192, 192, 192);
   }  
 
-  void tick() {  
-    this.timer.tick();
-   if (timer.getTime() >= 7) {
-      this.active = false;
-      timer.stop();
-      timer.reset();
-    }
-  }
-
   void affiche() {
     fill (this.couleur);
     rect (this.x, this.y, this.size1, this.size2);
@@ -108,9 +96,21 @@ class Bombe {
     this.y = y;
     timer.start(); // démare le timer
   }
+
+  void tick() {  
+    this.timer.tick();
+    if (timer.getTime() >= 7) {
+      this.active = false;
+      Explosion(this.x-25, this.y-25);
+    }
+    if (timer.getTime() >= 10) {
+      timer.stop();
+      timer.reset();
+    }
+  }
+  
+  void Explosion (int x, int y) {
+  image(croix, x, y, 100, 100);
 }
-
-class Explosion {
-
 
 }

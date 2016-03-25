@@ -7,6 +7,7 @@ Bombe bombe;
 Bombe[] tbombe; // Création d'un tableau de bombes
 BlockB blockb;
 
+PImage croix;
 
 static Projet that;
 
@@ -33,6 +34,7 @@ void setup() {
    tbombe[i] = new Bombe();
   }
   blockb = new BlockB();
+  croix = loadImage("./data/img/Croix.png");
 }
 
 /**
@@ -46,13 +48,14 @@ void settings() {
 
 void draw() {
   background(#FFFFFF);
+  blockb.affiche();
   personnage.affiche();
   for (int i=0; i<20; i++) {
     tbombe[i].tick();
     if (tbombe[i].active) {
       tbombe[i].affiche();
     }
-    blockb.affiche();
+    
   }
 
   //GUI.buttonHoverInteractions(mouseX, mouseY);
