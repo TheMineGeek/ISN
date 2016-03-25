@@ -1,14 +1,32 @@
 class Timer {
   float time;
-  
+  boolean activated;
+
   Timer() {
+    this.activated = false;
+    this.time = 0;
   }
-  
+
   void tick() {
-    time += 1/frameRate;
+    if (this.activated) {
+      time += 1/frameRate;
+    }
   }
-  
+
   float getTime() {
-    return this.time; 
+    return this.time;
+  }
+
+  void start() {
+    this.activated = true;
+  }
+
+  void stop() {
+    this.activated =  false;
+  }
+
+  void reset() {
+    this.activated =  false;
+    this.time = 0;
   }
 }
