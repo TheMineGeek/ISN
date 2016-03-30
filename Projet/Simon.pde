@@ -40,7 +40,7 @@ class Simon {
     this.init();
     this.timer = new Timer();
     this.colors = new Colors[0];
-    this.mustPlay = true;
+    this.mustPlay = false;
   }
 
   void init() {
@@ -52,32 +52,98 @@ class Simon {
       this.desactivateAll();
       if (sq(x-this.x)+sq(y-this.y) < sq(this.diametre/2)) {
         if (x < this.x) {
-          if (y < this.y) {
-            fill(#03C03C);
-            arc(this.x, this.y, this.diametre, this.diametre, PI, PI+HALF_PI, PIE);
-          } else {
-            fill(#FFF44F);
-            arc(this.x, this.y, this.diametre, this.diametre, HALF_PI, PI, PIE);
+          if (y < this.y) { // Green
+            light(Colors.GREEN.toString());
+          } else { // Yellow
+            light(Colors.YELLOW.toString());
           }
         } else {
-          if (y < this.y) {
-            fill(#C23B22);
-            arc(this.x, this.y, this.diametre, this.diametre, HALF_PI+PI, 2*PI, PIE);
-          } else {
-            fill(#779ECB);
-            arc(this.x, this.y, this.diametre, this.diametre, 0, HALF_PI, PIE);
+          if (y < this.y) { // Red
+            light(Colors.RED.toString());
+          } else { // Blue
+            light(Colors.BLUE.toString());
           }
         }
       }
     }
   }
-  
+
   void mouseClickInteraction() {
-    
+    if (sq(x-this.x)+sq(y-this.y) < sq(this.diametre/2)) {
+      if (x < this.x) {
+        if (y < this.y) { // Green
+          
+        } else { // Yellow
+          
+        }
+      } else {
+        if (y < this.y) { // Red
+          
+        } else { // Blue
+          
+        }
+      }
+    }
   }
-  
-  void keyboardInteractions() {
-    
+
+  void keyboardInteractions(char _key) {
+    println(_key);
+    switch(_key) {
+    case 'r':
+      this.audioPlayer = minim.loadFile("./data/sounds/re.wav");
+      light(Colors.RED.toString());
+      if (colors[I] == Colors.RED) {
+        I++;
+        timer.reset();
+      } else {
+        timer.reset();
+        lose();
+      }
+      break;
+    case 'j': 
+      this.audioPlayer = minim.loadFile("./data/sounds/fa.wav");
+      light(Colors.YELLOW.toString());
+      if (colors[I] == Colors.YELLOW) {
+        I++;
+        timer.reset();
+      } else {
+        timer.reset();
+        lose();
+      }
+      break;
+    case'b':
+      this.audioPlayer = minim.loadFile("./data/sounds/mi.wav");
+      light(Colors.BLUE.toString());
+      if (colors[I] == Colors.BLUE) {
+        I++;
+        timer.reset();
+      } else {
+        timer.reset();
+        lose();
+      }
+      break;
+    case 'v':
+      this.audioPlayer = minim.loadFile("./data/sounds/do.wav");
+      light(Colors.GREEN.toString());
+      if (colors[I] == Colors.GREEN) {
+        I++;
+        timer.reset();
+      } else {
+        timer.reset();
+        lose();
+      }
+      break;
+
+    default:
+      lose();
+      break;
+    }
+
+    if (I == colors.length) {
+      this.addColor();
+      I = 0;
+      mustPlay = false;
+    }
   }
 
   void desactivateAll() {
@@ -94,16 +160,16 @@ class Simon {
   void light(String wantedColor) {
     println(wantedColor);
     if (wantedColor == "blue") {
-      fill(#779ECB);
+      fill(#0000FF);
       arc(this.x, this.y, this.diametre, this.diametre, 0, HALF_PI, PIE);
     } else if (wantedColor == "yellow") {
-      fill(#FFF44F);
+      fill(#FFFF00);
       arc(this.x, this.y, this.diametre, this.diametre, HALF_PI, PI, PIE);
     } else if (wantedColor == "green") {
-      fill(#03C03C);
+      fill(#00FF00);
       arc(this.x, this.y, this.diametre, this.diametre, PI, PI+HALF_PI, PIE);
     } else if (wantedColor == "red") {
-      fill(#C23B22);
+      fill(#FF0000);
       arc(this.x, this.y, this.diametre, this.diametre, HALF_PI+PI, 2*PI, PIE);
     }
   }
@@ -131,8 +197,16 @@ class Simon {
       this.light(Colors.YELLOW.toString());
       break;
     }
-
+    
     this.audioPlayer.play();
+    
+    if(I == this.colors.length-1) {
+       delay(500); 
+    }
+  }
+
+  void lose() {
+    println("here");
   }
 
   void tick() {
@@ -146,15 +220,17 @@ class Simon {
         this.playSequence();
         I++;
         if (I == colors.length) {
+          if(timer.getTime() >= 2) {
           mustPlay = true;
           I = 0;
+          }
         }
       }
     } else {
-      if (timer.getTime() == 0) {
+      if (timer.getTime() == 0 && I == 0) {
         timer.start();
       } else if (timer.getTime() >= 5) {
-        println("perdu");
+        lose();
       }
     }
   }

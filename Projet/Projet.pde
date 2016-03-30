@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>//
-import ddf.minim.*;
+import processing.net.*; //<>// //<>// //<>//
+import ddf.minim.*; //<>//
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -20,6 +20,8 @@ void setup() {
   simon = new Simon(width/2, height/2-50, 300);
 
   minim = new Minim(this); 
+  
+  simon.addColor();
 }
 
 /**
@@ -39,4 +41,5 @@ void mousePressed() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
+  simon.keyboardInteractions(key);
 }
