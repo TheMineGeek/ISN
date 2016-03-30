@@ -155,13 +155,13 @@ class GUI {
     this.flushInputs();
     background(#FFFFFF);
 
-    this.addButton(new GUIButton(20, 0, 300, 40, "Bienvenue", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+    this.addButton(new GUIButton(300, 30, 300, 40, "Bienvenue", 50, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
       }
     }
     ));
 
-    this.addButton(new GUIButton(20, 50, 300, 40, "Nouvelle partie", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(150, 150, 600, 50, "Nouvelle partie", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         gui.flushButtons();
         gui.showNewGame();
@@ -169,20 +169,20 @@ class GUI {
     }
     ));
 
-    this.addButton(new GUIButton(20, 100, 300, 40, "Multijoueur", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(150, 210, 600, 50, "Multijoueur", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         gui.showMultiplayer();
       }
     }
     ));
 
-    this.addButton(new GUIButton(20, 150, 300, 40, "Classement", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(150, 270, 600, 50, "Classement", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
       }
     }
     ));
 
-    this.addButton(new GUIButton(20, 200, 300, 40, "Quitter", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(150, 330, 600, 50, "Quitter", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         exit();
       }
@@ -198,10 +198,31 @@ class GUI {
     this.flushInputs();
     background(#FFFFFF);
 
-    textAlign(CENTER);
-    fill(0);
-    textSize(25);
-    text("Commencer une nouvelle partie", pixelWidth/2, 30);
+    this.addButton(new GUIButton(300, 10, 300, 40, "Commencer une nouvelle partie", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(50, 100, 100, 40, "Escape it !", 20, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(50, 150, 40, 40, "1", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
+        mapSetup(0);
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(100, 150, 40, 40, "2", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
+        mapSetup(1);
+      }
+    }
+    ));
   }
 
   /**
@@ -211,7 +232,6 @@ class GUI {
     this.flushButtons();
     this.flushInputs();
     background(#FFFFFF);
-    println("showMultiplayer()");
     background(#FFFFFF);
 
     this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
@@ -285,9 +305,8 @@ class GUIInput {
 
   /**
    * Function used to create the button when all parameters are registered
-   */
+   */ //<>//
   void init() {
-    println("init()");
     this.unSelect();
   }
 
@@ -297,7 +316,6 @@ class GUIInput {
   void onClick() {
     stroke(this.selectedStroke);
     fill(this.selectedBackground);
-    //println(this.x + " " + this.y + " " + this.sizeX + " " + this.sizeY);
     rect(x, y, sizeX, sizeY);
 
     textAlign(LEFT);
@@ -314,7 +332,6 @@ class GUIInput {
 
     stroke(this.normalStroke);
     fill(this.normalBackground);
-    println(this.x + " " + this.y + " " + this.sizeX + " " + this.sizeY);
     rect(this.x, this.y, this.sizeX, this.sizeY);
 
     textAlign(LEFT);

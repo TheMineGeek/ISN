@@ -1,19 +1,21 @@
-import processing.net.*; //<>//
- //<>//
+import processing.net.*; //<>// //<>//
+//<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
 static Projet that;
 GUI gui;
+String game = "";
 /* SETUP FONCTIONS */
 
 /**
  * Initialize map
  */
-void mapSetup() {  
+void mapSetup(int mapNumber) {  
+  game = "escape";
   map.flushBlocks();
   map.flushGates();
-  map.setPattern(1);
+  map.setPattern(mapNumber);
   map.init();
   map.onWin = new onWinInterface() {
     @Override
@@ -33,22 +35,26 @@ void mapSetup() {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showMenu();
+  gui.showNewGame();
 }
 
 /**
  * Specific setup
  */
 void settings() { 
-  size(400, 600);  
+  size(900, 500);  
   gui = new GUI();
+  map = new Map();
 }
 
 
 void draw() {
-    gui.hover(mouseX, mouseY);
+  if(game == "") {
+  gui.hover(mouseX, mouseY);
   gui.tick();
-    map.tick();
+  } else if(game == "escape") {
+   map.tick(); 
+  }
 }
 
 void mousePressed() {
@@ -62,7 +68,7 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
   } else {
     gui.keyboard(key, keyCode);
   }
-  
+
   if (!map.win && map.keyboardEvents) {
     if (keyCode == 37) { // Flèche gauche
       map.move("left"); // Fonction que tu peux retrouver dans la classe map
