@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>//
-//<>// //<>//
+import processing.net.*; //<>// //<>// //<>//
+//<>// //<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
@@ -35,7 +35,7 @@ void mapSetup(int mapNumber) {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showNewGame();
+  gui.showMenu();
 }
 
 /**

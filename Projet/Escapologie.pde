@@ -1,4 +1,4 @@
-interface onWinInterface {  //<>// //<>//
+interface onWinInterface {  //<>// //<>// //<>//
   void toDo();
 }
 
@@ -48,7 +48,7 @@ ArrayList<int[][]> patternsSetup() {
   return patterns;
 }
 
-class Map { //<>// //<>// //<>// //<>// //<>//
+class Map { //<>// //<>// //<>// //<>// //<>// //<>//
   int[][] pattern;
   int speedX;
   int speedY;
@@ -61,9 +61,12 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   onWinInterface onWin;
   ArrayList<int[][]> patterns;
 
+  Timer timer;
+
   Map() {
     this.blocSize = 50;
     this.speedX = this.speedY = 10;
+    timer = new Timer();
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
@@ -104,11 +107,11 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   void setPattern(int pattern) {
     this.patterns = patternsSetup();
     this.pattern = this.patterns.get(pattern);
-    
+
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
     this.spaceY = (pixelHeight - this.pattern.length * this.blocSize) / 2;
     /*this.spaceX = 0;
-    this.spaceY = 0;*/
+     this.spaceY = 0;*/
   }
 
   boolean allCantMove(boolean[] array) { // Si plus aucun ne peut bouger, retourne true
@@ -122,21 +125,22 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   }
 
   void move(String direction) { 
-    if(!this.firstKeyPressed) {
+    if (!this.firstKeyPressed) { //<>//
       firstKeyPressed = true;
+      timer.start();
     }
-    int x = 0; //<>//
+    int x = 0; //<>// //<>//
     int y = 0;
     if (direction == "left") {
       x = -1;
     } else if (direction == "right") { //<>//
       x = 1;
     } else if (direction == "top") {
-      y = -1;
+      y = -1; //<>//
     } else if (direction == "bottom") { //<>//
       y = 1;
     }
- //<>//
+    //<>//
     boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous //<>//
 
     while (!allCantMove(cantMove)) { 
@@ -156,6 +160,15 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   }
 
   void tick() {
+    timer.tick();
+    fill(#FFFFFF);
+    rect(0,0, this.spaceX, pixelHeight);
+    
+    textAlign(CENTER);
+    fill(#000000);
+    textSize(20);
+    text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
+
     boolean _keyboardEvents = true;
 
     for (int i = 0; i < gates.length; i++) {
@@ -183,6 +196,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
     }
 
     if (win) {
+      timer.stop();
       this.onWin.toDo();
     }
   }

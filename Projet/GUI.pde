@@ -198,7 +198,7 @@ class GUI {
     this.flushInputs();
     background(#FFFFFF);
 
-    this.addButton(new GUIButton(300, 10, 300, 40, "Commencer une nouvelle partie", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+    this.addButton(new GUIButton(200, 10, 500, 40, "Commencer une nouvelle partie", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
       }
     }
@@ -206,6 +206,13 @@ class GUI {
     
     this.addButton(new GUIButton(50, 100, 100, 40, "Escape it !", 20, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(50, 20, 20, 20, "←", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+        gui.showMenu();
       }
     }
     ));
@@ -231,7 +238,6 @@ class GUI {
   void showMultiplayer() {
     this.flushButtons();
     this.flushInputs();
-    background(#FFFFFF);
     background(#FFFFFF);
 
     this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
@@ -299,7 +305,7 @@ class GUIInput {
     this.intputWidth = this.maxX - this.x;
     this.inputHeight = this.maxY - this.y;
 
-    this.cling = 29;
+    this.cling = 29; //<>//
     this.init();
   }
 
