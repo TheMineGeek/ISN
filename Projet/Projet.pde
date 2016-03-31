@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>//
-import ddf.minim.*;
+import processing.net.*; //<>// //<>// //<>//
+import ddf.minim.*; //<>//
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -32,11 +32,12 @@ void settings() {
 
 void draw() {
   simon.mouseHoverInteractions(mouseX, mouseY);
-  simon.tick();
+  //simon.tick();
 }
 
 void mousePressed() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
+  simon.keyboardInteractions(key);
 }

@@ -52,32 +52,60 @@ class Simon {
       this.desactivateAll();
       if (sq(x-this.x)+sq(y-this.y) < sq(this.diametre/2)) {
         if (x < this.x) {
-          if (y < this.y) {
+          if (y < this.y) { // Green
             fill(#03C03C);
             arc(this.x, this.y, this.diametre, this.diametre, PI, PI+HALF_PI, PIE);
-          } else {
-            fill(#FFF44F);
+          } else { // Yellow
+            fill(#FFF44F); 
             arc(this.x, this.y, this.diametre, this.diametre, HALF_PI, PI, PIE);
           }
         } else {
-          if (y < this.y) {
+          if (y < this.y) { // Red
             fill(#C23B22);
             arc(this.x, this.y, this.diametre, this.diametre, HALF_PI+PI, 2*PI, PIE);
           } else {
-            fill(#779ECB);
+            fill(#779ECB); // Blue
             arc(this.x, this.y, this.diametre, this.diametre, 0, HALF_PI, PIE);
           }
         }
       }
     }
   }
-  
+
   void mouseClickInteraction() {
-    
+    if (sq(x-this.x)+sq(y-this.y) < sq(this.diametre/2)) {
+      if (x < this.x) {
+        if (y < this.y) { // Green
+          fill(#03C03C);
+          arc(this.x, this.y, this.diametre, this.diametre, PI, PI+HALF_PI, PIE);
+        } else { // Yellow
+          fill(#FFF44F);
+          arc(this.x, this.y, this.diametre, this.diametre, HALF_PI, PI, PIE);
+        }
+      } else {
+        if (y < this.y) { // Red
+          fill(#C23B22);
+          arc(this.x, this.y, this.diametre, this.diametre, HALF_PI+PI, 2*PI, PIE);
+        } else { // Blue
+          fill(#779ECB);
+          arc(this.x, this.y, this.diametre, this.diametre, 0, HALF_PI, PIE);
+        }
+      }
+    }
   }
-  
-  void keyboardInteractions() {
-    
+
+  void keyboardInteractions(char _key) {
+    println(_key);
+    switch(_key) {
+    case 'r':
+      break;
+    case 'j': 
+      break;
+    case'b':
+      break;
+    case 'v':
+      break;
+    }
   }
 
   void desactivateAll() {
