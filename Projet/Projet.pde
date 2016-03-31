@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>// //<>//
-//<>// //<>// //<>//
+import processing.net.*; //<>// //<>// //<>// //<>//
+//<>// //<>// //<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
@@ -21,6 +21,7 @@ void mapSetup(int mapNumber) {
     @Override
       public void toDo() { // Ce qu'il faut faire quand on gagne la partie
       map.win = true;
+      Multiplayer.Escapologie.sendStats("Theo", map.timer.getTime());
       textAlign(CENTER);
       fill(0);
       textSize(30);
@@ -35,7 +36,8 @@ void mapSetup(int mapNumber) {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showMenu();
+  gui.showNewGame();
+  Multiplayer.Escapologie.getStats(10);
 }
 
 /**

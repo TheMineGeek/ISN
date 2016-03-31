@@ -1,4 +1,4 @@
-interface onWinInterface {  //<>// //<>// //<>//
+interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   void toDo();
 }
 
@@ -48,7 +48,7 @@ ArrayList<int[][]> patternsSetup() {
   return patterns;
 }
 
-class Map { //<>// //<>// //<>// //<>// //<>// //<>//
+class Map { //<>// //<>// //<>// //<>// //<>//
   int[][] pattern;
   int speedX;
   int speedY;
@@ -102,6 +102,22 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
+    
+    /* Classements */
+    
+    fill(#000000);
+    textAlign(CENTER);
+    text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
+    
+    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(10));
+    
+    
+    for(int i = 0; i < times.size(); i++) {
+      JSONObject time = times.getJSONObject(i);
+      
+      String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
+      text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
+    }
   }
 
   void setPattern(int pattern) {
@@ -110,8 +126,6 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
 
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
     this.spaceY = (pixelHeight - this.pattern.length * this.blocSize) / 2;
-    /*this.spaceX = 0;
-     this.spaceY = 0;*/
   }
 
   boolean allCantMove(boolean[] array) { // Si plus aucun ne peut bouger, retourne true
@@ -125,30 +139,30 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void move(String direction) { 
-    if (!this.firstKeyPressed) { //<>//
+    if (!this.firstKeyPressed) {
       firstKeyPressed = true;
       timer.start();
     }
-    int x = 0; //<>// //<>//
+    int x = 0; //<>//
     int y = 0;
     if (direction == "left") {
       x = -1;
-    } else if (direction == "right") { //<>//
+    } else if (direction == "right") {
       x = 1;
     } else if (direction == "top") {
-      y = -1; //<>//
-    } else if (direction == "bottom") { //<>//
+      y = -1;
+    } else if (direction == "bottom") {
       y = 1;
     }
-    //<>//
-    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous //<>//
+
+    boolean[] cantMove = new boolean[this.movableBlocks.length]; // Tableau. Voir usage en dessous
 
     while (!allCantMove(cantMove)) { 
       for (int i = 0; i < this.movableBlocks.length; i++) {
         int indexX = this.movableBlocks[i].toMoveX/this.blocSize + this.movableBlocks[i].x/this.blocSize + x;
         int indexY = this.movableBlocks[i].toMoveY/this.blocSize + this.movableBlocks[i].y/this.blocSize + y;
 
-        if (this.pattern[indexY][indexX] != 0) { //<>//
+        if (this.pattern[indexY][indexX] != 0) {
           cantMove[i] = true;
         } else {
           this.pattern[indexY-y][indexX-x] = 0;
@@ -160,27 +174,29 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void tick() {
-    timer.tick();
-    fill(#FFFFFF);
-    rect(0,0, this.spaceX, pixelHeight);
-    
-    textAlign(CENTER);
-    fill(#000000);
-    textSize(20);
-    text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
+    if (!this.win) {
+      timer.tick();
+      fill(#FFFFFF);
+      rect(0, 0, this.spaceX, pixelHeight);
 
-    boolean _keyboardEvents = true;
+      textAlign(CENTER);
+      fill(#000000);
+      textSize(20);
+      text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
 
-    for (int i = 0; i < gates.length; i++) {
-      gates[i].show();
+      boolean _keyboardEvents = true;
+
+      for (int i = 0; i < gates.length; i++) {
+        gates[i].show();
+      }
+
+      for (int i = 0; i < this.movableBlocks.length; i++) {   
+        this.movableBlocks[i].move(this.speedX, this.speedY);
+        _keyboardEvents = !this.movableBlocks[i].mustMove();
+      }   
+      this.checkWin();
+      this.keyboardEvents = _keyboardEvents;
     }
-
-    for (int i = 0; i < this.movableBlocks.length; i++) {   
-      this.movableBlocks[i].move(this.speedX, this.speedY);
-      _keyboardEvents = !this.movableBlocks[i].mustMove();
-    }   
-    this.checkWin();
-    this.keyboardEvents = _keyboardEvents;
   }
 
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond

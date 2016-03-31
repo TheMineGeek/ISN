@@ -1,4 +1,4 @@
-class GUI {
+class GUI { //<>// //<>// //<>//
   GUI() {
   }
 
@@ -203,27 +203,27 @@ class GUI {
       }
     }
     ));
-    
+
     this.addButton(new GUIButton(50, 100, 100, 40, "Escape it !", 20, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
       }
     }
     ));
-    
+
     this.addButton(new GUIButton(50, 20, 20, 20, "←", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
         gui.showMenu();
       }
     }
     ));
-    
+
     this.addButton(new GUIButton(50, 150, 40, 40, "1", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         mapSetup(0);
       }
     }
     ));
-    
+
     this.addButton(new GUIButton(100, 150, 40, 40, "2", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         mapSetup(1);
@@ -238,20 +238,39 @@ class GUI {
   void showMultiplayer() {
     this.flushButtons();
     this.flushInputs();
-    background(#FFFFFF);
+    background(#FFFFFF);    
 
-    this.addInput(new GUIInput(20, 200, 300, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
-
-    this.addButton(new GUIButton(20, 250, 300, 40, "Retour", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(50, 20, 20, 20, "←", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
         gui.showMenu();
       }
     }
     ));
 
-    this.addButton(new GUIButton(20, 300, 300, 40, "Quitter", 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    this.addButton(new GUIButton(200, 10, 500, 40, "Rejoindre un serveur multijoueur", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
-        exit();
+      }
+    }
+    ));
+
+    this.addButton(new GUIButton(350, 100, 200, 40, "Pseudo :", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    this.addInput(new GUIInput(250, 150, 400, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
+
+    this.addButton(new GUIButton(325, 225, 300, 40, "Adresse IP du serveur : ", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    this.addInput(new GUIInput(250, 275, 400, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
+
+    this.addButton(new GUIButton(250, 325, 400, 40, "Rejoindre", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
       }
     }
     ));
@@ -305,13 +324,13 @@ class GUIInput {
     this.intputWidth = this.maxX - this.x;
     this.inputHeight = this.maxY - this.y;
 
-    this.cling = 29; //<>//
+    this.cling = 29;
     this.init();
   }
 
   /**
    * Function used to create the button when all parameters are registered
-   */ //<>//
+   */
   void init() {
     this.unSelect();
   }
@@ -333,7 +352,7 @@ class GUIInput {
   /**
    * Function called when there is a click event out of the box or when ESC is pressed
    */
-  void unSelect() { //<>//
+  void unSelect() {
     this.unCling();
 
     stroke(this.normalStroke);
@@ -395,9 +414,9 @@ class GUIInput {
       if (this.text.length() > 0) {
         this.text = this.text.substring(0, this.text.length()-1);
       }
-    } else if (match(str(_key), "[a-zA-Z0-9_]") != null) {
+    } else if (match(str(_key), "[a-zA-Z0-9_.]") != null) {
       this.unCling();
-      this.text += match(str(_key), "[a-zA-Z0-9_]")[0];
+      this.text += match(str(_key), "[a-zA-Z0-9_.]")[0];
     }
   }
 }
