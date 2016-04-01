@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>// //<>// //<>//
-//<>// //<>// //<>// //<>//
+import processing.net.*; //<>// //<>// //<>// //<>// //<>//
+//<>// //<>// //<>// //<>// //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
@@ -12,7 +12,7 @@ String game = "";
  * Initialize map
  */
 void mapSetup(int mapNumber) {  
-  game = "escape";
+  game = "escapologie";
   map.flushBlocks();
   map.flushGates();
   map.setPattern(mapNumber);
@@ -21,7 +21,7 @@ void mapSetup(int mapNumber) {
     @Override
       public void toDo() { // Ce qu'il faut faire quand on gagne la partie
       map.win = true;
-      Multiplayer.Escapologie.sendStats("Theo", map.timer.getTime());
+      Multiplayer.Escapologie.sendStats("Theo", map.timer.getTime(), map.mapID);
       textAlign(CENTER);
       fill(0);
       textSize(30);
@@ -37,7 +37,6 @@ void setup() {
   background(#FFFFFF);
   frameRate(60);
   gui.showMenu();
-  Multiplayer.Escapologie.getStats(10);
 }
 
 /**
@@ -54,7 +53,7 @@ void draw() {
   if(game == "") {
   gui.hover(mouseX, mouseY);
   gui.tick();
-  } else if(game == "escape") {
+  } else if(game == "escapologie") {
    map.tick(); 
   }
 }

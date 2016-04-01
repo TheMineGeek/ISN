@@ -11,12 +11,13 @@ const Score = require('./app/models/Score');
 app.use(restify.queryParser());
 app.use(restify.bodyParser());
 
-app.get('/stats/:game/:numbers', function(req, res) {
-  Score.find({ game: req.params.game }, (err, elements) => {
+app.get('/stats/:game/:mapID/:numbers', function(req, res) {
+  Score.find({ game: req.params.game, map: req.params.mapID }, (err, elements) => {
     if (err) throw err;
     
     elements = elements.sort(predicatBy('score'));
 
+    console.log(elements);
     if(elements.length >= 10)
       res.json(elements.slice(0, 10));
     else 
@@ -30,6 +31,8 @@ app.post('/add', (req, res) => {
     score: req.params.score,
     game: req.params.game
   });
+  
+  if(req.params.map) test.map = req.params.map;
 
   test.save((err) => {
     if (err) throw err;

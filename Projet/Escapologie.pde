@@ -1,4 +1,4 @@
-interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   void toDo();
 }
 
@@ -32,16 +32,15 @@ ArrayList<int[][]> patternsSetup() {
 
   patterns.add(pattern);
 
-  int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 2, 0, 0, 0, 0, 0, 0, 3, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, -2, 0, 0, 0, 0, 0, 0, -3, 1}, 
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+  int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+    {1, 0, 0, 0, 1, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 2, 1}, 
+    {1, 0, 0, 1, 0, 0, 0, 0, 1}, 
+    {1, 0, 1, 0, 0, 0, 1, 0, 1}, 
+    {1, 0, 0, 0, 1, 0, -2, 1, 1}, 
+    {1, 1, 0, 0, 0, 0, 0, 1, 1}, 
+    {1, 0, 0, 1, 0, 0, 1, 1, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
   patterns.add(pattern2);
 
@@ -49,7 +48,7 @@ ArrayList<int[][]> patternsSetup() {
 }
 
 class Map { //<>// //<>// //<>// //<>// //<>//
-  int[][] pattern;
+  int[][] pattern; //<>//
   int speedX;
   int speedY;
   int spaceX;
@@ -60,6 +59,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   boolean firstKeyPressed = false;
   onWinInterface onWin;
   ArrayList<int[][]> patterns;
+  int mapID;
 
   Timer timer;
 
@@ -102,19 +102,19 @@ class Map { //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
-    
+
     /* Classements */
-    
+
     fill(#000000);
     textAlign(CENTER);
     text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
-    
-    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(10));
-    
-    
-    for(int i = 0; i < times.size(); i++) {
+
+    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
+
+
+    for (int i = 0; i < times.size(); i++) {
       JSONObject time = times.getJSONObject(i);
-      
+
       String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
       text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
     }
@@ -123,6 +123,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   void setPattern(int pattern) {
     this.patterns = patternsSetup();
     this.pattern = this.patterns.get(pattern);
+    this.mapID = pattern;
 
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
     this.spaceY = (pixelHeight - this.pattern.length * this.blocSize) / 2;
@@ -142,7 +143,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
     if (!this.firstKeyPressed) {
       firstKeyPressed = true;
       timer.start();
-    }
+    } //<>//
     int x = 0; //<>//
     int y = 0;
     if (direction == "left") {
