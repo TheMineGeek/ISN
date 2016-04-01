@@ -12,8 +12,6 @@ app.use(restify.queryParser());
 app.use(restify.bodyParser());
 
 app.get('/stats/:game/:numbers', function(req, res) {
-  console.log(req.params.game);
-  console.log(req.params.numbers);
   Score.find({ game: req.params.game }, (err, elements) => {
     if (err) throw err;
     
@@ -27,7 +25,6 @@ app.get('/stats/:game/:numbers', function(req, res) {
 });
 
 app.post('/add', (req, res) => {
-  console.log(req.params);
   var test = new Score({
     username: req.params.username,
     score: req.params.score,

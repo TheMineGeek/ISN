@@ -36,7 +36,7 @@ void mapSetup(int mapNumber) {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showNewGame();
+  gui.showMenu();
   Multiplayer.Escapologie.getStats(10);
 }
 
