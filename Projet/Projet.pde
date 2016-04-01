@@ -1,11 +1,10 @@
 import processing.net.*; //<>// //<>// //<>// //<>//
 //
 /* GLOBAL VARS DECLARATIONS */
-Map map; 
+MapB mapb; 
 Personnage personnage;
 Bombe bombe;
 Bombe[] tbombe; // Création d'un tableau de bombes
-BlockB blockb;
 
 PImage croix;
 
@@ -33,7 +32,7 @@ void setup() {
   for(int i = 0; i < 20; i++) {
    tbombe[i] = new Bombe();
   }
-  blockb = new BlockB();
+  mapb = new MapB();
   croix = loadImage("./data/img/Croix.png");
 }
 
@@ -48,7 +47,10 @@ void settings() {
 
 void draw() {
   background(#FFFFFF);
-  blockb.affiche();
+  
+ for (int i = 0; i<mapb.blocks.length; i++) {
+   mapb.blocks[i].affiche();
+ }
   personnage.affiche();
   for (int i=0; i<20; i++) {
     tbombe[i].tick();

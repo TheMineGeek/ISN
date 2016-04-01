@@ -1,3 +1,40 @@
+ //<>//
+
+class MapB {
+  int[][] pattern = new int [][] {
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 0, 0, 2, 1, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}}; // initialise le tableau de la carte
+
+  MapB() {
+  }  // La pseudo fonction pour initialiser la map
+
+  BlockB[] blocks = new BlockB[0]; // Tous les blocs qui peuvent bouger
+
+
+  void init() { // Fonction pour dessiner la carte
+    for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
+      for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
+        BlockB _block;
+        if (pattern[i][j] == 1) {
+          _block = new BlockB(false); // Si c'est 1 = Block incassable
+          this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
+        } else if (pattern[i][j] == 2) {
+          _block = new BlockB(true); // Si c'est 2 : Block cassable
+          this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
+        }
+      }
+    }
+  }
+  
+  void tick () {
+     for (int i = 0; i<this.blocks.length; i++) {
+   this.blocks[i].affiche();
+ }
+  }
+}
+
 
 class BlockB {
 
@@ -5,11 +42,17 @@ class BlockB {
   int y;
   int size;
   color couleur;
+  boolean cassable;
 
   // Constructeur 
-  BlockB () {
+  BlockB (boolean cassable) {
+    this.cassable = cassable;
     size = 50;
-    couleur = #AE00DD;
+    if (cassable) { 
+      couleur = #AE00DD;
+    } else {
+      couleur = #FF00DD;
+    }
     x = 300;
     y = 300;
   }
@@ -108,9 +151,8 @@ class Bombe {
       timer.reset();
     }
   }
-  
-  void Explosion (int x, int y) {
-  image(croix, x, y, 100, 100);
-}
 
+  void Explosion (int x, int y) {
+    image(croix, x, y, 100, 100);
+  }
 }
