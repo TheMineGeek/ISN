@@ -7,6 +7,8 @@ Bombe bombe;
 Bombe[] tbombe; // Création d'un tableau de bombes
 
 PImage croix;
+PImage bombeimg;
+PImage perso;
 
 static Projet that;
 
@@ -34,6 +36,9 @@ void setup() {
   }
   mapb = new MapB();
   croix = loadImage("./data/img/Croix.png");
+  bombeimg = loadImage("./data/img/Bombes.png");
+  perso = loadImage("./data/img/Perso.png");
+  
 }
 
 /**

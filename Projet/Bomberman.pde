@@ -81,8 +81,7 @@ class Personnage {
 
 
   void affiche () {
-    fill (couleur);
-    rect (x, y, size, size);
+   image (perso, x, y, 60, 70);
   }
 
   void move (String direction) {
@@ -129,8 +128,8 @@ class Bombe {
   }  
 
   void affiche() {
-    fill (this.couleur);
-    rect (this.x, this.y, this.size1, this.size2);
+    image(bombeimg, x, y, 50, 35);
+   
   }
 
   void activate(int x, int y) {
