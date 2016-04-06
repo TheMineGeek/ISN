@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>// //<>// //<>//
-//
+import processing.net.*; //<>// //<>// //<>// //<>// //<>//
+// //<>//
 /* GLOBAL VARS DECLARATIONS */
 MapB mapb; 
 Personnage personnage;
@@ -35,6 +35,7 @@ void setup() {
    tbombe[i] = new Bombe();
   }
   mapb = new MapB();
+  mapb.init();
   croix = loadImage("./data/img/Croix.png");
   bombeimg = loadImage("./data/img/Bombes.png");
   perso = loadImage("./data/img/Perso.png");
@@ -79,7 +80,7 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
     personnage.move("bottom");
   } else if (keyCode == 32) { // Barre d'espace pour poser une bombe
     int i = 0;
-    while(tbombe[i].active) {
+    while((tbombe[i].active || tbombe[i].exploding) && i < 19) {
       i++;
     }
     tbombe[i].activate(personnage.x, personnage.y);

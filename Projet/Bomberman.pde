@@ -18,14 +18,16 @@ class MapB {
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         BlockB _block;
         if (pattern[i][j] == 1) {
-          _block = new BlockB(false); // Si c'est 1 = Block incassable
+          _block = new BlockB(j*50, i*50, false); // Si c'est 1 = Block incassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
         } else if (pattern[i][j] == 2) {
-          _block = new BlockB(true); // Si c'est 2 : Block cassable
+          _block = new BlockB(j*50, i*50, true); // Si c'est 2 : Block cassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
         }
       }
     }
+    
+    println(this.blocks.length);
   }
   
   void tick () {
@@ -45,16 +47,16 @@ class BlockB {
   boolean cassable;
 
   // Constructeur 
-  BlockB (boolean cassable) {
+  BlockB (int x, int y, boolean cassable) {
     this.cassable = cassable;
     size = 50;
+    this.x = x;
+    this.y = y;
     if (cassable) { 
       couleur = #AE00DD;
     } else {
       couleur = #FF00DD;
     }
-    x = 300;
-    y = 300;
   }
 
   void affiche () {
@@ -107,6 +109,7 @@ class Bombe {
   boolean active;
   Timer timer;
   int duree;
+  boolean exploding;
 
   Bombe() {
     this.active = false;
@@ -125,6 +128,7 @@ class Bombe {
     this.y = y;
     timer = new Timer(); // Inclue le timer dans la bombe
     couleur = color(192, 192, 192);
+    this.exploding = false;
   }  
 
   void affiche() {
@@ -144,8 +148,10 @@ class Bombe {
     if (timer.getTime() >= 7) {
       this.active = false;
       Explosion(this.x-25, this.y-25);
+      this.exploding = true;
     }
     if (timer.getTime() >= 10) {
+      this.exploding = false;
       timer.stop();
       timer.reset();
     }
