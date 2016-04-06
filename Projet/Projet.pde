@@ -1,4 +1,4 @@
-import processing.net.*; //<>// //<>// //<>//
+import processing.net.*; //<>//
 import ddf.minim.*; //<>//
 
 /* GLOBAL VARS DECLARATIONS */
@@ -18,10 +18,8 @@ void setup() {
   background(#FFFFFF);
   frameRate(60);
   simon = new Simon(width/2, height/2-50, 300);
-
-  minim = new Minim(this); 
-  
   simon.addColor();
+  minim = new Minim(this);
 }
 
 /**
