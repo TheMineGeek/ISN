@@ -1,4 +1,4 @@
-interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface { //<>//
   void toDo();
 }
 
@@ -8,7 +8,8 @@ interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<
 ArrayList<int[][]> patternsSetup() {  
   ArrayList<int[][]> patterns = new ArrayList<int[][]>();
 
-  int[][] blank = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  int[][] blank = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -19,7 +20,8 @@ ArrayList<int[][]> patternsSetup() {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  int[][] pattern ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  int[][] pattern = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 1, 0, 0, 0, 2, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
     {1, 0, 1, 1, 0, 0, 0, 0, 0, 1}, 
@@ -32,7 +34,8 @@ ArrayList<int[][]> patternsSetup() {
 
   patterns.add(pattern);
 
-  int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  int[][] pattern2 = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 0, 1, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 2, 1}, 
     {1, 0, 0, 1, 0, 0, 0, 0, 1}, 
@@ -44,11 +47,25 @@ ArrayList<int[][]> patternsSetup() {
 
   patterns.add(pattern2);
 
+  int[][] pattern3 = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  //<>//
+    {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, -2, 1}, 
+    {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1}, 
+    {1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
+    {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, 
+    {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
+
+  patterns.add(pattern3);
+
   return patterns;
 }
 
-class Map { //<>// //<>// //<>// //<>// //<>// //<>//
-  int[][] pattern; //<>// //<>//
+class Map {
+  int[][] pattern;
   int speedX;
   int speedY;
   int spaceX;
@@ -108,18 +125,18 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
     fill(#000000);
     textAlign(CENTER);
     text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
-
+ //<>//
     /*JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
 
 
-    for (int i = 0; i < times.size(); i++) {
+    for (int i = 0; i < times.size(); i++) { //<>//
       JSONObject time = times.getJSONObject(i);
 
       String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
       text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
     }*/
   }
-
+ //<>//
   void setPattern(int pattern) {
     this.patterns = patternsSetup();
     this.pattern = this.patterns.get(pattern);
@@ -143,9 +160,9 @@ class Map { //<>// //<>// //<>// //<>// //<>// //<>//
     if (!this.firstKeyPressed) {
       firstKeyPressed = true;
       timer.start();
-    } //<>//
-    int x = 0; //<>// //<>//
-    int y = 0; //<>//
+    }
+    int x = 0;
+    int y = 0;
     if (direction == "left") {
       x = -1;
     } else if (direction == "right") {
