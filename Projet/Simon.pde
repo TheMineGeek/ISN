@@ -31,6 +31,7 @@ class Simon {
   Timer timer;
   int I;
 
+  boolean lost;
   boolean mustPlay; // True pour au tour du joueur, false pour diffusion de la séquence
 
   Simon(int x, int y, int diametre) {
@@ -40,7 +41,8 @@ class Simon {
     this.init();
     this.timer = new Timer();
     this.colors = new Colors[0];
-    this.mustPlay = true;
+    this.mustPlay = false;
+    this.lost = false;
   }
 
   void init() {
@@ -98,13 +100,42 @@ class Simon {
     println(_key);
     switch(_key) {
     case 'r':
+      if (this.colors[I] == Colors.RED) {
+        I++;
+      } else {
+        this.lost = true;
+      }
       break;
     case 'j': 
+      if (this.colors[I] == Colors.YELLOW) {
+        I++;
+      } else {
+        this.lost = true;
+      }
       break;
     case'b':
+      if (this.colors[I] == Colors.BLUE) {
+        I++;
+      } else {
+        this.lost = true;
+      }
       break;
     case 'v':
+      if (this.colors[I] == Colors.GREEN) {
+        I++;
+      } else {
+        this.lost = true;
+      }
       break;
+    default: 
+      this.lost = true;
+      break;
+    }
+
+    if (I == this.colors.length) {
+      I = 0;
+      this.mustPlay = false;
+      this.addColor();
     }
   }
 
@@ -178,12 +209,14 @@ class Simon {
           I = 0;
         }
       }
-    } else {
+    } else if (mustPlay && !this.lost) {
       if (timer.getTime() == 0) {
         timer.start();
       } else if (timer.getTime() >= 5) {
-        println("perdu");
+        this.lost = true;
       }
+    } else if (this.lost) {
+      println("Tu as perdu ;D");
     }
   }
 }
