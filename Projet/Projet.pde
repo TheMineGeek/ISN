@@ -2,6 +2,7 @@ import processing.net.*; //<>// //<>// //<>// //<>// //<>//
 // //<>//
 /* GLOBAL VARS DECLARATIONS */
 MapB mapb; 
+PorteB porte;
 Personnage personnage;
 Bombe bombe;
 Bombe[] tbombe; // Création d'un tableau de bombes
@@ -53,11 +54,7 @@ void settings() {
 
 void draw() {
   background(#FFFFFF);
-  
- for (int i = 0; i<mapb.blocks.length; i++) {
-   mapb.blocks[i].affiche();
- }
-  personnage.affiche();
+  mapb.tick();
   for (int i=0; i<20; i++) {
     tbombe[i].tick();
     if (tbombe[i].active) {

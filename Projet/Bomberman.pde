@@ -5,6 +5,10 @@ class MapB {
     {1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 2, 1, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 3, 0, 1}, 
+    {1, 0, 0, 0, 0, -1, 1}, 
     {1, 1, 1, 1, 1, 1, 1}}; // initialise le tableau de la carte
 
   MapB() {
@@ -14,26 +18,33 @@ class MapB {
 
 
   void init() { // Fonction pour dessiner la carte
-    for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
-      for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
+    for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau (colone)
+      for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau (ligne)
         BlockB _block;
         if (pattern[i][j] == 1) {
-          _block = new BlockB(j*50, i*50, false); // Si c'est 1 = Block incassable
+          _block = new BlockB(j*100, i*100, false); // Si c'est 1 = Block incassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
         } else if (pattern[i][j] == 2) {
-          _block = new BlockB(j*50, i*50, true); // Si c'est 2 : Block cassable
+          _block = new BlockB(j*100, i*100, true); // Si c'est 2 : Block cassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
+        } else if (pattern[i][j] == 3) {
+          personnage.x = j*100+20;
+          personnage.y = i*100+20;
+        } else if (pattern[i][j] == -1) {
+          porte = new PorteB(j*100, i*100);
         }
       }
     }
-    
+
     println(this.blocks.length);
   }
-  
+
   void tick () {
-     for (int i = 0; i<this.blocks.length; i++) {
-   this.blocks[i].affiche();
- }
+    for (int i = 0; i<this.blocks.length; i++) {
+      this.blocks[i].affiche();
+    }
+    personnage.affiche();
+    porte.affiche();
   }
 }
 
@@ -49,7 +60,7 @@ class BlockB {
   // Constructeur 
   BlockB (int x, int y, boolean cassable) {
     this.cassable = cassable;
-    size = 50;
+    size = 100;
     this.x = x;
     this.y = y;
     if (cassable) { 
@@ -57,6 +68,27 @@ class BlockB {
     } else {
       couleur = #FF00DD;
     }
+  }
+
+  void affiche () {
+    fill (couleur);
+    rect (x, y, size, size);
+  }
+}
+
+class PorteB {
+  int x;
+  int y;
+  color couleur;
+  int size;
+
+  // constructeur
+  PorteB(int x, int y) {
+    size = 100;
+    couleur = #000000;
+    this.x = x;
+    this.y = y;
+  
   }
 
   void affiche () {
@@ -77,24 +109,34 @@ class Personnage {
   Personnage() {
     size = 50;
     couleur = #000000;
-    x = 50;
-    y = 50;
   }
 
 
   void affiche () {
-   image (perso, x, y, 60, 70);
+    image (perso, x, y, 60, 70);
   }
 
   void move (String direction) {
+    int i = (this.x-20)/100; // traduit les x en coordonnés i de la carte
+    int j = (this.y-20)/100; // traduit les y en coordonnées j de la carte
+    if (mapb.pattern[i][j] == 4) {
+      mapb.pattern[i][j] = 5;
+    } else if (mapb.pattern[i][j] == 3) {
+      mapb.pattern[i][j]= 0;
+    }
+
     if (direction == "left") {
-      this.x = x-4;
+      mapb.pattern[i][j-1] = 3; 
+      this.x = this.x-100;
     } else if (direction == "right") {
-      this.x = x+4;
+      mapb.pattern[i][j+1] = 3;
+      this.x = this.x+100;
     } else if (direction == "top") {
-      this.y = y-4;
+      mapb.pattern[i-1][j] = 3;
+      this.y = this.y-100;
     } else if (direction == "bottom") {
-      this.y = y+4;
+      mapb.pattern[i+1][j] = 3;
+      this.y = this.y+100;
     }
   }
 }
@@ -113,17 +155,12 @@ class Bombe {
 
   Bombe() {
     this.active = false;
-    size1 = 25;
-    size2 = 12;
-    couleur = color(192, 192, 192);
     timer = new Timer();
   }
 
   // constructeur
   Bombe(int x, int y) {
     this.active = false;
-    size1 = 25;
-    size2 = 12;
     this.x = x;
     this.y = y;
     timer = new Timer(); // Inclue le timer dans la bombe
@@ -132,26 +169,32 @@ class Bombe {
   }  
 
   void affiche() {
-    image(bombeimg, x, y, 50, 35);
-   
+    image(bombeimg, x, y, 75, 75);
   }
 
   void activate(int x, int y) {
+    int i = (y-20)/100;
+    int j = (x-20)/100;
     this.active = true; // la bombe est activée
     this.x = x;
     this.y = y;
+    mapb.pattern[i][j] = 4;
     timer.start(); // démare le timer
   }
 
   void tick() {  
     this.timer.tick();
+    int i = (y-20)/100;
+    int j = (x-20)/100;
     if (timer.getTime() >= 7) {
       this.active = false;
       Explosion(this.x-25, this.y-25);
       this.exploding = true;
+      mapb.pattern[i][j] = 6;
     }
     if (timer.getTime() >= 10) {
       this.exploding = false;
+      mapb.pattern[i][j] = 0;
       timer.stop();
       timer.reset();
     }
