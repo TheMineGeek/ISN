@@ -88,7 +88,6 @@ class PorteB {
     couleur = #000000;
     this.x = x;
     this.y = y;
-  
   }
 
   void affiche () {
@@ -126,17 +125,25 @@ class Personnage {
     }
 
     if (direction == "left") {
-      mapb.pattern[i][j-1] = 3; 
-      this.x = this.x-100;
+      if (mapb.pattern[i][j-1] == 0) {
+        mapb.pattern[i][j-1] = 3; 
+        this.x = this.x-100;
+      }
     } else if (direction == "right") {
-      mapb.pattern[i][j+1] = 3;
-      this.x = this.x+100;
+      if (mapb.pattern[i][j+1] == 0) {
+        mapb.pattern[i][j+1] = 3;
+        this.x = this.x+100;
+      }
     } else if (direction == "top") {
-      mapb.pattern[i-1][j] = 3;
-      this.y = this.y-100;
+      if (mapb.pattern[i-1][j] == 0) {
+        mapb.pattern[i-1][j] = 3;
+        this.y = this.y-100;
+      }
     } else if (direction == "bottom") {
-      mapb.pattern[i+1][j] = 3;
-      this.y = this.y+100;
+      if (mapb.pattern[i+1][j]== 0) {
+        mapb.pattern[i+1][j] = 3;
+        this.y = this.y+100;
+      }
     }
   }
 }
