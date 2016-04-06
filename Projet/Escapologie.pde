@@ -1,4 +1,4 @@
-interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   void toDo();
 }
 
@@ -47,8 +47,8 @@ ArrayList<int[][]> patternsSetup() {
   return patterns;
 }
 
-class Map { //<>// //<>// //<>// //<>// //<>//
-  int[][] pattern; //<>//
+class Map { //<>// //<>// //<>// //<>// //<>// //<>//
+  int[][] pattern; //<>// //<>//
   int speedX;
   int speedY;
   int spaceX;
@@ -109,7 +109,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
     textAlign(CENTER);
     text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
 
-    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
+    /*JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
 
 
     for (int i = 0; i < times.size(); i++) {
@@ -117,7 +117,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
 
       String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
       text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
-    }
+    }*/
   }
 
   void setPattern(int pattern) {
@@ -144,8 +144,8 @@ class Map { //<>// //<>// //<>// //<>// //<>//
       firstKeyPressed = true;
       timer.start();
     } //<>//
-    int x = 0; //<>//
-    int y = 0;
+    int x = 0; //<>// //<>//
+    int y = 0; //<>//
     if (direction == "left") {
       x = -1;
     } else if (direction == "right") {
@@ -203,6 +203,9 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
+      if(this.movableBlocks[i].toMoveX != 0 || this.movableBlocks[i].toMoveY != 0) {
+        win = false;
+      }
       for (int j = 0; j < this.gates.length; j++) {
         if (this.movableBlocks[i].id == this.gates[j].id || this.movableBlocks[i].mustMove()) {
           if (!(this.movableBlocks[i].x == this.gates[j].x && this.movableBlocks[i].y == this.gates[j].y)) {
