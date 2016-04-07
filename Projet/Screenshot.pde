@@ -1,5 +1,5 @@
 class Screenshot {
-   void take(String path) {
-     save(path);
-   }
+  void take(String path) {
+    save(path);
+  }
 }

@@ -1,5 +1,5 @@
-import processing.net.*; //<>// //<>// //<>// //<>// //<>//
-//<>// //<>// //<>// //<>// //<>//
+import processing.net.*;  //<>//
+ //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
@@ -50,11 +50,11 @@ void settings() {
 
 
 void draw() {
-  if(game == "") {
-  gui.hover(mouseX, mouseY);
-  gui.tick();
-  } else if(game == "escapologie") {
-   map.tick(); 
+  if (game == "") {
+    gui.hover(mouseX, mouseY);
+    gui.tick();
+  } else if (game == "escapologie") {
+    map.tick();
   }
 }
 

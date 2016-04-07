@@ -1,10 +1,10 @@
-class GUI { //<>// //<>// //<>//
+class GUI { //<>// //<>// //<>// //<>//
   GUI() {
   }
 
   int cursorType;
   int mapNumber;
-  
+
   GUIButton[] GUIButtons = new GUIButton[0];
   GUIInput [] GUIInputs = new GUIInput[0];
 
@@ -220,30 +220,17 @@ class GUI { //<>// //<>// //<>//
 
     for (int i = 0; i < patternsSetup().size() / 2; i++) {
       for (int j = 0; j < 10; j++) {
-        if(i * 10 + j < patternsSetup().size()) {
-        this.mapNumber = 1 + i * 10 + j;
-        this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber), 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
-          public void onClick() {
-            mapSetup(gui.mapNumber - 1);
+        if (i * 10 + j < patternsSetup().size()) {
+          this.mapNumber = 1 + i * 10 + j;
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber), 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+            public void onClick() {
+              mapSetup(gui.mapNumber - 1);
+            }
           }
+          ));
         }
-        ));
-        }
       }
     }
-    /*this.addButton(new GUIButton(50, 150, 40, 40, "1", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
-      public void onClick() {
-        mapSetup(0);
-      }
-    }
-    ));
-
-    this.addButton(new GUIButton(100, 150, 40, 40, "2", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
-      public void onClick() {
-        mapSetup(1);
-      }
-    }
-    ));*/
   }
 
   /**
@@ -318,7 +305,7 @@ class GUIInput {
   }
 
   GUIInput (int x, int y, int sizeX, int sizeY, 
-    int textSize, color normalStroke, color selectedStroke, color normalBackground, 
+    int textSize, color normalStroke, color selectedStroke, color normalBackground,  //<>//
     color selectedBackground, color normalText, color selectedText) {
     this.x = x;
     this.y = y;

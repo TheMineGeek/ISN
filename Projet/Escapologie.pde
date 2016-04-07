@@ -1,4 +1,4 @@
-interface onWinInterface { //<>//
+interface onWinInterface { //<>// //<>//
   void toDo();
 }
 
@@ -48,7 +48,7 @@ ArrayList<int[][]> patternsSetup() {
   patterns.add(pattern2);
 
   int[][] pattern3 = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  //<>//
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, //<>// //<>//
     {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, -2, 1}, 
     {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1}, 
@@ -126,17 +126,17 @@ class Map {
     textAlign(CENTER);
     text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
  //<>//
-    /*JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
+    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
 
 
-    for (int i = 0; i < times.size(); i++) { //<>//
+    for (int i = 0; i < times.size(); i++) { //<>// //<>//
       JSONObject time = times.getJSONObject(i);
 
       String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
       text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
-    }*/
+    }
   }
- //<>//
+  //<>// //<>//
   void setPattern(int pattern) {
     this.patterns = patternsSetup();
     this.pattern = this.patterns.get(pattern);
@@ -220,7 +220,7 @@ class Map {
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
-      if(this.movableBlocks[i].toMoveX != 0 || this.movableBlocks[i].toMoveY != 0) {
+      if (this.movableBlocks[i].toMoveX != 0 || this.movableBlocks[i].toMoveY != 0) {
         win = false;
       }
       for (int j = 0; j < this.gates.length; j++) {
