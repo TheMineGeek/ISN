@@ -1,4 +1,4 @@
-import processing.net.*;  //<>// //<>//
+import processing.net.*; 
 
 /* GLOBAL VARS DECLARATIONS */
 Map map;
@@ -74,7 +74,7 @@ void mousePressed() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  konami.onKeyboardEvent(keyCode);
+  if(game == "") konami.onKeyboardEvent(keyCode);
   if (key == 27) { // Empeche le programme de se fermer lorsque l'on appuie sur ECHAP
     key = 0;
     gui.keyboard('!', ESC);

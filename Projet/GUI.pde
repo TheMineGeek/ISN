@@ -1,4 +1,4 @@
-class GUI { //<>// //<>// //<>// //<>//
+class GUI { //<>// //<>// //<>//
   GUI() {
   }
 
@@ -305,7 +305,7 @@ class GUIInput {
   }
 
   GUIInput (int x, int y, int sizeX, int sizeY, 
-    int textSize, color normalStroke, color selectedStroke, color normalBackground,  //<>//
+    int textSize, color normalStroke, color selectedStroke, color normalBackground, 
     color selectedBackground, color normalText, color selectedText) {
     this.x = x;
     this.y = y;
