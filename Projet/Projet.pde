@@ -1,11 +1,15 @@
-import processing.net.*;  //<>//
- //<>//
+import processing.net.*;  //<>// //<>//
+
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
 static Projet that;
+Projet that2;
 GUI gui;
 String game = "";
+Konami konami;
+PFont Monospaced;
+
 /* SETUP FONCTIONS */
 
 /**
@@ -37,7 +41,11 @@ void setup() {
   background(#FFFFFF);
   frameRate(60);
   gui.showMenu();
+  that2 = this;
+  Monospaced = loadFont("./data/fonts/Monospaced.plain-48.vlw");
+  konami = new Konami();
 }
+
 
 /**
  * Specific setup
@@ -50,11 +58,14 @@ void settings() {
 
 
 void draw() {
+  //if(c.available() > 0) println(c.readString());
   if (game == "") {
     gui.hover(mouseX, mouseY);
     gui.tick();
   } else if (game == "escapologie") {
     map.tick();
+  } else if (game == "konami") {   
+    konami.tick();
   }
 }
 
@@ -63,6 +74,7 @@ void mousePressed() {
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
+  konami.onKeyboardEvent(keyCode);
   if (key == 27) { // Empeche le programme de se fermer lorsque l'on appuie sur ECHAP
     key = 0;
     gui.keyboard('!', ESC);
