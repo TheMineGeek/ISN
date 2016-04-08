@@ -116,35 +116,62 @@ class Personnage {
   }
 
   void move (String direction) {
-    int i = (this.x-20)/100; // traduit les x en coordonnés i de la carte
-    int j = (this.y-20)/100; // traduit les y en coordonnées j de la carte
+    int j = (this.x-20)/100; // traduit les x en coordonnés i de la carte
+    int i = (this.y-20)/100; // traduit les y en coordonnées j de la carte
+
     if (mapb.pattern[i][j] == 4) {
       mapb.pattern[i][j] = 5;
-    } else if (mapb.pattern[i][j] == 3) {
-      mapb.pattern[i][j]= 0;
-    }
+    } else {
+      mapb.pattern[i][j] = 0;
+    } 
+
 
     if (direction == "left") {
-      if (mapb.pattern[i][j-1] == 0) {
-        mapb.pattern[i][j-1] = 3; 
+      if (mapb.pattern[i][j-1] != 1 && mapb.pattern[i][j-1] != 2 && mapb.pattern[i][j-1] != 5 && mapb.pattern[i][j-1] != -1) {
         this.x = this.x-100;
+        mapb.pattern[i][j-1] = 3;
+      }
+      if (mapb.pattern[i][j-1] == -1) {
+        mapb.pattern[i][j-1] = 7;
+        println ("win");
       }
     } else if (direction == "right") {
-      if (mapb.pattern[i][j+1] == 0) {
-        mapb.pattern[i][j+1] = 3;
+      if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1) {
         this.x = this.x+100;
+        mapb.pattern[i][j+1] = 3;
+      }
+      if (mapb.pattern[i][j+1] == -1) {
+         mapb.pattern[i][j+1] = 7;
+         println ("win");
       }
     } else if (direction == "top") {
-      if (mapb.pattern[i-1][j] == 0) {
-        mapb.pattern[i-1][j] = 3;
+      if (mapb.pattern[i-1][j] != 1 && mapb.pattern[i-1][j] != 2 && mapb.pattern[i-1][j] != 5 && mapb.pattern[i-1][j] != -1) {
         this.y = this.y-100;
+        mapb.pattern[i-1][j] = 3;
+      }
+      if (mapb.pattern[i-1][j] == -1) {
+         mapb.pattern[i-1][j] = 7;
+         println ("win");
       }
     } else if (direction == "bottom") {
-      if (mapb.pattern[i+1][j]== 0) {
+      if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1) {    
         mapb.pattern[i+1][j] = 3;
         this.y = this.y+100;
       }
+      if (mapb.pattern[i+1][j] == -1) {
+         mapb.pattern[i+1][j] = 7;
+         println ("win");
+      }
     }
+
+    for (int k=0; k < mapb.pattern.length; k++) {
+      for (int l=0; l < mapb.pattern [k].length; l++) {
+        print (mapb.pattern[k][l]);
+      }
+      println ();
+    }
+    println();
+
   }
 }
 
@@ -189,6 +216,7 @@ class Bombe {
     timer.start(); // démare le timer
   }
 
+    
   void tick() {  
     this.timer.tick();
     int i = (y-20)/100;
