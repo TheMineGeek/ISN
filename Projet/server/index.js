@@ -11,13 +11,16 @@ const Score = require('./app/models/Score');
 app.use(restify.queryParser());
 app.use(restify.bodyParser());
 
+app.get('/', function(req, res) {
+  res.send();
+});
+
 app.get('/stats/:game/:mapID/:numbers', function(req, res) {
   Score.find({ game: req.params.game, map: req.params.mapID }, (err, elements) => {
     if (err) throw err;
     
     elements = elements.sort(predicatBy('score'));
 
-    console.log(elements);
     if(elements.length >= 10)
       res.json(elements.slice(0, 10));
     else 
@@ -43,7 +46,7 @@ app.post('/add', (req, res) => {
 app.listen(80);
 
 function predicatBy(prop) {
-  return function(a, b) {
+  return (a, b) => {
     if (a[prop] > b[prop]) {
       return 1;
     } else if (a[prop] < b[prop]) {
