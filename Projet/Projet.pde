@@ -1,11 +1,12 @@
 import processing.net.*;  //<>//
- //<>//
+//<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 Screenshot screenshot;
 static Projet that;
 GUI gui;
 String game = "";
+String USERNAME;
 /* SETUP FONCTIONS */
 
 /**
@@ -21,7 +22,7 @@ void mapSetup(int mapNumber) {
     @Override
       public void toDo() { // Ce qu'il faut faire quand on gagne la partie
       map.win = true;
-      Multiplayer.Escapologie.sendStats("Theo", map.timer.getTime(), map.mapID);
+      Multiplayer.Escapologie.sendStats(USERNAME, map.timer.getTime(), map.mapID);
       textAlign(CENTER);
       fill(0);
       textSize(30);
@@ -36,7 +37,12 @@ void mapSetup(int mapNumber) {
 void setup() {
   background(#FFFFFF);
   frameRate(60);
-  gui.showMenu();
+  if (!existingUsername()) {
+    gui.askForUsernameMenu();
+  } else {
+    gui.showMenu();
+  }
+  smooth(8);
 }
 
 /**

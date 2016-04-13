@@ -1,4 +1,4 @@
-class GUI { //<>// //<>// //<>// //<>//
+class GUI { //<>// //<>// //<>// //<>// //<>//
   GUI() {
   }
 
@@ -276,30 +276,56 @@ class GUI { //<>// //<>// //<>// //<>//
     }
     ));
   }
+  
+  void askForUsernameMenu() {
+    background(255);
+    this.addButton(new GUIButton(50, 0, 800, 140, "Bienvenue, aucun nom d'utilisateur n'a été détécté. \nMerci d'en saisir un puis de cliquer sur continuer", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+    
+    this.addButton(new GUIButton(350, 200, 200, 40, "Pseudo :", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    this.addInput(new GUIInput(250, 250, 400, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
+    
+    this.addButton(new GUIButton(250, 375, 400, 40, "Continuer", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
+        saveUsername(gui.GUIInputs[0].getValue());
+        println(gui.GUIInputs[0].getValue());
+        gui.showMenu();
+      }
+    }
+    ));
+  }
 }
 
 
 class GUIInput {
-  int x;
-  int y;
-  int sizeX;
-  int sizeY;
-  int textSize;
-  String text;
-  color normalStroke;
-  color selectedStroke;
-  color normalBackground;
-  color selectedBackground;
-  color normalText;
-  color selectedText;
+  private int x;
+  private int y;
+  private int sizeX;
+  private int sizeY;
+  private int textSize;
+  private String text;
+  private color normalStroke;
+  private color selectedStroke;
+  private color normalBackground;
+  private color selectedBackground;
+  private color normalText;
+  private color selectedText;
 
-  int intputWidth;
-  int inputHeight;
-  int maxX;
-  int maxY;
+  private int intputWidth;
+  private int inputHeight;
+  private int maxX;
+  private int maxY;
 
-  boolean reading;
-  int cling;
+  private boolean reading;
+  private int cling;
 
   GUIInput() {
   }
@@ -332,14 +358,14 @@ class GUIInput {
   /**
    * Function used to create the button when all parameters are registered
    */
-  void init() {
+  private void init() {
     this.unSelect();
   }
 
   /**
    * Function called when there is a click event in the box
    */
-  void onClick() {
+  private void onClick() {
     stroke(this.selectedStroke);
     fill(this.selectedBackground);
     rect(x, y, sizeX, sizeY);
@@ -353,7 +379,7 @@ class GUIInput {
   /**
    * Function called when there is a click event out of the box or when ESC is pressed
    */
-  void unSelect() {
+  private void unSelect() {
     this.unCling();
 
     stroke(this.normalStroke);
@@ -369,7 +395,7 @@ class GUIInput {
   /**
    * Function used for the cursor blinking in input
    */
-  void textCursor() {
+  private void textCursor() {
     cling++;
     if (cling == 30) {
       if (this.text.length() != 0) {
@@ -394,7 +420,7 @@ class GUIInput {
   /**
    * Function remove the cursor of the text
    */
-  void unCling() {
+  private void unCling() {
     if (this.text.length() != 0) {
       if (this.text.charAt(this.text.length()-1) == '|') {
         this.text = this.text.substring(0, this.text.length()-1);
@@ -406,7 +432,7 @@ class GUIInput {
   /**
    * Function called when there is a keyboard event
    */
-  void onKeyPressed(char _key, int _keyCode) {
+  private void onKeyPressed(char _key, int _keyCode) {
     if (_keyCode == ESC) {
       this.reading = false;
       this.unSelect();
@@ -419,6 +445,11 @@ class GUIInput {
       this.unCling();
       this.text += match(str(_key), "[a-zA-Z0-9_.]")[0];
     }
+  }
+  
+  String getValue() {
+    this.unCling();
+    return this.text;
   }
 }
 
