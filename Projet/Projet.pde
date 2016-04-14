@@ -1,5 +1,5 @@
 import processing.net.*;  //<>//
-//<>//
+
 /* GLOBAL VARS DECLARATIONS */
 Map map;
 static Projet that;
@@ -14,20 +14,19 @@ Pattern[] patterns;
  */
 void mapSetup(int mapNumber) {  
   game = "escapologie";
-  map.flushBlocks();
-  map.flushGates();
   map.setPattern(mapNumber);
-  println(mapNumber);
   map.init();
   map.onWin = new onWinInterface() {
-    @Override
       public void toDo() { // Ce qu'il faut faire quand on gagne la partie
-      map.win = true;
+      game = "";
+      
       Multiplayer.Escapologie.sendStats(USERNAME, map.timer.getTime(), map.mapID);
+      
       textAlign(CENTER);
       fill(0);
       textSize(30);
       text("Bravo ! Vous avez gagné", pixelWidth/2, pixelHeight/2);
+      
       gui.showNewGame();
     }
   };

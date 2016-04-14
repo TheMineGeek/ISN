@@ -1,4 +1,4 @@
-interface onWinInterface { //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   void toDo();
 }
 
@@ -31,7 +31,7 @@ Pattern[] Patterns() {
     {1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
     {1, 1, 0, 0, -2, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
-  Pattern pattern = new Pattern(_pattern, LevelDifficulty.EASY);
+  Pattern pattern = new Pattern(_pattern, patterns.length, LevelDifficulty.EASY);
   patterns = (Pattern[])append(patterns, pattern);
 
 
@@ -46,11 +46,11 @@ Pattern[] Patterns() {
     {1, 0, 0, 1, 0, 0, 1, 1, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-  Pattern pattern2 = new Pattern(_pattern2, LevelDifficulty.MEDIUM);
+  Pattern pattern2 = new Pattern(_pattern2, patterns.length, LevelDifficulty.MEDIUM);
   patterns = (Pattern[])append(patterns, pattern2);
 
   int[][] _pattern3 = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, -2, 1}, 
     {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1}, 
@@ -61,7 +61,7 @@ Pattern[] Patterns() {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  Pattern pattern3 = new Pattern(_pattern3, LevelDifficulty.HARD);
+  Pattern pattern3 = new Pattern(_pattern3, patterns.length, LevelDifficulty.HARD);
   patterns = (Pattern[])append(patterns, pattern3);
 
   return patterns;
@@ -94,6 +94,14 @@ class Map {
   void init() { // Fonction pour dessiner la carte
     background(#FFFFFF);
     frameRate(60);
+
+    this.win = false;
+    this.timer.reset();
+    this.keyboardEvents = true;
+    this.firstKeyPressed = false;
+    map.flushBlocks();
+    map.flushGates();
+
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         if (pattern[i][j] == 1) {
@@ -140,7 +148,7 @@ class Map {
       }
     }
   }
-  //<>//
+
   void setPattern(int pattern) {
     this.pattern = patterns[pattern].getPattern();
     this.mapID = pattern;
@@ -355,15 +363,17 @@ public enum LevelDifficulty {
 }
 
   class Pattern {
+  int id;
   boolean done;
   int[][] pattern;
 
   LevelDifficulty levelDifficulty;
 
-  Pattern(int[][] pattern, LevelDifficulty levelDifficulty) {
+  Pattern(int[][] pattern, int id, LevelDifficulty levelDifficulty) {
     this.done = false;
     this.levelDifficulty = levelDifficulty;
     this.pattern = pattern;
+    this.id = id;
   }
 
   int[][] getPattern() {

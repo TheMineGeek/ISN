@@ -1,4 +1,4 @@
-class GUI { //<>// //<>// //<>// //<>// //<>//
+class GUI { //<>// //<>//
   GUI() {
   }
 
@@ -223,22 +223,23 @@ class GUI { //<>// //<>// //<>// //<>// //<>//
         if (i * 10 + j < patterns.length) {
           this.mapNumber = i * 10 + j;
           int normalStrokeColor;
-          if(patterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+          if (patterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
             normalStrokeColor = 0xff00FF00;
-          } else if(patterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ){
+          } else if (patterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
             normalStrokeColor = 0xffFFA500;
           } else {
             normalStrokeColor = 0xffFF0000;
           }
-          
+
           println(this.mapNumber);
-          
+
           this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
             public void onClick() {
-              mapSetup(mapNumber);
             }
           }
           ));
+
+          GUIButtons[GUIButtons.length-1].mapID = mapNumber;
         }
       }
     }
@@ -287,7 +288,7 @@ class GUI { //<>// //<>// //<>// //<>// //<>//
     }
     ));
   }
-  
+
   void askForUsernameMenu() {
     background(255);
     this.addButton(new GUIButton(50, 0, 800, 140, "Bienvenue, aucun nom d'utilisateur n'a été détécté. \nMerci d'en saisir un puis de cliquer sur continuer", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
@@ -295,7 +296,7 @@ class GUI { //<>// //<>// //<>// //<>// //<>//
       }
     }
     ));
-    
+
     this.addButton(new GUIButton(350, 200, 200, 40, "Pseudo :", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
       }
@@ -303,7 +304,7 @@ class GUI { //<>// //<>// //<>// //<>// //<>//
     ));
 
     this.addInput(new GUIInput(250, 250, 400, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
-    
+
     this.addButton(new GUIButton(250, 375, 400, 40, "Continuer", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         saveUsername(gui.GUIInputs[0].getValue());
@@ -342,7 +343,7 @@ class GUIInput {
   }
 
   GUIInput (int x, int y, int sizeX, int sizeY, 
-    int textSize, color normalStroke, color selectedStroke, color normalBackground,  //<>//
+    int textSize, color normalStroke, color selectedStroke, color normalBackground, //<>//
     color selectedBackground, color normalText, color selectedText) {
     this.x = x;
     this.y = y;
@@ -457,7 +458,7 @@ class GUIInput {
       this.text += match(str(_key), "[a-zA-Z0-9_.]")[0];
     }
   }
-  
+
   String getValue() {
     this.unCling();
     return this.text;
@@ -488,10 +489,10 @@ class GUIButton {
   private int buttonHeight;
   private int maxX;
   private int maxY;
-  
+
   int mapID; // Only use by interface
 
-  IGUIButton IButton;
+  public IGUIButton IButton;
 
   GUIButton() {
   }
@@ -517,6 +518,8 @@ class GUIButton {
     this.maxY = this.y + this.sizeY;
     this.buttonWidth = this.maxX - this.x;
     this.buttonHeight = this.maxY - this.y;
+
+    this.mapID = -1; // Only used for GUI Buttons on new Game menu
 
     this.init();
   }
@@ -560,11 +563,15 @@ class GUIButton {
    * Function called when there is a click on the box
    */
   void onClick() {
-    try {
-      this.IButton.onClick();
-    }
-    catch(Error e) {
-      println(e);
+    if (this.mapID != -1) {
+      mapSetup(this.mapID);
+    } else {
+      try {
+        this.IButton.onClick();
+      }
+      catch(Error e) {
+        println(e);
+      }
     }
   }
 }
