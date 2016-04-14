@@ -2,11 +2,11 @@ import processing.net.*;  //<>//
 //<>//
 /* GLOBAL VARS DECLARATIONS */
 Map map;
-Screenshot screenshot;
 static Projet that;
 GUI gui;
 String game = "";
 String USERNAME;
+Pattern[] patterns;
 /* SETUP FONCTIONS */
 
 /**
@@ -17,6 +17,7 @@ void mapSetup(int mapNumber) {
   map.flushBlocks();
   map.flushGates();
   map.setPattern(mapNumber);
+  println(mapNumber);
   map.init();
   map.onWin = new onWinInterface() {
     @Override
@@ -27,6 +28,7 @@ void mapSetup(int mapNumber) {
       fill(0);
       textSize(30);
       text("Bravo ! Vous avez gagné", pixelWidth/2, pixelHeight/2);
+      gui.showNewGame();
     }
   };
 }
@@ -52,6 +54,7 @@ void settings() {
   size(900, 500);  
   gui = new GUI();
   map = new Map();
+  patterns = Patterns();
 }
 
 

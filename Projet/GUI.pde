@@ -218,13 +218,24 @@ class GUI { //<>// //<>// //<>// //<>// //<>//
     }
     ));
 
-    for (int i = 0; i < patternsSetup().size() / 2; i++) {
+    for (int i = 0; i < patterns.length / 2; i++) {
       for (int j = 0; j < 10; j++) {
-        if (i * 10 + j < patternsSetup().size()) {
-          this.mapNumber = 1 + i * 10 + j;
-          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber), 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+        if (i * 10 + j < patterns.length) {
+          this.mapNumber = i * 10 + j;
+          int normalStrokeColor;
+          if(patterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+            normalStrokeColor = 0xff00FF00;
+          } else if(patterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ){
+            normalStrokeColor = 0xffFFA500;
+          } else {
+            normalStrokeColor = 0xffFF0000;
+          }
+          
+          println(this.mapNumber);
+          
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
             public void onClick() {
-              mapSetup(gui.mapNumber - 1);
+              mapSetup(mapNumber);
             }
           }
           ));
@@ -454,28 +465,31 @@ class GUIInput {
 }
 
 interface IGUIButton {
+  int id = 0;
   void onClick();
 }
 
 class GUIButton {
-  int x;
-  int y;
-  int sizeX;
-  int sizeY;
-  int textSize;
-  String text;
-  color normalStroke;
-  color hoverStroke;
-  color normalBackground;
-  color hoverBackground;
-  color normalText;
-  color hoverText;
+  private int x;
+  private int y;
+  private int sizeX;
+  private int sizeY;
+  private int textSize;
+  private String text;
+  private color normalStroke;
+  private color hoverStroke;
+  private color normalBackground;
+  private color hoverBackground;
+  private color normalText;
+  private color hoverText;
 
 
-  int buttonWidth;
-  int buttonHeight;
-  int maxX;
-  int maxY;
+  private int buttonWidth;
+  private int buttonHeight;
+  private int maxX;
+  private int maxY;
+  
+  int mapID; // Only use by interface
 
   IGUIButton IButton;
 

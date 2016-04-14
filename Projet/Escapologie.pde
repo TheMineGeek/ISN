@@ -1,12 +1,12 @@
-interface onWinInterface { //<>// //<>// //<>//
+interface onWinInterface { //<>// //<>// //<>// //<>// //<>//
   void toDo();
 }
 
 /**
  * Return all patterns
  */
-ArrayList<int[][]> patternsSetup() {  
-  ArrayList<int[][]> patterns = new ArrayList<int[][]>();
+Pattern[] Patterns() {  
+  Pattern[] patterns = new Pattern[0];
 
   int[][] blank = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
@@ -20,7 +20,7 @@ ArrayList<int[][]> patternsSetup() {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  int[][] pattern = {
+  int[][] _pattern = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 1, 0, 0, 0, 2, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
@@ -31,10 +31,11 @@ ArrayList<int[][]> patternsSetup() {
     {1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
     {1, 1, 0, 0, -2, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
+  Pattern pattern = new Pattern(_pattern, LevelDifficulty.EASY);
+  patterns = (Pattern[])append(patterns, pattern);
 
-  patterns.add(pattern);
 
-  int[][] pattern2 = {
+  int[][] _pattern2 = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 0, 1, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 2, 1}, 
@@ -45,10 +46,11 @@ ArrayList<int[][]> patternsSetup() {
     {1, 0, 0, 1, 0, 0, 1, 1, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-  patterns.add(pattern2);
+  Pattern pattern2 = new Pattern(_pattern2, LevelDifficulty.MEDIUM);
+  patterns = (Pattern[])append(patterns, pattern2);
 
-  int[][] pattern3 = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, //<>// //<>// //<>//
+  int[][] _pattern3 = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, -2, 1}, 
     {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1}, 
@@ -59,7 +61,8 @@ ArrayList<int[][]> patternsSetup() {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  patterns.add(pattern3);
+  Pattern pattern3 = new Pattern(_pattern3, LevelDifficulty.HARD);
+  patterns = (Pattern[])append(patterns, pattern3);
 
   return patterns;
 }
@@ -75,7 +78,6 @@ class Map {
   boolean keyboardEvents = true;
   boolean firstKeyPressed = false;
   onWinInterface onWin;
-  ArrayList<int[][]> patterns;
   int mapID;
 
   Timer timer;
@@ -129,19 +131,18 @@ class Map {
 
       JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
 
- //<>//
+
       for (int i = 0; i < times.size(); i++) {
         JSONObject time = times.getJSONObject(i);
 
         String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
         text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
       }
-    } //<>//
+    }
   }
-  //<>// //<>//
+  //<>//
   void setPattern(int pattern) {
-    this.patterns = patternsSetup();
-    this.pattern = this.patterns.get(pattern);
+    this.pattern = patterns[pattern].getPattern();
     this.mapID = pattern;
 
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
@@ -247,16 +248,6 @@ class Map {
   void flushBlocks() {
     this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0);
   }
-
-  void screenshotAll(String path) {
-    for (int i = 0; i < this.patterns.size(); i++) {
-      this.flushBlocks();
-      this.flushGates();
-      this.pattern = this.patterns.get(i);
-      this.init();
-      screenshot.take(path + "\\escapologie-" + i + ".png");
-    }
-  }
 }
 
 class Block {  
@@ -354,5 +345,28 @@ class Gate { // Class pour les portes de sortie
       return true;
     }
     return false;
+  }
+}
+
+public enum LevelDifficulty {
+  EASY, 
+    MEDIUM, 
+    HARD
+}
+
+  class Pattern {
+  boolean done;
+  int[][] pattern;
+
+  LevelDifficulty levelDifficulty;
+
+  Pattern(int[][] pattern, LevelDifficulty levelDifficulty) {
+    this.done = false;
+    this.levelDifficulty = levelDifficulty;
+    this.pattern = pattern;
+  }
+
+  int[][] getPattern() {
+    return this.pattern;
   }
 }

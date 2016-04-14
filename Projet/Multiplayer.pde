@@ -40,6 +40,12 @@ static class Multiplayer {
     if(get.getContent() != null) return true;
     else return false;
   }
+  
+  static void hashMeThisPlease(String toHash) {
+    PostRequest post = new PostRequest(Multiplayer.statServerAddress + "hash");
+      post.addData("hash", toHash);
+      post.send();
+  }
 
   static WebsocketClient wsc;
 
