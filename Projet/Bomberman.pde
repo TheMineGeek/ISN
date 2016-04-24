@@ -96,8 +96,6 @@ class PorteB {
   }
 }
 
-
-
 class Personnage {
   int x;
   int y;
@@ -125,9 +123,8 @@ class Personnage {
       mapb.pattern[i][j] = 0;
     } 
 
-
     if (direction == "left") {
-      if (mapb.pattern[i][j-1] != 1 && mapb.pattern[i][j-1] != 2 && mapb.pattern[i][j-1] != 5 && mapb.pattern[i][j-1] != -1) {
+      if (mapb.pattern[i][j-1] != 1 && mapb.pattern[i][j-1] != 2 && mapb.pattern[i][j-1] != 5 && mapb.pattern[i][j-1] != -1 && mapb.pattern[i][j-1] != 6) {
         this.x = this.x-100;
         mapb.pattern[i][j-1] = 3;
       }
@@ -135,32 +132,49 @@ class Personnage {
         mapb.pattern[i][j-1] = 7;
         println ("win");
       }
+      if (mapb.pattern[i][j-1] == 6) {
+        mapb.pattern[i][j-1] = 8 ;
+        println ("lost");
+      }
     } else if (direction == "right") {
-      if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1) {
+      if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1 && mapb.pattern[i][j+1] != 6) {
         this.x = this.x+100;
         mapb.pattern[i][j+1] = 3;
       }
       if (mapb.pattern[i][j+1] == -1) {
-         mapb.pattern[i][j+1] = 7;
-         println ("win");
+        mapb.pattern[i][j+1] = 7;
+        println ("win");
+        
+      }
+      if (mapb.pattern[i][j+1] == 6) {
+        mapb.pattern[i][j+1] = 8 ;
+        println ("lost");
       }
     } else if (direction == "top") {
-      if (mapb.pattern[i-1][j] != 1 && mapb.pattern[i-1][j] != 2 && mapb.pattern[i-1][j] != 5 && mapb.pattern[i-1][j] != -1) {
+      if (mapb.pattern[i-1][j] != 1 && mapb.pattern[i-1][j] != 2 && mapb.pattern[i-1][j] != 5 && mapb.pattern[i-1][j] != -1 && mapb.pattern[i-1][j] != 6) {
         this.y = this.y-100;
         mapb.pattern[i-1][j] = 3;
       }
       if (mapb.pattern[i-1][j] == -1) {
-         mapb.pattern[i-1][j] = 7;
-         println ("win");
+        mapb.pattern[i-1][j] = 7;
+        println ("win");
+      }
+      if (mapb.pattern[i-1][j] == 6) {
+        mapb.pattern[i-1][j] = 8 ;
+        println ("lost");
       }
     } else if (direction == "bottom") {
-      if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1) {    
+      if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1 && mapb.pattern[i+1][j] != 6) {    
         mapb.pattern[i+1][j] = 3;
         this.y = this.y+100;
       }
       if (mapb.pattern[i+1][j] == -1) {
-         mapb.pattern[i+1][j] = 7;
-         println ("win");
+        mapb.pattern[i+1][j] = 7;
+        println ("win");
+      }
+      if (mapb.pattern[i+1][j] == 6) {
+        mapb.pattern[i+1][j] = 8 ;
+        println ("lost");
       }
     }
 
@@ -171,7 +185,6 @@ class Personnage {
       println ();
     }
     println();
-
   }
 }
 
@@ -198,7 +211,6 @@ class Bombe {
     this.x = x;
     this.y = y;
     timer = new Timer(); // Inclue le timer dans la bombe
-    couleur = color(192, 192, 192);
     this.exploding = false;
   }  
 
@@ -216,7 +228,7 @@ class Bombe {
     timer.start(); // démare le timer
   }
 
-    
+
   void tick() {  
     this.timer.tick();
     int i = (y-20)/100;
@@ -225,11 +237,22 @@ class Bombe {
       this.active = false;
       Explosion(this.x-25, this.y-25);
       this.exploding = true;
+      if (mapb.pattern [i][j] == 3 ||mapb.pattern[i+1][j] == 3 || mapb.pattern[i-1][j] ==3 || mapb.pattern[i][j+1] == 3 || mapb.pattern[i][j-1] ==3) {
+        println ("LOST");
+      }
       mapb.pattern[i][j] = 6;
+      mapb.pattern[i+1][j] = 6;
+      mapb.pattern[i-1][j] = 6;
+      mapb.pattern[i][j+1] = 6;
+      mapb.pattern[i][j-1] = 6;
     }
     if (timer.getTime() >= 10) {
       this.exploding = false;
-      mapb.pattern[i][j] = 0;
+      mapb.pattern[i][j] = 0; // Il doit y avoir plus simple ... 
+      mapb.pattern[i+1][j] = 0;
+      mapb.pattern[i-1][j] = 0;
+      mapb.pattern[i][j+1] = 0;
+      mapb.pattern[i][j-1] = 0;
       timer.stop();
       timer.reset();
     }

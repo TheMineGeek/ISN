@@ -62,9 +62,8 @@ void draw() {
     }
     
   }
-
-  //GUI.buttonHoverInteractions(mouseX, mouseY);
 }
+
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
   if (keyCode == 37) { // Flèche gauche
