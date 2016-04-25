@@ -10,6 +10,8 @@ Bombe[] tbombe; // Création d'un tableau de bombes
 PImage croix;
 PImage bombeimg;
 PImage perso;
+PImage persomort;
+PImage exit;
 
 static Projet that;
 
@@ -40,6 +42,8 @@ void setup() {
   croix = loadImage("./data/img/Croix.png");
   bombeimg = loadImage("./data/img/Bombes.png");
   perso = loadImage("./data/img/Perso.png");
+  persomort = loadImage("./data/img/Persomort.png");
+  exit = loadImage("./data/img/Exit.png");
   
 }
 

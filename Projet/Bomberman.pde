@@ -64,9 +64,9 @@ class BlockB {
     this.x = x;
     this.y = y;
     if (cassable) { 
-      couleur = #AE00DD;
+      couleur = #FEE193;
     } else {
-      couleur = #FF00DD;
+      couleur = #B98700;
     }
   }
 
@@ -84,15 +84,12 @@ class PorteB {
 
   // constructeur
   PorteB(int x, int y) {
-    size = 100;
-    couleur = #000000;
     this.x = x;
     this.y = y;
   }
 
   void affiche () {
-    fill (couleur);
-    rect (x, y, size, size);
+   image(exit, x, y, 100, 100);
   }
 }
 
@@ -104,8 +101,6 @@ class Personnage {
 
   // constructeur
   Personnage() {
-    size = 50;
-    couleur = #000000;
   }
 
 
@@ -144,7 +139,6 @@ class Personnage {
       if (mapb.pattern[i][j+1] == -1) {
         mapb.pattern[i][j+1] = 7;
         println ("win");
-        
       }
       if (mapb.pattern[i][j+1] == 6) {
         mapb.pattern[i][j+1] = 8 ;
@@ -241,18 +235,29 @@ class Bombe {
         println ("LOST");
       }
       mapb.pattern[i][j] = 6;
-      mapb.pattern[i+1][j] = 6;
-      mapb.pattern[i-1][j] = 6;
-      mapb.pattern[i][j+1] = 6;
-      mapb.pattern[i][j-1] = 6;
+
+      if (mapb.pattern[i+1][j] == 2 || mapb.pattern[i+1][j] == 0) {
+        mapb.pattern[i+1][j] = 6;
+      }
+      if (mapb.pattern[i-1][j] == 2 || mapb.pattern[i-1][j] == 0) {
+        mapb.pattern[i-1][j] = 6;
+      }
+      if (mapb.pattern[i][j+1] == 2 || mapb.pattern[i][j+1] == 0) {
+        mapb.pattern[i][j+1] = 6;
+      }
+      if (mapb.pattern[i][j-1] == 2 || mapb.pattern[i][j-1] == 0) {
+        mapb.pattern[i][j-1] = 6;
+      }
     }
     if (timer.getTime() >= 10) {
       this.exploding = false;
-      mapb.pattern[i][j] = 0; // Il doit y avoir plus simple ... 
-      mapb.pattern[i+1][j] = 0;
-      mapb.pattern[i-1][j] = 0;
-      mapb.pattern[i][j+1] = 0;
-      mapb.pattern[i][j-1] = 0;
+      for (int k=0; k < mapb.pattern.length; k++) {
+        for (int l=0; l < mapb.pattern [k].length; l++) {
+          if (mapb.pattern[k][l] == 6) {
+            mapb.pattern[k][l] = 0;
+          }
+        }
+      }
       timer.stop();
       timer.reset();
     }
