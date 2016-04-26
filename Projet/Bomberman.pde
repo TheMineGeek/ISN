@@ -40,9 +40,6 @@ class MapB {
   }
 
   void tick () { 
-     if (Gagne == false && Perdu == false){
-      MapB.tick; // la carte se dessine jusqu'a ce que l'on gagne ou perde
-    }
     for (int i = 0; i<this.blocks.length; i++) {
       this.blocks[i].affiche();
     }
@@ -101,20 +98,16 @@ class Personnage {
   int y;
   int size;
   color couleur;
-  boolean Vivant;
 
   // constructeur
   Personnage() {
-    boolean Vivant = true;
   }
 
 
   void affiche () {
-    if (Vivant = true) {
+   
       image (perso, x, y, 60, 70);
-    } else {
-      image (persomort, x, y, 60, 70);
-    }
+    } 
   }
 
   void move (String direction) {
