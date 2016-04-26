@@ -3,24 +3,24 @@
 class MapB {
   int[][] pattern = new int [][] {
     {1, 1, 1, 1, 1, 1, 1}, 
-    {1, 0, 0, 2, 1, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 3, 0, 1}, 
-    {1, 0, 0, 0, 0, -1, 1}, 
+    {1, 0, 0, 2, 2, 0, 1}, 
+    {1, 0, 1, 1, 0, 0, 1}, 
+    {1, 2, 2, 0, 0, 2, 1}, 
+    {1, 2, 1, 2, 0, 2, 1}, 
+    {1, 0, 2, 0, 2, 1, 1}, 
+    {1, 2, 2, 0, 3, -1, 1}, 
     {1, 1, 1, 1, 1, 1, 1}}; // initialise le tableau de la carte
 
   MapB() {
   }  // La pseudo fonction pour initialiser la map
 
-  BlockB[] blocks = new BlockB[0]; // Tous les blocs qui peuvent bouger
+  BlockB[] blocks = new BlockB[0]; // Tous les blocs créés
 
 
   void init() { // Fonction pour dessiner la carte
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau (colone)
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau (ligne)
-        BlockB _block;
+        BlockB _block; // On nomme la variable _block
         if (pattern[i][j] == 1) {
           _block = new BlockB(j*100, i*100, false); // Si c'est 1 = Block incassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
@@ -40,6 +40,7 @@ class MapB {
   }
 
   void tick () {
+ 
     for (int i = 0; i<this.blocks.length; i++) {
       this.blocks[i].affiche();
     }
@@ -89,7 +90,7 @@ class PorteB {
   }
 
   void affiche () {
-   image(exit, x, y, 100, 100);
+    image(exit, x, y, 100, 100);
   }
 }
 
@@ -112,61 +113,117 @@ class Personnage {
     int j = (this.x-20)/100; // traduit les x en coordonnés i de la carte
     int i = (this.y-20)/100; // traduit les y en coordonnées j de la carte
 
-    if (mapb.pattern[i][j] == 4) {
-      mapb.pattern[i][j] = 5;
-    } else {
-      mapb.pattern[i][j] = 0;
-    } 
+
 
     if (direction == "left") {
       if (mapb.pattern[i][j-1] != 1 && mapb.pattern[i][j-1] != 2 && mapb.pattern[i][j-1] != 5 && mapb.pattern[i][j-1] != -1 && mapb.pattern[i][j-1] != 6) {
         this.x = this.x-100;
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j-1] = 3;
       }
       if (mapb.pattern[i][j-1] == -1) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j-1] = 7;
         println ("win");
       }
       if (mapb.pattern[i][j-1] == 6) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j-1] = 8 ;
         println ("lost");
       }
     } else if (direction == "right") {
       if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1 && mapb.pattern[i][j+1] != 6) {
         this.x = this.x+100;
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j+1] = 3;
       }
       if (mapb.pattern[i][j+1] == -1) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j+1] = 7;
         println ("win");
       }
       if (mapb.pattern[i][j+1] == 6) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i][j+1] = 8 ;
         println ("lost");
       }
     } else if (direction == "top") {
       if (mapb.pattern[i-1][j] != 1 && mapb.pattern[i-1][j] != 2 && mapb.pattern[i-1][j] != 5 && mapb.pattern[i-1][j] != -1 && mapb.pattern[i-1][j] != 6) {
         this.y = this.y-100;
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i-1][j] = 3;
       }
       if (mapb.pattern[i-1][j] == -1) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i-1][j] = 7;
         println ("win");
       }
       if (mapb.pattern[i-1][j] == 6) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i-1][j] = 8 ;
         println ("lost");
       }
     } else if (direction == "bottom") {
-      if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1 && mapb.pattern[i+1][j] != 6) {    
+      if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1 && mapb.pattern[i+1][j] != 6) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i+1][j] = 3;
         this.y = this.y+100;
       }
       if (mapb.pattern[i+1][j] == -1) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i+1][j] = 7;
         println ("win");
       }
       if (mapb.pattern[i+1][j] == 6) {
+        if (mapb.pattern[i][j] == 4) {
+          mapb.pattern[i][j] = 5;
+        } else {
+          mapb.pattern[i][j] = 0;
+        } 
         mapb.pattern[i+1][j] = 8 ;
         println ("lost");
       }
@@ -233,6 +290,7 @@ class Bombe {
       this.exploding = true;
       if (mapb.pattern [i][j] == 3 ||mapb.pattern[i+1][j] == 3 || mapb.pattern[i-1][j] ==3 || mapb.pattern[i][j+1] == 3 || mapb.pattern[i][j-1] ==3) {
         println ("LOST");
+        boolean Perdu = true;
       }
       mapb.pattern[i][j] = 6;
 
@@ -263,7 +321,7 @@ class Bombe {
     }
   }
 
-  void Explosion (int x, int y) {
+  void Explosion (int x, int y) {    
     image(croix, x, y, 100, 100);
   }
 }
