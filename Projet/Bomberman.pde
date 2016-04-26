@@ -39,8 +39,7 @@ class MapB {
     println(this.blocks.length);
   }
 
-  void tick () {
- 
+  void tick () { 
     for (int i = 0; i<this.blocks.length; i++) {
       this.blocks[i].affiche();
     }
@@ -312,6 +311,16 @@ class Bombe {
         for (int l=0; l < mapb.pattern [k].length; l++) {
           if (mapb.pattern[k][l] == 6) {
             mapb.pattern[k][l] = 0;
+
+            for (int m = 0; m < mapb.blocks.length; m++) {
+              if (mapb.blocks[m].y/100 == k && mapb.blocks[m].x/100 == l) {
+                println(m);
+                println(mapb.blocks.length);
+                mapb.blocks = (BlockB[])concat((BlockB[])subset(mapb.blocks, 0, m), subset(mapb.blocks, m+1));
+
+                println(mapb.blocks.length);
+              }
+            }
           }
         }
       }
