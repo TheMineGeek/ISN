@@ -40,6 +40,9 @@ class MapB {
   }
 
   void tick () { 
+     if (Gagne == false && Perdu == false){
+      MapB.tick; // la carte se dessine jusqu'a ce que l'on gagne ou perde
+    }
     for (int i = 0; i<this.blocks.length; i++) {
       this.blocks[i].affiche();
     }
@@ -98,20 +101,27 @@ class Personnage {
   int y;
   int size;
   color couleur;
+  boolean Vivant;
 
   // constructeur
   Personnage() {
+    boolean Vivant = true;
   }
 
 
   void affiche () {
-    image (perso, x, y, 60, 70);
+    if (Vivant = true) {
+      image (perso, x, y, 60, 70);
+    } else {
+      image (persomort, x, y, 60, 70);
+    }
   }
 
   void move (String direction) {
     int j = (this.x-20)/100; // traduit les x en coordonnés i de la carte
     int i = (this.y-20)/100; // traduit les y en coordonnées j de la carte
-
+    boolean Gagne = false;
+    boolean Perdu = false;
 
 
     if (direction == "left") {
@@ -125,22 +135,12 @@ class Personnage {
         mapb.pattern[i][j-1] = 3;
       }
       if (mapb.pattern[i][j-1] == -1) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i][j-1] = 7;
         println ("win");
+        Gagne = true;
       }
       if (mapb.pattern[i][j-1] == 6) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i][j-1] = 8 ;
         println ("lost");
+        Perdu = true;
       }
     } else if (direction == "right") {
       if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1 && mapb.pattern[i][j+1] != 6) {
@@ -153,22 +153,12 @@ class Personnage {
         mapb.pattern[i][j+1] = 3;
       }
       if (mapb.pattern[i][j+1] == -1) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i][j+1] = 7;
         println ("win");
+        Gagne = true;
       }
       if (mapb.pattern[i][j+1] == 6) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i][j+1] = 8 ;
         println ("lost");
+        Perdu = true;
       }
     } else if (direction == "top") {
       if (mapb.pattern[i-1][j] != 1 && mapb.pattern[i-1][j] != 2 && mapb.pattern[i-1][j] != 5 && mapb.pattern[i-1][j] != -1 && mapb.pattern[i-1][j] != 6) {
@@ -181,22 +171,12 @@ class Personnage {
         mapb.pattern[i-1][j] = 3;
       }
       if (mapb.pattern[i-1][j] == -1) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i-1][j] = 7;
         println ("win");
+        Gagne = true;
       }
       if (mapb.pattern[i-1][j] == 6) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i-1][j] = 8 ;
         println ("lost");
+        Perdu = true;
       }
     } else if (direction == "bottom") {
       if (mapb.pattern[i+1][j] != 1 && mapb.pattern[i+1][j] != 2 && mapb.pattern[i+1][j] != 5 && mapb.pattern[i+1][j] != -1 && mapb.pattern[i+1][j] != 6) {
@@ -209,26 +189,30 @@ class Personnage {
         this.y = this.y+100;
       }
       if (mapb.pattern[i+1][j] == -1) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i+1][j] = 7;
         println ("win");
+        Gagne = true;
       }
       if (mapb.pattern[i+1][j] == 6) {
-        if (mapb.pattern[i][j] == 4) {
-          mapb.pattern[i][j] = 5;
-        } else {
-          mapb.pattern[i][j] = 0;
-        } 
-        mapb.pattern[i+1][j] = 8 ;
         println ("lost");
+        Perdu = true;
       }
     }
 
-    for (int k=0; k < mapb.pattern.length; k++) {
+    if (Gagne == true) {
+      background(#FFFFFF);
+      fill(#000000);
+      textAlign(CENTER);
+      textSize(52);
+      text("WIN", 250, 250);
+    } else if (Perdu == true) {
+      background(#000000);
+      fill(#FFFFFF);
+      textAlign(CENTER);
+      textSize(52);
+      text("LOST", 250, 250);
+    }
+    
+      for (int k=0; k < mapb.pattern.length; k++) {
       for (int l=0; l < mapb.pattern [k].length; l++) {
         print (mapb.pattern[k][l]);
       }
@@ -247,7 +231,6 @@ class Bombe {
   color couleur;
   boolean active;
   Timer timer;
-  int duree;
   boolean exploding;
 
   Bombe() {
