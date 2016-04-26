@@ -290,7 +290,6 @@ class Bombe {
       this.exploding = true;
       if (mapb.pattern [i][j] == 3 ||mapb.pattern[i+1][j] == 3 || mapb.pattern[i-1][j] ==3 || mapb.pattern[i][j+1] == 3 || mapb.pattern[i][j-1] ==3) {
         println ("LOST");
-        boolean Perdu = true;
       }
       mapb.pattern[i][j] = 6;
 
