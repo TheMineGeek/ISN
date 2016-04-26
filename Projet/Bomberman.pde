@@ -313,10 +313,10 @@ class Bombe {
             mapb.pattern[k][l] = 0;
 
             for (int m = 0; m < mapb.blocks.length; m++) {
-              if (mapb.blocks[m].y/100 == k && mapb.blocks[m].x/100 == l) {
+              if (mapb.blocks[m].y/100 == k && mapb.blocks[m].x/100 == l) { // transforme les coordonnées du bloc en k et l 
                 println(m);
                 println(mapb.blocks.length);
-                mapb.blocks = (BlockB[])concat((BlockB[])subset(mapb.blocks, 0, m), subset(mapb.blocks, m+1));
+                mapb.blocks = (BlockB[])concat((BlockB[])subset(mapb.blocks, 0, m), subset(mapb.blocks, m+1)); // permet de mettre à jour la liste de bloc dans l'intervalle [0;m[ Union [m+1, max]
 
                 println(mapb.blocks.length);
               }
