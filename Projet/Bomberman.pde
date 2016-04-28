@@ -213,7 +213,7 @@ class Personnage {
     }
     println();
   }
-}
+
 
 
 class Bombe {
