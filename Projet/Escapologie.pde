@@ -1,4 +1,4 @@
-interface onWinInterface { //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface {       //<>//
   void toDo();
 }
 
@@ -46,7 +46,7 @@ Pattern[] Patterns() {
     {1, 0, 0, 1, 0, 0, 1, 1, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-  Pattern pattern2 = new Pattern(_pattern2, patterns.length, LevelDifficulty.MEDIUM);
+  Pattern pattern2 = new Pattern(_pattern2, patterns.length, LevelDifficulty.EASY);
   patterns = (Pattern[])append(patterns, pattern2);
 
   int[][] _pattern3 = {
@@ -61,8 +61,39 @@ Pattern[] Patterns() {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  Pattern pattern3 = new Pattern(_pattern3, patterns.length, LevelDifficulty.HARD);
+  Pattern pattern3 = new Pattern(_pattern3, patterns.length, LevelDifficulty.EASY);
   patterns = (Pattern[])append(patterns, pattern3);
+
+  int[][] _pattern4 = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+    {1, 1, 1, 0, 0, 0, 1, -2, 0, 1, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+    {1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1}, 
+    {1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1}, 
+    {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1}, 
+    {1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
+
+  Pattern pattern4 = new Pattern(_pattern4, patterns.length, LevelDifficulty.EASY);
+  patterns = (Pattern[])append(patterns, pattern4);
+
+  int[][] _pattern5 = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+    {1, 1, 2, 0, 0, 0, 0, 0, 1, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 1, 0, 0, 0, 0, 1, 0, 0, 1}, 
+    {1, 0, 1, 1, 0, 0, 0, 0, 3, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
+    {1, 1, 0, 0, 0, 1, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+    {1, 0, 1, 0, 1, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, -2, 1, 0, 1, 0, -3, 1}, 
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
+
+  Pattern pattern5 = new Pattern(_pattern5, patterns.length, LevelDifficulty.MEDIUM);
+  patterns = (Pattern[])append(patterns, pattern5);
 
   return patterns;
 }
@@ -150,6 +181,7 @@ class Map {
   }
 
   void setPattern(int pattern) {
+    this.pattern = null;
     this.pattern = patterns[pattern].getPattern();
     this.mapID = pattern;
 
@@ -213,18 +245,17 @@ class Map {
       textSize(20);
       text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
 
-      boolean _keyboardEvents = true;
-
       for (int i = 0; i < gates.length; i++) {
         gates[i].show();
       }
-
+      
+      this.keyboardEvents = true;
+      
       for (int i = 0; i < this.movableBlocks.length; i++) {   
         this.movableBlocks[i].move(this.speedX, this.speedY);
-        _keyboardEvents = !this.movableBlocks[i].mustMove();
+        if(this.movableBlocks[i].mustMove()) this.keyboardEvents = false;
       }   
       this.checkWin();
-      this.keyboardEvents = _keyboardEvents;
     }
   }
 
@@ -378,5 +409,39 @@ public enum LevelDifficulty {
 
   int[][] getPattern() {
     return this.pattern;
+  }
+
+  String toJson() {
+    String _pattern = "";
+
+    _pattern += "[";
+    for (int i = 0; i < this.pattern.length; i++) {
+      _pattern += "[";
+      for (int j = 0; j < this.pattern[i].length; j++) {
+        if (j == this.pattern.length - 1) {
+          _pattern += str(pattern[i][j]);
+        } else {
+          _pattern += str(pattern[i][j]) + ",";
+        }
+      }
+      if (i == this.pattern.length - 1) {
+        _pattern += "]";
+      } else {
+        _pattern += "],";
+      }
+    }
+    _pattern += "]";
+
+    String toReturn = String.format("{\n\"id\" : %1$s,\n\"done\" : %2$s,\n\"pattern\" : %3$s\n}", this.id, this.done, _pattern);
+    return toReturn;
+  }
+
+  void log() {
+    for(int i = 0; i < this.pattern.length; i++) {
+      for(int j = 0; j < this.pattern[i].length; j++) {
+         print(this.pattern[i][j]); 
+      }
+      println();
+    }
   }
 }

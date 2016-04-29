@@ -1,4 +1,4 @@
-class GUI { //<>// //<>//
+class GUI {  //<>//
   GUI() {
   }
 
@@ -231,8 +231,6 @@ class GUI { //<>// //<>//
             normalStrokeColor = 0xffFF0000;
           }
 
-          println(this.mapNumber);
-
           this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
             public void onClick() {
             }
@@ -308,7 +306,6 @@ class GUI { //<>// //<>//
     this.addButton(new GUIButton(250, 375, 400, 40, "Continuer", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
       public void onClick() {
         saveUsername(gui.GUIInputs[0].getValue());
-        println(gui.GUIInputs[0].getValue());
         gui.showMenu();
       }
     }

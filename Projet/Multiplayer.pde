@@ -35,8 +35,6 @@ static class Multiplayer {
     GetRequest get = new GetRequest(Multiplayer.statServerAddress);
     get.send();
     
-    println(get.getContent());
-    
     if(get.getContent() != null) return true;
     else return false;
   }

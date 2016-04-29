@@ -13,6 +13,7 @@ Pattern[] patterns;
  * Initialize map
  */
 void mapSetup(int mapNumber) {  
+  patterns = Patterns();
   game = "escapologie";
   map.setPattern(mapNumber);
   map.init();
@@ -44,6 +45,11 @@ void setup() {
     gui.showMenu();
   }
   smooth(8);
+  
+  println(patternsToJson());
+  String encrypted = encrypt(patternsToJson());
+  println(encrypted);
+  println(decrypt(encrypted));
 }
 
 /**
