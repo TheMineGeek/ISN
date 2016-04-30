@@ -1,4 +1,4 @@
-class GUI {  //<>//
+class GUI {  //<>// //<>//
   GUI() {
   }
 
@@ -230,7 +230,7 @@ class GUI {  //<>//
           } else {
             normalStrokeColor = 0xffFF0000;
           }
-          
+
           int normalTextColor;
           if (patterns[mapNumber].done) {
             normalTextColor = 0xff00FF00;
@@ -347,7 +347,7 @@ class GUIInput {
   }
 
   GUIInput (int x, int y, int sizeX, int sizeY, 
-    int textSize, color normalStroke, color selectedStroke, color normalBackground, //<>//
+    int textSize, color normalStroke, color selectedStroke, color normalBackground, 
     color selectedBackground, color normalText, color selectedText) {
     this.x = x;
     this.y = y;
@@ -568,6 +568,9 @@ class GUIButton {
    */
   void onClick() {
     if (this.mapID != -1) {
+      cursor(ARROW);
+      gui.flushButtons();
+      gui.flushInputs();
       mapSetup(this.mapID);
     } else {
       try {
