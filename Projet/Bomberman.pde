@@ -107,8 +107,8 @@ class Personnage {
   void affiche () {
    
       image (perso, x, y, 60, 70);
-    } 
-  }
+    }
+  
 
   void move (String direction) {
     int j = (this.x-20)/100; // traduit les x en coordonnés i de la carte
@@ -213,7 +213,7 @@ class Personnage {
     }
     println();
   }
-
+}
 
 
 class Bombe {

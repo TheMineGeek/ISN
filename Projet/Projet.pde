@@ -45,9 +45,9 @@ void settings() {
 
 void draw() {
   background(#FFFFFF);
-  if (Gagne == false && Perdu == false){
+  
       mapb.tick(); // la carte se dessine jusqu'a ce que l'on gagne ou perde
-    }
+    
   for (int i=0; i<20; i++) {
     tbombe[i].tick();
     if (tbombe[i].active) {
