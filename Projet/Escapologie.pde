@@ -76,7 +76,7 @@ Pattern[] Patterns() {
     {1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  Pattern pattern4 = new Pattern(_pattern4, patterns.length, LevelDifficulty.HARD);
+  Pattern pattern4 = new Pattern(_pattern4, patterns.length, LevelDifficulty.EASY);
   patterns = (Pattern[])append(patterns, pattern4);
 
   int[][] _pattern5 = {
@@ -93,7 +93,21 @@ Pattern[] Patterns() {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
   Pattern pattern5 = new Pattern(_pattern5, patterns.length, LevelDifficulty.MEDIUM);
-  patterns = (Pattern[])append(patterns, pattern5);
+  patterns = (Pattern[])append(patterns, pattern5);  
+
+  /*pattern.log();
+  println();
+  pattern2.log();
+  println();
+  pattern3.log();
+  println();
+  pattern4.log();
+  println();
+  pattern5.log();
+  println();
+
+  println("========================================");
+  println();*/
 
   return patterns;
 }
@@ -444,21 +458,25 @@ class Pattern {
     for (int i = 0; i < this.pattern.length; i++) {
       _pattern += "[";
       for (int j = 0; j < this.pattern[i].length; j++) {
-        if (j == this.pattern.length - 1) {
+        if (j == this.pattern.length) {
           _pattern += str(pattern[i][j]);
         } else {
           _pattern += str(pattern[i][j]) + ",";
         }
+        print(pattern[i][j], "");
       }
+      println();
       if (i == this.pattern.length - 1) {
         _pattern += "]";
       } else {
         _pattern += "],";
       }
     }
+    println();
     _pattern += "]";
 
     String toReturn = String.format("{\n\t\"id\" : %1$s,\n\t\"done\" : %2$s,\n\t\"levelDifficulty\" : %3$s,\n\t\"pattern\" : %4$s\n}", this.id, this.done, this.levelDifficulty.toString(), _pattern);
+    println(toReturn);
     return toReturn;
   }
 

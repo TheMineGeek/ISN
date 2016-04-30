@@ -127,7 +127,11 @@ void loadEscapologie() {
         }
 
         int[][] pattern = new int[object.getJSONArray("pattern").size()][object.getJSONArray("pattern").getJSONArray(0).size()];
-
+        
+        if(i == 4) {
+          println(object.getJSONArray("pattern").size(), object.getJSONArray("pattern").getJSONArray(0).size());
+        }
+        
         for (int j = 0; j < object.getJSONArray("pattern").size(); j++) {
           for (int k = 0; k <  object.getJSONArray("pattern").getJSONArray(0).size(); k++) {
             pattern[j][k] = object.getJSONArray("pattern").getJSONArray(j).getInt(k);
