@@ -230,8 +230,15 @@ class GUI {  //<>//
           } else {
             normalStrokeColor = 0xffFF0000;
           }
+          
+          int normalTextColor;
+          if (patterns[mapNumber].done) {
+            normalTextColor = 0xff00FF00;
+          } else {
+            normalTextColor = 0xffFFFFFF;
+          }
 
-          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, normalTextColor, 0xffFFFFFF, new IGUIButton() {
             public void onClick() {
             }
           }

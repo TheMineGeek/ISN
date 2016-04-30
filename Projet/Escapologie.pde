@@ -76,7 +76,7 @@ Pattern[] Patterns() {
     {1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  Pattern pattern4 = new Pattern(_pattern4, patterns.length, LevelDifficulty.EASY);
+  Pattern pattern4 = new Pattern(_pattern4, patterns.length, LevelDifficulty.HARD);
   patterns = (Pattern[])append(patterns, pattern4);
 
   int[][] _pattern5 = {
@@ -248,12 +248,12 @@ class Map {
       for (int i = 0; i < gates.length; i++) {
         gates[i].show();
       }
-      
+
       this.keyboardEvents = true;
-      
+
       for (int i = 0; i < this.movableBlocks.length; i++) {   
         this.movableBlocks[i].move(this.speedX, this.speedY);
-        if(this.movableBlocks[i].mustMove()) this.keyboardEvents = false;
+        if (this.movableBlocks[i].mustMove()) this.keyboardEvents = false;
       }   
       this.checkWin();
     }
@@ -275,6 +275,7 @@ class Map {
     }
 
     if (win) {
+      patterns[mapID].done = true;
       timer.stop();
       this.onWin.toDo();
     }
@@ -388,12 +389,22 @@ class Gate { // Class pour les portes de sortie
 }
 
 public enum LevelDifficulty {
-  EASY, 
-    MEDIUM, 
-    HARD
+  EASY ("EASY"), 
+    MEDIUM ("MEDIUM"), 
+    HARD ("HARD");
+
+  private String name = "";
+
+  LevelDifficulty(String name) {
+    this.name = name;
+  }
+
+  String toString() {
+    return this.name;
+  }
 }
 
-  class Pattern {
+class Pattern {
   int id;
   boolean done;
   int[][] pattern;
@@ -407,8 +418,23 @@ public enum LevelDifficulty {
     this.id = id;
   }
 
+  Pattern(int[][] pattern, int id, LevelDifficulty levelDifficulty, boolean done) {
+    this.done = done;
+    this.levelDifficulty = levelDifficulty;
+    this.pattern = pattern;
+    this.id = id;
+  }
+
   int[][] getPattern() {
-    return this.pattern;
+    int[][] _pattern = new int[this.pattern.length][this.pattern[0].length];
+
+    for (int i = 0; i < this.pattern.length; i++) {
+      for (int j = 0; j < this.pattern[i].length; j++) {
+        _pattern[i][j] = this.pattern[i][j];
+      }
+    }
+
+    return _pattern;
   }
 
   String toJson() {
@@ -432,14 +458,18 @@ public enum LevelDifficulty {
     }
     _pattern += "]";
 
-    String toReturn = String.format("{\n\"id\" : %1$s,\n\"done\" : %2$s,\n\"pattern\" : %3$s\n}", this.id, this.done, _pattern);
+    String toReturn = String.format("{\n\t\"id\" : %1$s,\n\t\"done\" : %2$s,\n\t\"levelDifficulty\" : %3$s,\n\t\"pattern\" : %4$s\n}", this.id, this.done, this.levelDifficulty.toString(), _pattern);
     return toReturn;
   }
 
   void log() {
-    for(int i = 0; i < this.pattern.length; i++) {
-      for(int j = 0; j < this.pattern[i].length; j++) {
-         print(this.pattern[i][j]); 
+    for (int i = 0; i < this.pattern.length; i++) {
+      for (int j = 0; j < this.pattern[i].length; j++) {
+        if (this.pattern[i][j] < 0) {
+          print(this.pattern[i][j], "");
+        } else {
+          print(this.pattern[i][j], " ");
+        }
       }
       println();
     }

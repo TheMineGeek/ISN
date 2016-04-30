@@ -58,27 +58,88 @@ String patternsToJson() {
 }
 
 String encrypt(String data) {
-   Base64.Encoder encoder = Base64.getEncoder();
-   byte[] base64str = encoder.encode(data.getBytes());
-   
-   String string = new String(base64str);
-   
-   return string;
+  Base64.Encoder encoder = Base64.getEncoder();
+  byte[] base64str = encoder.encode(data.getBytes());
+
+  String string = new String(base64str);
+
+  return string;
 }
 
 String decrypt(String data) {
-   Base64.Decoder decoder = Base64.getDecoder();
-   byte[] base64str = decoder.decode(data.getBytes());
-   
-   String string = new String(base64str);
-   
-   return string;
+  Base64.Decoder decoder = Base64.getDecoder();
+  byte[] base64str = decoder.decode(data.getBytes());
+
+  String string = new String(base64str);
+
+  return string;
 }
 
-void saveEscapologie() {
-  
+void saveEscapologie(String data) {
+  PrintWriter output;
+
+  output = createWriter("escapologie");
+  output.println(data);
+  output.flush();
+  output.close();
 }
 
 void loadEscapologie() {
-  
+  if (fileExists(sketchPath("escapologie"))) {
+    BufferedReader reader;
+    String escapologie;
+
+
+    reader = createReader("escapologie");
+
+    try {
+      escapologie = reader.readLine();
+    } 
+    catch (IOException e) {
+      e.printStackTrace();
+      escapologie = null;
+    }
+
+    if (escapologie != null) {
+      JSONArray values = JSONArray.parse(decrypt(escapologie));
+      patterns = new Pattern[values.size()];
+
+      for (int i = 0; i < values.size(); i++) {
+        values.getJSONObject(i);
+        JSONObject object = values.getJSONObject(i);
+        int id = object.getInt("id");
+        boolean done = object.getBoolean("done");
+        LevelDifficulty levelDifficulty;
+
+        switch(object.getString("levelDifficulty")) {
+        case "EASY":
+          levelDifficulty = LevelDifficulty.EASY;
+          break;
+        case "MEDIUM":
+          levelDifficulty = LevelDifficulty.MEDIUM;
+          break;
+        case "HARD":
+          levelDifficulty = LevelDifficulty.HARD;
+          break;
+        default: 
+          levelDifficulty = LevelDifficulty.EASY;
+          break;
+        }
+
+        int[][] pattern = new int[object.getJSONArray("pattern").size()][object.getJSONArray("pattern").getJSONArray(0).size()];
+
+        for (int j = 0; j < object.getJSONArray("pattern").size(); j++) {
+          for (int k = 0; k <  object.getJSONArray("pattern").getJSONArray(0).size(); k++) {
+            pattern[j][k] = object.getJSONArray("pattern").getJSONArray(j).getInt(k);
+          }
+        }
+
+        patterns[i] = new Pattern(pattern, id, levelDifficulty, done);
+        patterns[i].log();
+        println();
+      }
+    }
+  } else {
+    patterns = Patterns();
+  }
 }

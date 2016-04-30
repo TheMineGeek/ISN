@@ -12,21 +12,21 @@ Pattern[] patterns;
 /**
  * Initialize map
  */
-void mapSetup(int mapNumber) {  
-  patterns = Patterns();
+void mapSetup(int mapNumber) {
   game = "escapologie";
   map.setPattern(mapNumber);
   map.init();
   map.onWin = new onWinInterface() {
       public void toDo() { // Ce qu'il faut faire quand on gagne la partie
       game = "";
-      
       Multiplayer.Escapologie.sendStats(USERNAME, map.timer.getTime(), map.mapID);
       
       textAlign(CENTER);
       fill(0);
       textSize(30);
       text("Bravo ! Vous avez gagné", pixelWidth/2, pixelHeight/2);
+      
+      saveEscapologie(encrypt(patternsToJson()));
       
       gui.showNewGame();
     }
@@ -45,11 +45,7 @@ void setup() {
     gui.showMenu();
   }
   smooth(8);
-  
-  println(patternsToJson());
-  String encrypted = encrypt(patternsToJson());
-  println(encrypted);
-  println(decrypt(encrypted));
+  loadEscapologie();
 }
 
 /**
@@ -59,7 +55,7 @@ void settings() {
   size(900, 500);  
   gui = new GUI();
   map = new Map();
-  patterns = Patterns();
+  //patterns = Patterns();
 }
 
 
