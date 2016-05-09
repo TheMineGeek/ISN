@@ -1,4 +1,5 @@
 class Timer {
+  /* Permet de compter le temps qui passe */
   float time;
   boolean activated;
 

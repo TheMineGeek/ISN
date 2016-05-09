@@ -1,6 +1,8 @@
  //<>//
 
 class MapB {
+  /* cette class sert à créer la carte de jeux. 
+   Elle affiche les blocs en fonction de ce qui est renseigné dans le tableau de la carte */
   int[][] pattern = new int [][] {
     {1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 0, 2, 2, 0, 1}, 
@@ -50,6 +52,8 @@ class MapB {
 
 
 class BlockB {
+  /* Renseigne le mode de construction des blocs.
+   Permet leur affichage */
 
   int x;
   int y;
@@ -77,6 +81,9 @@ class BlockB {
 }
 
 class PorteB {
+  /* Renseigne la construction des portes de sorties des niveaux
+   (à rejoindre pour gagner)
+   Permet leur affichage */
   int x;
   int y;
   color couleur;
@@ -94,6 +101,8 @@ class PorteB {
 }
 
 class Personnage {
+  /* Permet la construction et l'affichage du personnage.
+   Cette classe permet également de gerrer les mouvements et les collisions. */
   int x;
   int y;
   int size;
@@ -105,10 +114,10 @@ class Personnage {
 
 
   void affiche () {
-   
-      image (perso, x, y, 60, 70);
-    }
-  
+
+    image (perso, x, y, 60, 70);
+  }
+
 
   void move (String direction) {
     int j = (this.x-20)/100; // traduit les x en coordonnés i de la carte
@@ -204,8 +213,8 @@ class Personnage {
       textSize(52);
       text("LOST", 250, 250);
     }
-    
-      for (int k=0; k < mapb.pattern.length; k++) {
+
+    for (int k=0; k < mapb.pattern.length; k++) {
       for (int l=0; l < mapb.pattern [k].length; l++) {
         print (mapb.pattern[k][l]);
       }
@@ -227,6 +236,12 @@ class Bombe {
   boolean exploding;
 
   Bombe() {
+    /* Cette classe permet la création et l'affichage des Bombes.
+     Elle contient un Tick qui permet de compter le nombre de 
+     secondes où la bombe a été activée grâce au Timer et ainsi
+     définit l'enchaînement des actions (pose, explosions ...)
+     Permet également la destruction des blocs.
+     */
     this.active = false;
     timer = new Timer();
   }
@@ -241,7 +256,7 @@ class Bombe {
   }  
 
   void affiche() {
-    image(bombeimg, x, y, 75, 75);
+    image(bombeimg, x-10, y-10, 85, 85);
   }
 
   void activate(int x, int y) {
@@ -256,13 +271,19 @@ class Bombe {
 
 
   void tick() {  
+    /* Cette fonction permet de gérer le décompte du temps.
+     Elle effectue un test lors de l'explosion de la bombe pour savoir si la partie s'arrête où non
+     Elle permet ensuite la disparition des blocs qui ont explosés.
+     */
     this.timer.tick();
     int i = (y-20)/100;
     int j = (x-20)/100;
     if (timer.getTime() >= 7) {
       this.active = false;
+      sonexplosion.play();
       Explosion(this.x-25, this.y-25);
       this.exploding = true;
+      
       if (mapb.pattern [i][j] == 3 ||mapb.pattern[i+1][j] == 3 || mapb.pattern[i-1][j] ==3 || mapb.pattern[i][j+1] == 3 || mapb.pattern[i][j-1] ==3) {
         println ("LOST");
       }
@@ -283,12 +304,16 @@ class Bombe {
     }
     if (timer.getTime() >= 10) {
       this.exploding = false;
+      sonexplosion.close();
+      minim.stop();
       for (int k=0; k < mapb.pattern.length; k++) {
         for (int l=0; l < mapb.pattern [k].length; l++) {
           if (mapb.pattern[k][l] == 6) {
             mapb.pattern[k][l] = 0;
 
             for (int m = 0; m < mapb.blocks.length; m++) {
+              println(m);
+              println(mapb.blocks.length);
               if (mapb.blocks[m].y/100 == k && mapb.blocks[m].x/100 == l) { // transforme les coordonnées du bloc en k et l 
                 mapb.blocks = (BlockB[])concat((BlockB[])subset(mapb.blocks, 0, m), subset(mapb.blocks, m+1)); // permet de mettre à jour la liste de bloc dans l'intervalle [0;m[ Union [m+1, max]
 
@@ -304,6 +329,6 @@ class Bombe {
   }
 
   void Explosion (int x, int y) {    
-    image(croix, x, y, 100, 100);
+    image(croix, x-40, y-40, 200, 200);
   }
 }
