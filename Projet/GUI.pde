@@ -1,4 +1,4 @@
-class GUI {  //<>// //<>//
+class GUI {    //<>//
   GUI() {
   }
 
@@ -233,12 +233,12 @@ class GUI {  //<>// //<>//
 
           int normalTextColor;
           if (escapologiePatterns[mapNumber].done) {
-            normalTextColor = 0xff00FF00;
+            normalTextColor = normalStrokeColor;
           } else {
             normalTextColor = 0xffFFFFFF;
           }
 
-          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, normalTextColor, 0xffFFFFFF, new IGUIButton() {
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, normalStrokeColor, 0xff444444, 0xffAAAAAA, normalTextColor, normalTextColor, new IGUIButton() {
             public void onClick() {
             }
           }
@@ -270,12 +270,12 @@ class GUI {  //<>// //<>//
 
           int normalTextColor;
           if (bombermanPatterns[mapNumber].done) {
-            normalTextColor = 0xff00FF00;
+            normalTextColor = normalStrokeColor;
           } else {
             normalTextColor = 0xffFFFFFF;
           }
 
-          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1) + 150, 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, normalTextColor, 0xffFFFFFF, new IGUIButton() {
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1) + 150, 40, 40, str(mapNumber + 1), 20, normalStrokeColor, normalStrokeColor, 0xff444444, 0xffAAAAAA, normalTextColor, normalTextColor, new IGUIButton() {
             public void onClick() {
             }
           }
@@ -615,7 +615,7 @@ class GUIButton {
         mapb.pattern = bombermanPatterns[this.mapID].pattern;
         mapb.init();
         game = "bomberman";
-        surface.setSize(bombermanPatterns[this.mapID].pattern.length*50,bombermanPatterns[this.mapID].pattern[0].length*50);
+        surface.setSize(701, 801);
       }
     } else {
       try {

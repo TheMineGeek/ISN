@@ -29,8 +29,7 @@ class Map {
   void init() { // Fonction pour dessiner la carte
     background(#FFFFFF);
     frameRate(60);
- //<>//
-    this.win = false;
+    this.win = false; //<>//
     this.timer.reset();
     this.keyboardEvents = true;
     this.firstKeyPressed = false;

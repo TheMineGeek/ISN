@@ -224,7 +224,7 @@ Pattern[] escapologiePatterns() {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
 
-  Pattern pattern3 = new Pattern(_pattern3, patterns.length, LevelDifficulty.EASY, "escapologie");
+  Pattern pattern3 = new Pattern(_pattern3, patterns.length, LevelDifficulty.HARD, "escapologie");
   patterns = (Pattern[])append(patterns, pattern3);
 
   int[][] _pattern4 = {

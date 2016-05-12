@@ -1,4 +1,4 @@
-import processing.net.*; //<>//
+import processing.net.*;  //<>//
 import ddf.minim.*;
 
 /* GLOBAL VARS DECLARATIONS */
