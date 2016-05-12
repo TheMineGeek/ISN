@@ -284,7 +284,7 @@ class GUI {  //<>// //<>//
           GUIButtons[GUIButtons.length-1].mapID = mapNumber;
         }
       }
-    }
+    } 
   }
 
   /**
@@ -615,7 +615,7 @@ class GUIButton {
         mapb.pattern = bombermanPatterns[this.mapID].pattern;
         mapb.init();
         game = "bomberman";
-        surface.setSize(bombermanPatterns[this.mapID].pattern.length*50,bombermanPatterns[this.mapID].pattern[0].length*50);
+        surface.setSize(701,801);
       }
     } else {
       try {

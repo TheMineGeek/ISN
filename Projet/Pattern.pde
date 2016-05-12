@@ -155,6 +155,7 @@ Pattern[] bombermanPatterns() {
   patterns = (Pattern[])append(patterns, pattern4);
 
 
+
   int[][] _pattern5 = { 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 0, 1, 0, 2, 0, 0, 0, 0, 2, 1, 1, 1}, 
@@ -173,6 +174,83 @@ Pattern[] bombermanPatterns() {
 
   Pattern pattern5 = new Pattern(_pattern5, patterns.length, LevelDifficulty.EASY, "bomberman");
   patterns = (Pattern[])append(patterns, pattern5);
+
+  int[][] _pattern6 = 
+    { 
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 2, 0, 2, 0, -1, 1}, 
+    {1, 0, 1, 0, 2, 0, 1}, 
+    {1, 2, 2, 2, 1, 0, 1}, 
+    {1, 0, 0, 1, 1, 2, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 3, 0, 2, 0, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
+  };
+  Pattern pattern6 = new Pattern(_pattern6, patterns.length, LevelDifficulty.EASY, "bomberman");
+  patterns = (Pattern[])append(patterns, pattern6);
+
+  int[][] _pattern7 =
+    { 
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 3, 0, 2, 0, 2, 1}, 
+    {1, 0, 1, 0, 2, 0, 1}, 
+    {1, 2, 2, 1, 1, 0, 1}, 
+    {1, 0, 0, 1, 1, 0, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 0, 0, 2, 0, -1, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
+  };
+
+  Pattern pattern7 = new Pattern(_pattern7, patterns.length, LevelDifficulty.MEDIUM, "bomberman");
+  patterns = (Pattern[])append(patterns, pattern7);
+
+  int[][] _pattern8 =
+
+    {
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 2, 0, 2, 0, 2, 1}, 
+    {1, 0, 1, 2, 1, 0, 1}, 
+    {1, 2, 2, -1, 1, 0, 1}, 
+    {1, 0, 1, 1, 1, 0, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 0, 2, 0, 3, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
+  };
+
+  Pattern pattern8 = new Pattern(_pattern8, patterns.length, LevelDifficulty.EASY, "bomberman");
+  patterns = (Pattern[])append(patterns, pattern8);
+
+  int[][] _pattern9 = 
+    {
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+    {  1, 3, 0, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 0, 1, 0, 1  }, 
+    {  1, 2, 2, 0, 2, 0, 1  }, 
+    {  1, 0, 1, 0, 1, 0, 1  }, 
+    {  1, 2, 2, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 2, 1, -1, 1 }, 
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+  };
+
+  Pattern pattern9 = new Pattern(_pattern9, patterns.length, LevelDifficulty.EASY, "bomberman");
+  patterns = (Pattern[])append(patterns, pattern9);
+
+  int [][] _pattern10 =
+    {
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+    {  1, 3, 0, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 0, 2, 0, 1  }, 
+    {  1, 2, 2, 1, 1, 0, 1  }, 
+    {  1, 0, 0, 1, 0, 0, 1  }, 
+    {  1, 0, 2, 2, 0, 1, 1  }, 
+    {  1, 1, 0, 2, 0, -1, 1  }, 
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+
+
+  };
+
+  Pattern pattern10 = new Pattern(_pattern10, patterns.length, LevelDifficulty.EASY, "bomberman");
+  patterns = (Pattern[])append(patterns, pattern10);
 
   return patterns;
 }

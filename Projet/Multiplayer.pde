@@ -2,7 +2,7 @@ import websockets.*;
 import http.requests.*;
 
 static class Multiplayer {
-  static String statServerAddress = "http://localhost/";
+  static String statServerAddress = "http://81.220.173.13/";
   
   
   static class Escapologie {
@@ -37,12 +37,6 @@ static class Multiplayer {
     
     if(get.getContent() != null) return true;
     else return false;
-  }
-  
-  static void hashMeThisPlease(String toHash) {
-    PostRequest post = new PostRequest(Multiplayer.statServerAddress + "hash");
-      post.addData("hash", toHash);
-      post.send();
   }
 
   static WebsocketClient wsc;
