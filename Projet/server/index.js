@@ -21,8 +21,8 @@ app.get('/stats/:game/:mapID/:numbers', function(req, res) {
     
     elements = elements.sort(predicatBy('score'));
 
-    if(elements.length >= 10)
-      res.json(elements.slice(0, 10));
+    if(elements.length >= req.params.numbers)
+      res.json(elements.slice(0, req.params.numbers));
     else 
       res.json(elements.slice(0, elements.length));
   });

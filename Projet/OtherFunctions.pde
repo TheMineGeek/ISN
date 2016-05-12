@@ -48,9 +48,9 @@ String patternsToJson() {
   String _patterns = "";
 
   _patterns += "[";
-  for (int i = 0; i < patterns.length; i++) {    
-    _patterns += patterns[i].toJson();
-    if (i != patterns.length - 1) _patterns += ",\n";
+  for (int i = 0; i < escapologiePatterns.length; i++) {    
+    _patterns += escapologiePatterns[i].toJson();
+    if (i != escapologiePatterns.length - 1) _patterns += ",\n";
   }
   _patterns += "]";
 
@@ -78,31 +78,31 @@ String decrypt(String data) {
 void saveEscapologie(String data) {
   PrintWriter output;
 
-  output = createWriter("escapologie");
+  output = createWriter("save");
   output.println(data);
   output.flush();
   output.close();
 }
 
 void loadEscapologie() {
-  if (fileExists(sketchPath("escapologie"))) {
+  if (fileExists(sketchPath("save"))) {
     BufferedReader reader;
-    String escapologie;
+    String save;
 
-
-    reader = createReader("escapologie");
+    reader = createReader("save");
 
     try {
-      escapologie = reader.readLine();
+      save = reader.readLine();
     } 
     catch (IOException e) {
       e.printStackTrace();
-      escapologie = null;
+      save = null;
     }
-
-    if (escapologie != null) {
-      JSONArray values = JSONArray.parse(decrypt(escapologie));
-      patterns = new Pattern[values.size()];
+    
+    if (save != null) {
+      JSONArray values = JSONArray.parse(decrypt(save));
+      println(values.size());
+      escapologiePatterns = new Pattern[values.size()];
 
       for (int i = 0; i < values.size(); i++) {
         values.getJSONObject(i);
@@ -138,12 +138,13 @@ void loadEscapologie() {
           }
         }
 
-        patterns[i] = new Pattern(pattern, id, levelDifficulty, done);
-        patterns[i].log();
+        escapologiePatterns[i] = new Pattern(pattern, id, levelDifficulty, "escapologie", done);
+        escapologiePatterns[i].log();
         println();
       }
     }
   } else {
-    patterns = Patterns();
+    escapologiePatterns = escapologiePatterns();
+    bombermanPatterns = bombermanPatterns();
   }
 }

@@ -218,27 +218,64 @@ class GUI {  //<>// //<>//
     }
     ));
 
-    for (int i = 0; i < patterns.length / 2; i++) {
+    for (int i = 0; i < escapologiePatterns.length / 2; i++) {
       for (int j = 0; j < 10; j++) {
-        if (i * 10 + j < patterns.length) {
+        if (i * 10 + j < escapologiePatterns.length) {
           this.mapNumber = i * 10 + j;
           int normalStrokeColor;
-          if (patterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+          if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
             normalStrokeColor = 0xff00FF00;
-          } else if (patterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
+          } else if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
             normalStrokeColor = 0xffFFA500;
           } else {
             normalStrokeColor = 0xffFF0000;
           }
 
           int normalTextColor;
-          if (patterns[mapNumber].done) {
+          if (escapologiePatterns[mapNumber].done) {
             normalTextColor = 0xff00FF00;
           } else {
             normalTextColor = 0xffFFFFFF;
           }
 
           this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, normalTextColor, 0xffFFFFFF, new IGUIButton() {
+            public void onClick() {
+            }
+          }
+          ));
+
+          GUIButtons[GUIButtons.length-1].mapID = mapNumber;
+        }
+      }
+    }
+
+    this.addButton(new GUIButton(50, 250, 100, 40, "MazeBomb", 20, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    for (int i = 0; i < bombermanPatterns.length / 2; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (i * 10 + j < bombermanPatterns.length) {
+          this.mapNumber = i * 10 + j;
+          int normalStrokeColor;
+          if (bombermanPatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+            normalStrokeColor = 0xff00FF00;
+          } else if (bombermanPatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
+            normalStrokeColor = 0xffFFA500;
+          } else {
+            normalStrokeColor = 0xffFF0000;
+          }
+
+          int normalTextColor;
+          if (bombermanPatterns[mapNumber].done) {
+            normalTextColor = 0xff00FF00;
+          } else {
+            normalTextColor = 0xffFFFFFF;
+          }
+
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1) + 150, 40, 40, str(mapNumber + 1), 20, normalStrokeColor, 0xff000000, 0xff444444, 0xffAAAAAA, normalTextColor, 0xffFFFFFF, new IGUIButton() {
             public void onClick() {
             }
           }
@@ -568,10 +605,18 @@ class GUIButton {
    */
   void onClick() {
     if (this.mapID != -1) {
-      cursor(ARROW);
+      println(mouseY);
       gui.flushButtons();
       gui.flushInputs();
-      mapSetup(this.mapID);
+      cursor(ARROW);
+      if (mouseY <= 280) {
+        mapSetup(this.mapID);
+      } else {
+        mapb.pattern = bombermanPatterns[this.mapID].pattern;
+        mapb.init();
+        game = "bomberman";
+        surface.setSize(bombermanPatterns[this.mapID].pattern.length*50,bombermanPatterns[this.mapID].pattern[0].length*50);
+      }
     } else {
       try {
         this.IButton.onClick();
