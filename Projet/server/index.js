@@ -11,28 +11,31 @@ const Score = require('./app/models/Score');
 app.use(restify.queryParser());
 app.use(restify.bodyParser());
 
-app.get('/stats/:game/:numbers', function(req, res) {
-  console.log(req.params.game);
-  console.log(req.params.numbers);
-  Score.find({ game: req.params.game }, (err, elements) => {
+app.get('/', function(req, res) {
+  res.send();
+});
+
+app.get('/stats/:game/:mapID/:numbers', function(req, res) {
+  Score.find({ game: req.params.game, map: req.params.mapID }, (err, elements) => {
     if (err) throw err;
     
     elements = elements.sort(predicatBy('score'));
 
-    if(elements.length >= 10)
-      res.json(elements.slice(0, 10));
+    if(elements.length >= req.params.numbers)
+      res.json(elements.slice(0, req.params.numbers));
     else 
       res.json(elements.slice(0, elements.length));
   });
 });
 
 app.post('/add', (req, res) => {
-  console.log(req.params);
   var test = new Score({
     username: req.params.username,
     score: req.params.score,
     game: req.params.game
   });
+  
+  if(req.params.map) test.map = req.params.map;
 
   test.save((err) => {
     if (err) throw err;
@@ -43,7 +46,7 @@ app.post('/add', (req, res) => {
 app.listen(80);
 
 function predicatBy(prop) {
-  return function(a, b) {
+  return (a, b) => {
     if (a[prop] > b[prop]) {
       return 1;
     } else if (a[prop] < b[prop]) {

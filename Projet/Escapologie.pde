@@ -1,54 +1,8 @@
-interface onWinInterface {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+interface onWinInterface { //<>//
   void toDo();
-}
+} //<>//
 
-/**
- * Return all patterns
- */
-ArrayList<int[][]> patternsSetup() {  
-  ArrayList<int[][]> patterns = new ArrayList<int[][]>();
-
-  int[][] blank = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
-
-  int[][] pattern ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 1, 0, 0, 0, 2, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
-    {1, 0, 1, 1, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 1, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
-    {1, 1, 0, 0, -2, 0, 0, 0, 0, 1}, 
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}; 
-
-  patterns.add(pattern);
-
-  int[][] pattern2 = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 2, 0, 0, 0, 0, 0, 0, 3, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-    {1, -2, 0, 0, 0, 0, 0, 0, -3, 1}, 
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-
-  patterns.add(pattern2);
-
-  return patterns;
-}
-
-class Map { //<>// //<>// //<>// //<>// //<>//
+class Map {
   int[][] pattern;
   int speedX;
   int speedY;
@@ -59,7 +13,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   boolean keyboardEvents = true;
   boolean firstKeyPressed = false;
   onWinInterface onWin;
-  ArrayList<int[][]> patterns;
+  int mapID;
 
   Timer timer;
 
@@ -75,6 +29,13 @@ class Map { //<>// //<>// //<>// //<>// //<>//
   void init() { // Fonction pour dessiner la carte
     background(#FFFFFF);
     frameRate(60);
+    this.win = false; //<>//
+    this.timer.reset();
+    this.keyboardEvents = true;
+    this.firstKeyPressed = false;
+    map.flushBlocks();
+    map.flushGates();
+
     for (int i = 0; i < this.pattern.length; i++) { // On parcourt la première dimension du tableau
       for (int j = 0; j < this.pattern[i].length; j++) { // On parcourt la seconde dimension du tableau
         if (pattern[i][j] == 1) {
@@ -102,27 +63,30 @@ class Map { //<>// //<>// //<>// //<>// //<>//
         }
       }
     }
-    
+
     /* Classements */
-    
-    fill(#000000);
-    textAlign(CENTER);
-    text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
-    
-    JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(10));
-    
-    
-    for(int i = 0; i < times.size(); i++) {
-      JSONObject time = times.getJSONObject(i);
-      
-      String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
-      text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
+
+    if (Multiplayer.canJoinStatServer()) {
+      fill(#000000);
+      textAlign(CENTER);
+      text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
+
+      JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
+
+
+      for (int i = 0; i < times.size(); i++) {
+        JSONObject time = times.getJSONObject(i);
+
+        String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
+        text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
+      }
     }
   }
 
   void setPattern(int pattern) {
-    this.patterns = patternsSetup();
-    this.pattern = this.patterns.get(pattern);
+    this.pattern = null;
+    this.pattern = escapologiePatterns[pattern].getPattern();
+    this.mapID = pattern;
 
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
     this.spaceY = (pixelHeight - this.pattern.length * this.blocSize) / 2;
@@ -143,7 +107,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
       firstKeyPressed = true;
       timer.start();
     }
-    int x = 0; //<>//
+    int x = 0;
     int y = 0;
     if (direction == "left") {
       x = -1;
@@ -184,24 +148,26 @@ class Map { //<>// //<>// //<>// //<>// //<>//
       textSize(20);
       text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
 
-      boolean _keyboardEvents = true;
-
       for (int i = 0; i < gates.length; i++) {
         gates[i].show();
       }
 
+      this.keyboardEvents = true;
+
       for (int i = 0; i < this.movableBlocks.length; i++) {   
         this.movableBlocks[i].move(this.speedX, this.speedY);
-        _keyboardEvents = !this.movableBlocks[i].mustMove();
+        if (this.movableBlocks[i].mustMove()) this.keyboardEvents = false;
       }   
       this.checkWin();
-      this.keyboardEvents = _keyboardEvents;
     }
   }
 
   void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
+      if (this.movableBlocks[i].toMoveX != 0 || this.movableBlocks[i].toMoveY != 0) {
+        win = false;
+      }
       for (int j = 0; j < this.gates.length; j++) {
         if (this.movableBlocks[i].id == this.gates[j].id || this.movableBlocks[i].mustMove()) {
           if (!(this.movableBlocks[i].x == this.gates[j].x && this.movableBlocks[i].y == this.gates[j].y)) {
@@ -212,6 +178,7 @@ class Map { //<>// //<>// //<>// //<>// //<>//
     }
 
     if (win) {
+      escapologiePatterns[mapID].done = true;
       timer.stop();
       this.onWin.toDo();
     }
@@ -223,16 +190,6 @@ class Map { //<>// //<>// //<>// //<>// //<>//
 
   void flushBlocks() {
     this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0);
-  }
-
-  void screenshotAll(String path) {
-    for (int i = 0; i < this.patterns.size(); i++) {
-      this.flushBlocks();
-      this.flushGates();
-      this.pattern = this.patterns.get(i);
-      this.init();
-      screenshot.take(path + "\\escapologie-" + i + ".png");
-    }
   }
 }
 
@@ -331,5 +288,21 @@ class Gate { // Class pour les portes de sortie
       return true;
     }
     return false;
+  }
+}
+
+public enum LevelDifficulty {
+  EASY ("EASY"), 
+    MEDIUM ("MEDIUM"), 
+    HARD ("HARD");
+
+  private String name = "";
+
+  LevelDifficulty(String name) {
+    this.name = name;
+  }
+
+  String toString() {
+    return this.name;
   }
 }

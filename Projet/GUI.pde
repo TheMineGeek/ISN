@@ -1,8 +1,9 @@
-class GUI { //<>// //<>// //<>//
+class GUI {    //<>//
   GUI() {
   }
 
   int cursorType;
+  int mapNumber;
 
   GUIButton[] GUIButtons = new GUIButton[0];
   GUIInput [] GUIInputs = new GUIInput[0];
@@ -217,19 +218,73 @@ class GUI { //<>// //<>// //<>//
     }
     ));
 
-    this.addButton(new GUIButton(50, 150, 40, 40, "1", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+    for (int i = 0; i < escapologiePatterns.length / 2; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (i * 10 + j < escapologiePatterns.length) {
+          this.mapNumber = i * 10 + j;
+          int normalStrokeColor;
+          if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+            normalStrokeColor = 0xff00FF00;
+          } else if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
+            normalStrokeColor = 0xffFFA500;
+          } else {
+            normalStrokeColor = 0xffFF0000;
+          }
+
+          int normalTextColor;
+          if (escapologiePatterns[mapNumber].done) {
+            normalTextColor = normalStrokeColor;
+          } else {
+            normalTextColor = 0xffFFFFFF;
+          }
+
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1), 40, 40, str(mapNumber + 1), 20, normalStrokeColor, normalStrokeColor, 0xff444444, 0xffAAAAAA, normalTextColor, normalTextColor, new IGUIButton() {
+            public void onClick() {
+            }
+          }
+          ));
+
+          GUIButtons[GUIButtons.length-1].mapID = mapNumber;
+        }
+      }
+    }
+
+    this.addButton(new GUIButton(50, 250, 100, 40, "MazeBomb", 20, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
-        mapSetup(0);
       }
     }
     ));
 
-    this.addButton(new GUIButton(100, 150, 40, 40, "2", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
-      public void onClick() {
-        mapSetup(1);
+    for (int i = 0; i < bombermanPatterns.length / 2; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (i * 10 + j < bombermanPatterns.length) {
+          this.mapNumber = i * 10 + j;
+          int normalStrokeColor;
+          if (bombermanPatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
+            normalStrokeColor = 0xff00FF00;
+          } else if (bombermanPatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
+            normalStrokeColor = 0xffFFA500;
+          } else {
+            normalStrokeColor = 0xffFF0000;
+          }
+
+          int normalTextColor;
+          if (bombermanPatterns[mapNumber].done) {
+            normalTextColor = normalStrokeColor;
+          } else {
+            normalTextColor = 0xffFFFFFF;
+          }
+
+          this.addButton(new GUIButton(50 * (j+1), 150 * (i + 1) + 150, 40, 40, str(mapNumber + 1), 20, normalStrokeColor, normalStrokeColor, 0xff444444, 0xffAAAAAA, normalTextColor, normalTextColor, new IGUIButton() {
+            public void onClick() {
+            }
+          }
+          ));
+
+          GUIButtons[GUIButtons.length-1].mapID = mapNumber;
+        }
       }
     }
-    ));
   }
 
   /**
@@ -275,30 +330,55 @@ class GUI { //<>// //<>// //<>//
     }
     ));
   }
+
+  void askForUsernameMenu() {
+    background(255);
+    this.addButton(new GUIButton(50, 0, 800, 140, "Bienvenue, aucun nom d'utilisateur n'a été détécté. \nMerci d'en saisir un puis de cliquer sur continuer", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    this.addButton(new GUIButton(350, 200, 200, 40, "Pseudo :", 25, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
+      public void onClick() {
+      }
+    }
+    ));
+
+    this.addInput(new GUIInput(250, 250, 400, 40, 15, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF));
+
+    this.addButton(new GUIButton(250, 375, 400, 40, "Continuer", 20, color(#000000), 0xff444444, 0xff444444, 0xffAAAAAA, 0xffDDDDDD, 0xffFFFFFF, new IGUIButton() {
+      public void onClick() {
+        saveUsername(gui.GUIInputs[0].getValue());
+        gui.showMenu();
+      }
+    }
+    ));
+  }
 }
 
 
 class GUIInput {
-  int x;
-  int y;
-  int sizeX;
-  int sizeY;
-  int textSize;
-  String text;
-  color normalStroke;
-  color selectedStroke;
-  color normalBackground;
-  color selectedBackground;
-  color normalText;
-  color selectedText;
+  private int x;
+  private int y;
+  private int sizeX;
+  private int sizeY;
+  private int textSize;
+  private String text;
+  private color normalStroke;
+  private color selectedStroke;
+  private color normalBackground;
+  private color selectedBackground;
+  private color normalText;
+  private color selectedText;
 
-  int intputWidth;
-  int inputHeight;
-  int maxX;
-  int maxY;
+  private int intputWidth;
+  private int inputHeight;
+  private int maxX;
+  private int maxY;
 
-  boolean reading;
-  int cling;
+  private boolean reading;
+  private int cling;
 
   GUIInput() {
   }
@@ -331,14 +411,14 @@ class GUIInput {
   /**
    * Function used to create the button when all parameters are registered
    */
-  void init() {
+  private void init() {
     this.unSelect();
   }
 
   /**
    * Function called when there is a click event in the box
    */
-  void onClick() {
+  private void onClick() {
     stroke(this.selectedStroke);
     fill(this.selectedBackground);
     rect(x, y, sizeX, sizeY);
@@ -352,7 +432,7 @@ class GUIInput {
   /**
    * Function called when there is a click event out of the box or when ESC is pressed
    */
-  void unSelect() {
+  private void unSelect() {
     this.unCling();
 
     stroke(this.normalStroke);
@@ -368,7 +448,7 @@ class GUIInput {
   /**
    * Function used for the cursor blinking in input
    */
-  void textCursor() {
+  private void textCursor() {
     cling++;
     if (cling == 30) {
       if (this.text.length() != 0) {
@@ -393,7 +473,7 @@ class GUIInput {
   /**
    * Function remove the cursor of the text
    */
-  void unCling() {
+  private void unCling() {
     if (this.text.length() != 0) {
       if (this.text.charAt(this.text.length()-1) == '|') {
         this.text = this.text.substring(0, this.text.length()-1);
@@ -405,7 +485,7 @@ class GUIInput {
   /**
    * Function called when there is a keyboard event
    */
-  void onKeyPressed(char _key, int _keyCode) {
+  private void onKeyPressed(char _key, int _keyCode) {
     if (_keyCode == ESC) {
       this.reading = false;
       this.unSelect();
@@ -419,33 +499,41 @@ class GUIInput {
       this.text += match(str(_key), "[a-zA-Z0-9_.]")[0];
     }
   }
+
+  String getValue() {
+    this.unCling();
+    return this.text;
+  }
 }
 
 interface IGUIButton {
+  int id = 0;
   void onClick();
 }
 
 class GUIButton {
-  int x;
-  int y;
-  int sizeX;
-  int sizeY;
-  int textSize;
-  String text;
-  color normalStroke;
-  color hoverStroke;
-  color normalBackground;
-  color hoverBackground;
-  color normalText;
-  color hoverText;
+  private int x;
+  private int y;
+  private int sizeX;
+  private int sizeY;
+  private int textSize;
+  private String text;
+  private color normalStroke;
+  private color hoverStroke;
+  private color normalBackground;
+  private color hoverBackground;
+  private color normalText;
+  private color hoverText;
 
 
-  int buttonWidth;
-  int buttonHeight;
-  int maxX;
-  int maxY;
+  private int buttonWidth;
+  private int buttonHeight;
+  private int maxX;
+  private int maxY;
 
-  IGUIButton IButton;
+  int mapID; // Only use by interface
+
+  public IGUIButton IButton;
 
   GUIButton() {
   }
@@ -471,6 +559,8 @@ class GUIButton {
     this.maxY = this.y + this.sizeY;
     this.buttonWidth = this.maxX - this.x;
     this.buttonHeight = this.maxY - this.y;
+
+    this.mapID = -1; // Only used for GUI Buttons on new Game menu
 
     this.init();
   }
@@ -514,11 +604,26 @@ class GUIButton {
    * Function called when there is a click on the box
    */
   void onClick() {
-    try {
-      this.IButton.onClick();
-    }
-    catch(Error e) {
-      println(e);
+    if (this.mapID != -1) {
+      println(mouseY);
+      gui.flushButtons();
+      gui.flushInputs();
+      cursor(ARROW);
+      if (mouseY <= 280) {
+        mapSetup(this.mapID);
+      } else {
+        mapb.pattern = bombermanPatterns[this.mapID].pattern;
+        mapb.init();
+        game = "bomberman";
+        surface.setSize(701, 801);
+      }
+    } else {
+      try {
+        this.IButton.onClick();
+      }
+      catch(Error e) {
+        println(e);
+      }
     }
   }
 }
