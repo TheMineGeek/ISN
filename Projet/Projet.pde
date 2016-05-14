@@ -1,13 +1,13 @@
-import processing.net.*;  //<>// //<>//
+import processing.net.*;  //<>// //<>// //<>//
 import ddf.minim.*;
 
 /* GLOBAL VARS DECLARATIONS */
+String game = "";
 
 /* ESCAPOLOGIE */
 Map map;
 static Projet that;
 GUI gui;
-String game = "";
 String USERNAME;
 Pattern[] escapologiePatterns;
 Pattern[] bombermanPatterns;
@@ -28,7 +28,9 @@ PImage bombeimg;
 PImage perso;
 PImage exit;
 
+/* SCREENSHOT */
 Screenshot screenshot;
+
 /* SETUP FONCTIONS */
 
 /**
@@ -107,7 +109,6 @@ void settings() {
   
   loadEscapologie();
   bombermanSetup();  
-  /* METTRE EN PLACE LE CHANGEMENT DE TAILLE DE FENETRE LORS DU CHANGEMENT VERS BOMBERMAN (750 * 750) */
 }
 
 
