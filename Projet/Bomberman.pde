@@ -43,7 +43,7 @@ class MapB { //<>// //<>//
 
   void tick () { 
     if (this.win == "") {
-    background(#FFFFFF);
+      background(#FFFFFF);
       for (int i = 0; i<this.blocks.length; i++) {
         this.blocks[i].affiche();
       }

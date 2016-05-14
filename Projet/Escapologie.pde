@@ -1,6 +1,6 @@
-interface onWinInterface { //<>//
+interface onWinInterface {  //<>//
   void toDo();
-} //<>//
+}  //<>//
 
 class Map {
   int[][] pattern;
@@ -29,7 +29,7 @@ class Map {
   void init() { // Fonction pour dessiner la carte
     background(#FFFFFF);
     frameRate(60);
-    this.win = false; //<>//
+    this.win = false;  //<>//
     this.timer.reset();
     this.keyboardEvents = true;
     this.firstKeyPressed = false;
@@ -78,7 +78,8 @@ class Map {
         JSONObject time = times.getJSONObject(i);
 
         String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
-        text(record, pixelWidth / 2 + this.spaceX + 150, 70 + i * 20);
+        textAlign(LEFT);
+        text(record, pixelWidth / 2 + this.spaceX + 50, 70 + i * 20);
       }
     }
   }
