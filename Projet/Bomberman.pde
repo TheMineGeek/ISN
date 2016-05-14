@@ -1,4 +1,4 @@
-class MapB { //<>//
+class MapB { //<>// //<>//
   /**
    * Cette class sert à créer la carte de jeux. 
    * Elle affiche les blocs en fonction de ce qui est renseigné dans le tableau de la carte 
@@ -42,15 +42,23 @@ class MapB { //<>//
   }
 
   void tick () { 
-    if (win == "") {
+    if (this.win == "") {
+    background(#FFFFFF);
       for (int i = 0; i<this.blocks.length; i++) {
         this.blocks[i].affiche();
       }
-      
+
+      for (int i=0; i<20; i++) {
+        // affiche les bombes activées.
+        tbombe[i].tick();
+        if (tbombe[i].active) {
+          tbombe[i].affiche();
+        }
+      }
+
       personnage.affiche();
       porte.affiche();
       sonAmbiance.play();
-      
     } else {
       sonAmbiance.close();
       minim.stop();
@@ -67,11 +75,10 @@ class MapB { //<>//
         textSize(52);
         text("LOST", 250, 250);
       }
-     
-      for (int i = 0; i < 20 ; i++) {
+
+      for (int i = 0; i < 20; i++) {
         tbombe[i].active = false;
         tbombe[i].exploding = false;
-        
       }
     }
   }
@@ -298,7 +305,7 @@ class Bombe {
     int j = (x-20)/100;
     if (timer.getTime() >= 3) {
 
-     sonExplosion.play();
+      sonExplosion.play();
       this.active = false;
 
       Explosion(this.x-25, this.y-25);
@@ -352,6 +359,5 @@ class Bombe {
 
   void Explosion (int x, int y) {    
     image(croix, x-40, y-40, 200, 200);
-    
   }
 }

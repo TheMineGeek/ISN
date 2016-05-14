@@ -1,4 +1,4 @@
-import processing.net.*;  //<>//
+import processing.net.*;  //<>// //<>//
 import ddf.minim.*;
 
 /* GLOBAL VARS DECLARATIONS */
@@ -28,6 +28,7 @@ PImage bombeimg;
 PImage perso;
 PImage exit;
 
+Screenshot screenshot;
 /* SETUP FONCTIONS */
 
 /**
@@ -100,6 +101,7 @@ void settings() {
   personnage = new Personnage();
   mapb = new MapB();
   minim = new Minim(this);
+  screenshot = new Screenshot();
   tbombe = new Bombe[20];
   
   
@@ -118,16 +120,7 @@ void draw() {
   } else if (game == "bomberman") {
     /* Cette fonction permet de dessiner les objets.
      Elle revient très régulièrement (tous les dixièmes de seconde par exemple) */
-    background(#FFFFFF);
     mapb.tick(); /* La carte se dessine ainsi que les changements qui apparaissent sur la matrice */
-
-    for (int i=0; i<20; i++) {
-      // affiche les bombes activées.
-      tbombe[i].tick();
-      if (tbombe[i].active) {
-        tbombe[i].affiche();
-      }
-    }
   }
 }
 
@@ -173,5 +166,10 @@ void keyPressed() { // Ce qu'il se passe quand une touche est pressée
       }
       tbombe[i].activate(personnage.x, personnage.y);
     }
+  }
+  
+  if(keyCode == 120) {
+    String path = sketchPath() + "\\screenshots\\" + (day() < 10 ? "0" + day() : day()) + "_" + (month() < 10 ? "0" + month() : month()) + "_" + year() + "_" + hour() + "_" + minute();
+    screenshot.take(path);
   }
 }
