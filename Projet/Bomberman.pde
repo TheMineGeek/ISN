@@ -46,9 +46,14 @@ class MapB { //<>//
       for (int i = 0; i<this.blocks.length; i++) {
         this.blocks[i].affiche();
       }
+      
       personnage.affiche();
       porte.affiche();
+      sonAmbiance.play();
+      
     } else {
+      sonAmbiance.close();
+      minim.stop();
       if (this.win == "win") {
         background(#FFFFFF);
         fill(#000000);
@@ -61,6 +66,12 @@ class MapB { //<>//
         textAlign(CENTER);
         textSize(52);
         text("LOST", 250, 250);
+      }
+     
+      for (int i = 0; i < 20 ; i++) {
+        tbombe[i].active = false;
+        tbombe[i].exploding = false;
+        
       }
     }
   }
@@ -285,9 +296,11 @@ class Bombe {
     this.timer.tick();
     int i = (y-20)/100;
     int j = (x-20)/100;
-    if (timer.getTime() >= 4) {
+    if (timer.getTime() >= 3) {
+
+     sonExplosion.play();
       this.active = false;
-      sonExplosion.play();
+
       Explosion(this.x-25, this.y-25);
       this.exploding = true;
 
@@ -309,10 +322,11 @@ class Bombe {
         mapb.pattern[i][j-1] = 6;
       }
     }
-    if (timer.getTime() >= 5) {
+    if (timer.getTime() >= 8) {
       this.exploding = false;
-      //sonExplosion.close();
-      //minim.stop();
+
+      sonExplosion.close();
+      sonExplosion.rewind();
       for (int k=0; k < mapb.pattern.length; k++) {
         for (int l=0; l < mapb.pattern [k].length; l++) {
           if (mapb.pattern[k][l] == 6) {
@@ -330,6 +344,7 @@ class Bombe {
           }
         }
       }
+
       timer.stop();
       timer.reset();
     }
@@ -337,5 +352,6 @@ class Bombe {
 
   void Explosion (int x, int y) {    
     image(croix, x-40, y-40, 200, 200);
+    
   }
 }

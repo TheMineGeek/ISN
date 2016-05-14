@@ -2,7 +2,7 @@ import websockets.*;
 import http.requests.*;
 
 static class Multiplayer {
-  static String statServerAddress = "http://localhost/";
+  static String statServerAddress = "http://81.220.173.13";
   
   
   static class Escapologie {

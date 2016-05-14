@@ -21,6 +21,7 @@ Bombe[] tbombe; // Création d'un tableau de bombes
 
 Minim minim;
 AudioPlayer sonExplosion;
+AudioPlayer sonAmbiance;
 
 PImage croix;
 PImage bombeimg;
@@ -67,6 +68,7 @@ void bombermanSetup() {
 
   
   sonExplosion = minim.loadFile("./data/Sonexplosion.mp3");
+  sonAmbiance = minim.loadFile("./data/acidjazz.mp3");
 }
 
 
