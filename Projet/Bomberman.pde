@@ -14,9 +14,12 @@ class MapB { //<>// //<>//
     {1, 1, 1, 1, 1, 1, 1}}; // Initialise le tableau de la carte
 
   MapB() {
+    timer = new Timer();
   }  // Constructeur de la class
 
   String win = "";
+  int mapID = -1;
+  Timer timer;
 
   BlockB[] blocks = new BlockB[0]; // Tous les blocs créés
 
@@ -60,25 +63,38 @@ class MapB { //<>// //<>//
       porte.affiche();
       sonAmbiance.play();
     } else {
-      sonAmbiance.close();
-      minim.stop();
-      if (this.win == "win") {
-        background(#FFFFFF);
-        fill(#000000);
-        textAlign(CENTER);
-        textSize(52);
-        text("WIN", 250, 250);
-      } else if (this.win == "lose") {
-        background(#000000);
-        fill(#FFFFFF);
-        textAlign(CENTER);
-        textSize(52);
-        text("LOST", 250, 250);
-      }
+      timer.tick();
+      if (!timer.activated) {
+        sonAmbiance.close();
+        minim.stop();
+        if (this.win == "win") {
+          background(#FFFFFF);
+          fill(#000000);
+          textAlign(CENTER);
+          textSize(52);
+          text("Bravo, vous avez gagné !", 350, 250);
+          bombermanPatterns[this.mapID].done = true;
+          saveEscapologie(encrypt(patternsToJson()));
+        } else if (this.win == "lose") {
+          background(#000000);
+          fill(#FFFFFF);
+          textAlign(CENTER);
+          textSize(52);
+          text("Dommage, vous avez perdu :(", 250, 250);
+        }
 
-      for (int i = 0; i < 20; i++) {
-        tbombe[i].active = false;
-        tbombe[i].exploding = false;
+        for (int i = 0; i < 20; i++) {
+          tbombe[i].active = false;
+          tbombe[i].exploding = false;
+        }
+        
+        timer.start();
+        this.win = "";
+      } else if(timer.getTime() > 2) {
+        surface.setSize(900,500);
+        timer.reset();
+        game = "";
+        gui.showNewGame();
       }
     }
   }

@@ -1,6 +1,6 @@
-interface onWinInterface {  //<>//
+interface onWinInterface {  //<>// //<>//
   void toDo();
-}  //<>//
+}  //<>// //<>//
 
 class Map {
   int[][] pattern;
@@ -29,7 +29,7 @@ class Map {
   void init() { // Fonction pour dessiner la carte
     background(#FFFFFF);
     frameRate(60);
-    this.win = false;  //<>//
+    this.win = false;  //<>// //<>//
     this.timer.reset();
     this.keyboardEvents = true;
     this.firstKeyPressed = false;
@@ -67,9 +67,14 @@ class Map {
     /* Classements */
 
     if (Multiplayer.canJoinStatServer()) {
+      fill(#FFFFFF);
+      stroke(0);
+      rect(pixelWidth / 2 + this.spaceX + 65, 10, 150, 30);
+      noStroke();
       fill(#000000);
-      textAlign(CENTER);
-      text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 150, 30);
+      textAlign(LEFT);
+      textSize(17);
+      text("Meilleurs temps", pixelWidth / 2 + this.spaceX + 75, 30);
 
       JSONArray times = parseJSONArray(Multiplayer.Escapologie.getStats(this.mapID, 10));
 
@@ -78,8 +83,10 @@ class Map {
         JSONObject time = times.getJSONObject(i);
 
         String record = (i + 1) + " " + time.getString("username") + " " + String.format("%.4g%n", time.getFloat("score"));
+        noStroke();
+        textSize(13);
         textAlign(LEFT);
-        text(record, pixelWidth / 2 + this.spaceX + 50, 70 + i * 20);
+        text(record, pixelWidth / 2 + this.spaceX + 75, 70 + i * 20);
       }
     }
   }
@@ -141,8 +148,10 @@ class Map {
   void tick() {
     if (!this.win) {
       timer.tick();
+      
       fill(#FFFFFF);
-      rect(0, 0, this.spaceX, pixelHeight);
+      stroke(0);
+      rect(this.spaceX / 2 - 40, 10, 80, 30);
 
       textAlign(CENTER);
       fill(#000000);
@@ -289,21 +298,5 @@ class Gate { // Class pour les portes de sortie
       return true;
     }
     return false;
-  }
-}
-
-public enum LevelDifficulty {
-  EASY ("EASY"), 
-    MEDIUM ("MEDIUM"), 
-    HARD ("HARD");
-
-  private String name = "";
-
-  LevelDifficulty(String name) {
-    this.name = name;
-  }
-
-  String toString() {
-    return this.name;
   }
 }

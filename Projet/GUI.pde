@@ -218,11 +218,16 @@ class GUI {    //<>//
     }
     ));
 
+    println("GUI");
+    println("escapologie", escapologiePatterns.length);
+    println("bomberman", bombermanPatterns.length);
+    
     for (int i = 0; i < escapologiePatterns.length / 2; i++) {
       for (int j = 0; j < 10; j++) {
         if (i * 10 + j < escapologiePatterns.length) {
           this.mapNumber = i * 10 + j;
           int normalStrokeColor;
+          println(mapNumber);
           if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
             normalStrokeColor = 0xff00FF00;
           } else if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
@@ -613,6 +618,7 @@ class GUIButton {
         mapSetup(this.mapID);
       } else {
         mapb.pattern = bombermanPatterns[this.mapID].pattern;
+        mapb.mapID = this.mapID;
         mapb.init();
         game = "bomberman";
         surface.setSize(701, 801);

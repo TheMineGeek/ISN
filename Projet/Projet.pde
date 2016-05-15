@@ -3,14 +3,12 @@ import ddf.minim.*;
 
 /* GLOBAL VARS DECLARATIONS */
 String game = "";
+GUI gui;
+String USERNAME;
 
 /* ESCAPOLOGIE */
 Map map;
-static Projet that;
-GUI gui;
-String USERNAME;
 Pattern[] escapologiePatterns;
-Pattern[] bombermanPatterns;
 
 /* BOMBERMAN */
 MapB mapb; 
@@ -27,6 +25,8 @@ PImage croix;
 PImage bombeimg;
 PImage perso;
 PImage exit;
+
+Pattern[] bombermanPatterns;
 
 /* SCREENSHOT */
 Screenshot screenshot;

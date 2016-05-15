@@ -1,3 +1,19 @@
+public enum LevelDifficulty {
+  EASY ("EASY"), 
+    MEDIUM ("MEDIUM"), 
+    HARD ("HARD");
+
+  private String name = "";
+
+  LevelDifficulty(String name) {
+    this.name = name;
+  }
+
+  String toString() {
+    return this.name;
+  }
+}
+
 class Pattern {
   int id;
   boolean done;

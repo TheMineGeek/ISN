@@ -50,7 +50,12 @@ String patternsToJson() {
   _patterns += "[";
   for (int i = 0; i < escapologiePatterns.length; i++) {    
     _patterns += escapologiePatterns[i].toJson();
-    if (i != escapologiePatterns.length - 1) _patterns += ",\n";
+    if (i != escapologiePatterns.length - 1 || bombermanPatterns.length > 0) _patterns += ",\n";
+  }
+  
+  for (int i = 0; i < bombermanPatterns.length; i++) {    
+    _patterns += bombermanPatterns[i].toJson();
+    if (i != bombermanPatterns.length - 1) _patterns += ",\n";
   }
   _patterns += "]";
 
@@ -99,10 +104,30 @@ void loadEscapologie() {
       save = null;
     }
     
-    if (save != null) {
+    if (save != null) {      
       JSONArray values = JSONArray.parse(decrypt(save));
       println(values.size());
-      escapologiePatterns = new Pattern[values.size()];
+      
+      int escapologieCount = 0;
+      int bombermanCount = 0;
+      
+      for(int i = 0; i < values.size(); i++) {
+        if("bomberman".equals(values.getJSONObject(i).getString("game"))) {
+          bombermanCount++;
+        } else if("escapologie".equals(values.getJSONObject(i).getString("game"))) {
+          escapologieCount++;
+        }
+      }
+      
+      println("OtherFunctions");
+      println("escapologie", escapologieCount);
+      println("bomberman", bombermanCount);
+      
+      escapologiePatterns = new Pattern[escapologieCount];
+      bombermanPatterns = new Pattern[bombermanCount];
+      
+      escapologieCount = 0;
+      bombermanCount = 0;
 
       for (int i = 0; i < values.size(); i++) {
         values.getJSONObject(i);
@@ -137,10 +162,14 @@ void loadEscapologie() {
             pattern[j][k] = object.getJSONArray("pattern").getJSONArray(j).getInt(k);
           }
         }
-
-        escapologiePatterns[i] = new Pattern(pattern, id, levelDifficulty, "escapologie", done);
-        escapologiePatterns[i].log();
-        println();
+        
+        if("bomberman".equals(object.getString("game"))) {
+          bombermanPatterns[bombermanCount] = new Pattern(pattern, id, levelDifficulty, "bomberman", done);
+          bombermanCount++;
+        } else if("escapologie".equals(object.getString("game"))) {
+          escapologiePatterns[escapologieCount] = new Pattern(pattern, id, levelDifficulty, "escapologie", done);
+          escapologieCount++;
+        }
       }
     }
   } else {

@@ -48,8 +48,8 @@ static class Multiplayer {
 
   static WebsocketClient wsc;
 
-  static void connect(String url) {
-    wsc = new WebsocketClient(that, url);
+  static void connect(Projet projet, String url) {
+    wsc = new WebsocketClient(projet, url);
   }
 
   static void send(String msg) {
