@@ -3,22 +3,24 @@ class MapB { //<>// //<>//
    * Cette class sert à créer la carte de jeux. 
    * Elle affiche les blocs en fonction de ce qui est renseigné dans le tableau de la carte 
    **/
+
   int[][] pattern = new int [][] {
     {1, 1, 1, 1, 1, 1, 1}, 
-    {1, 0, 0, 2, 2, 0, 1}, 
+    {1, 1, 0, 2, 2, 0, 1}, 
     {1, 0, 1, 1, 0, 0, 1}, 
     {1, 2, 2, 0, 0, 2, 1}, 
     {1, 2, 1, 2, 0, 2, 1}, 
     {1, 0, 2, 0, 2, 1, 1}, 
-    {1, 2, 2, 0, 3, -1, 1}, 
-    {1, 1, 1, 1, 1, 1, 1}}; // Initialise le tableau de la carte
+    {1, 2, 2, 0, 0, -1, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}};  // Initialise le tableau de la carte
+  //Il s'agit ici d'un tableau de test
 
   MapB() {
-    timer = new Timer();
+    timer = new Timer(); // création d'un nouveau timer
   }  // Constructeur de la class
 
-  String win = "";
-  int mapID = -1;
+  String win = ""; // condition pour gagner ou perdre
+  int mapID = -1; // donne le nom du niveau
   Timer timer;
 
   BlockB[] blocks = new BlockB[0]; // Tous les blocs créés
@@ -35,17 +37,19 @@ class MapB { //<>// //<>//
           _block = new BlockB(j*100, i*100, true); // Si c'est 2 : Block cassable
           this.blocks = (BlockB[])append(this.blocks, _block); // Augmente la taille du tableau
         } else if (pattern[i][j] == 3) {
-          personnage.x = j*100+20;
-          personnage.y = i*100+20;
+          personnage.x = j*100+20; // donne les coordonnées du personnage
+          personnage.y = i*100+20; // on convertit les x et y en cases de la matrice
         } else if (pattern[i][j] == -1) {
-          porte = new PorteB(j*100, i*100);
+          porte = new PorteB(j*100, i*100); // création de la porte
         }
       }
     }
   }
 
   void tick () { 
-    if (this.win == "") {
+    // fonction qui permet le bon déroulement des actions dans Bomberman
+    if (this.win == "") { 
+      // lorsque le jeu vient d'être lancé
       background(#FFFFFF);
       for (int i = 0; i<this.blocks.length; i++) {
         this.blocks[i].affiche();
@@ -62,20 +66,28 @@ class MapB { //<>// //<>//
       personnage.affiche();
       porte.affiche();
       sonAmbiance.play();
-    } else {
+    } else { 
+      // lorsque l'on a gagné ou perdu
       timer.tick();
       if (!timer.activated) {
+        // lorsque le timer n'est plus activé ...
         sonAmbiance.close();
         minim.stop();
-        if (this.win == "win") {
+
+        if (this.win == "win") { 
+          // ce qu'il se passe lorsque l'on gagne
+          // affichage du texte
           background(#FFFFFF);
           fill(#000000);
           textAlign(CENTER);
           textSize(52);
           text("Bravo, vous avez gagné !", 350, 250);
-          bombermanPatterns[this.mapID].done = true;
-          saveEscapologie(encrypt(patternsToJson()));
+
+          //sauvegarde
+          bombermanPatterns[this.mapID].done = true; // la map jouée est sauvegardée en tant que niveau terminé
+          saveEscapologie(encrypt(patternsToJson())); // codage de la sauvegarde pour éviter la triche
         } else if (this.win == "lose") {
+          // ce qu'il se passe lorsque l'on perd : affichage du texte
           background(#000000);
           fill(#FFFFFF);
           textAlign(CENTER);
@@ -84,17 +96,18 @@ class MapB { //<>// //<>//
         }
 
         for (int i = 0; i < 20; i++) {
+          // pour faire disparaitre les bombes activées lors de la fin du jeu
           tbombe[i].active = false;
           tbombe[i].exploding = false;
         }
-        
+
         timer.start();
         this.win = "";
-      } else if(timer.getTime() > 2) {
-        surface.setSize(900,500);
-        timer.reset();
-        game = "";
-        gui.showNewGame();
+      } else if (timer.getTime() > 2) {
+        surface.setSize(900, 500);
+        timer.reset(); // le timer se remet à Zéro
+        game = ""; // on sort de Bomberman
+        gui.showNewGame(); // renvoit au menu
       }
     }
   }
@@ -111,7 +124,7 @@ class BlockB {
   int y;
   int size;
   color couleur;
-  boolean cassable;
+  boolean cassable; // pour savoir quel type de bloc créer
 
   // Constructeur 
   BlockB (int x, int y, boolean cassable) {
@@ -119,6 +132,8 @@ class BlockB {
     size = 100;
     this.x = x;
     this.y = y;
+
+    // la couleur du bloc est donné selon son statut : cassable ou non
     if (cassable) { 
       couleur = #FEE193;
     } else {
@@ -126,19 +141,21 @@ class BlockB {
     }
   }
 
-  void affiche () {
+  void affiche () { 
+    // permet l'affichage du bloc
     fill (couleur);
     rect (x, y, size, size);
   }
 }
 
 
-/**
- * Renseigne la construction des portes de sorties des niveaux
- * (à rejoindre pour gagner)
- * Permet leur affichage 
- **/
 class PorteB {
+  /**
+   * Renseigne la construction des portes de sorties des niveaux
+   * (à rejoindre pour gagner)
+   * Permet leur affichage 
+   **/
+
   int x;
   int y;
   color couleur;
@@ -156,12 +173,11 @@ class PorteB {
 }
 
 
-
-/**
- * Permet la construction et l'affichage du personnage.
- * Cette classe permet également de gerrer les mouvements et les collisions. 
- **/
 class Personnage {
+  /**
+   * Permet la construction et l'affichage du personnage.
+   * Cette classe permet également de gerrer les mouvements et les collisions. 
+   **/
   int x;
   int y;
   int size;
@@ -178,6 +194,10 @@ class Personnage {
 
 
   void move (String direction) {
+    /**
+     * Cette fonction permet le déplacement du personnage.
+     * Elle permet également de gerrer les collisions
+     **/
     int j = (this.x-20)/100; // Traduit les x en coordonnés i de la carte
     int i = (this.y-20)/100; // Traduit les y en coordonnées j de la carte
 
@@ -193,12 +213,12 @@ class Personnage {
         mapb.pattern[i][j-1] = 3;
       }
       if (mapb.pattern[i][j-1] == -1) {
-        println ("win");
-        mapb.win = "win";
+        //println ("win");
+        mapb.win = "win"; // renvoit "gagné"
       }
       if (mapb.pattern[i][j-1] == 6) {
-        println ("lost");
-        mapb.win = "lose";
+        //println ("Lose");
+        mapb.win = "lose"; // renvoit "perdu"
       }
     } else if (direction == "right") {
       if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1 && mapb.pattern[i][j+1] != 6) {
@@ -211,11 +231,11 @@ class Personnage {
         mapb.pattern[i][j+1] = 3;
       }
       if (mapb.pattern[i][j+1] == -1) {
-        println ("win");
+        // println ("win");
         mapb.win = "win";
       }
       if (mapb.pattern[i][j+1] == 6) {
-        println ("lost");
+        // println ("Lose");
         mapb.win = "lose";
       }
     } else if (direction == "top") {
@@ -229,11 +249,11 @@ class Personnage {
         mapb.pattern[i-1][j] = 3;
       }
       if (mapb.pattern[i-1][j] == -1) {
-        println ("win");
+        // println ("win");
         mapb.win = "win";
       }
       if (mapb.pattern[i-1][j] == 6) {
-        println ("lost");
+        //  println ("lose");
         mapb.win = "lose";
       }
     } else if (direction == "bottom") {
@@ -247,14 +267,19 @@ class Personnage {
         this.y = this.y+100;
       }
       if (mapb.pattern[i+1][j] == -1) {
-        println ("win");
+        // println ("win");
+        mapb.win = "win";
       }
       if (mapb.pattern[i+1][j] == 6) {
-        println ("lost");
+        //println ("lose");
         mapb.win = "lose";
       }
     }
 
+    /** 
+     * Permet l'affichage de la matrice dans la console
+     * pour un bon contrôle du déplacement des objets dans celle-ci
+     **/
     for (int k=0; k < mapb.pattern.length; k++) {
       for (int l=0; l < mapb.pattern [k].length; l++) {
         print (mapb.pattern[k][l]);
@@ -266,14 +291,14 @@ class Personnage {
 }
 
 
-/**
- * Cette classe permet la création et l'affichage des Bombes.
- * Elle contient un Tick qui permet de compter le nombre de 
- * secondes où la bombe a été activée grâce au Timer et ainsi
- * définit l'enchaînement des actions (pose, explosions ...)
- * Permet également la destruction des blocs.
- **/
 class Bombe {
+  /**
+   * Cette classe permet la création et l'affichage des Bombes.
+   * Elle contient un Tick qui permet de compter le nombre de 
+   * secondes où la bombe a été activée grâce au Timer et ainsi
+   * définit l'enchaînement des actions (pose, explosions ...)
+   * Permet également la destruction des blocs.
+   **/
   int x;
   int y;
   int size1;
@@ -301,21 +326,22 @@ class Bombe {
   }
 
   void activate(int x, int y) {
+    // ce qu'il se passe lors de l'activation de la bombe
     int i = (y-20)/100;
     int j = (x-20)/100;
     this.active = true; // La bombe est activée
     this.x = x;
     this.y = y;
-    mapb.pattern[i][j] = 4;
+    mapb.pattern[i][j] = 4; // la case la matrice prend la valeur 4 (personnage + bombe)
     timer.start(); // Démmarre le timer
   }
 
-  /**
-   * Cette fonction permet de gérer le décompte du temps.
-   * Elle effectue un test lors de l'explosion de la bombe pour savoir si la partie s'arrête où non
-   * Elle permet ensuite la disparition des blocs qui ont explosés.
-   **/
-  void tick() {  
+  void tick() { 
+    /**
+     * Cette fonction permet de gérer le décompte du temps.
+     * Elle effectue un test lors de l'explosion de la bombe pour savoir si la partie s'arrête où non
+     * Elle permet ensuite la disparition des blocs qui ont explosés.
+     **/
     this.timer.tick();
     int i = (y-20)/100;
     int j = (x-20)/100;
@@ -328,9 +354,10 @@ class Bombe {
       this.exploding = true;
 
       if (mapb.pattern [i][j] == 3 ||mapb.pattern[i+1][j] == 3 || mapb.pattern[i-1][j] ==3 || mapb.pattern[i][j+1] == 3 || mapb.pattern[i][j-1] ==3) {
-        println ("LOST");
+        // println ("Lose");
+        mapb.win = "lose";
       }
-      mapb.pattern[i][j] = 6;
+      mapb.pattern[i][j] = 6; // la case de la matrice prend la valeur 6 (en cours d'explosion)
 
       if (mapb.pattern[i+1][j] == 2 || mapb.pattern[i+1][j] == 0) {
         mapb.pattern[i+1][j] = 6;
@@ -350,6 +377,7 @@ class Bombe {
 
       sonExplosion.close();
       sonExplosion.rewind();
+
       for (int k=0; k < mapb.pattern.length; k++) {
         for (int l=0; l < mapb.pattern [k].length; l++) {
           if (mapb.pattern[k][l] == 6) {

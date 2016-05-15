@@ -1,17 +1,18 @@
-class GUI {    //<>//
+class GUI {    // class permettant de gérer l'affichage graphique //<>//
   GUI() {
   }
 
-  int cursorType;
+  int cursorType; 
   int mapNumber;
 
-  GUIButton[] GUIButtons = new GUIButton[0];
-  GUIInput [] GUIInputs = new GUIInput[0];
+  GUIButton[] GUIButtons = new GUIButton[0]; // tableau de boutons
+  GUIInput [] GUIInputs = new GUIInput[0]; // tableau des champs à completer
 
   /* EVENT FUNCTIONS */
 
   /**
    * Handle hover event
+   * ce qu'il se passe lorsque le bouton est survolé par le curseur
    */
   void hover(int x, int y) {
     cursorType = ARROW;
@@ -22,6 +23,7 @@ class GUI {    //<>//
 
   /**
    * Handle click event
+   * Ce qu'il se passe lorsque l'on clique sur le bouton
    */
   void click(int x, int y) {
     this.buttonClickInteractions(x, y);
@@ -30,6 +32,7 @@ class GUI {    //<>//
 
   /**
    * Handle keyboard event
+   * Ce qu'il se passe lorsqu'on appuie sur une touche du clavier
    */
   void keyboard(char _key, int _keyCode) {
     this.inputKeyboardInteractions(_key, _keyCode);
@@ -47,7 +50,8 @@ class GUI {    //<>//
    * Add a new button to GUI
    */
   void addButton(GUIButton button) {
-    GUIButtons = (GUIButton[])append(GUIButtons, button);
+    GUIButtons = (GUIButton[])append(GUIButtons, button); 
+    // augmente la taille du tableau de boutons
   }
 
   /**
@@ -59,12 +63,13 @@ class GUI {    //<>//
 
   /**
    * Handle hover event for buttons
+   * modification de l'apparence du bouton lorsqu'il est survolé
    */
   void buttonHoverInteractions(int x, int y) {
     for (int i = 0; i < GUIButtons.length; i++) {
       if (x <= GUIButtons[i].maxX && x >= GUIButtons[i].x && y <= GUIButtons[i].maxY && y >= GUIButtons[i].y) {
         GUIButtons[i].onHover();
-        this.cursorType = HAND;
+        this.cursorType = HAND; // le curseur prend la forme d'une main
       } else {
         GUIButtons[i].onLeave();
       }
@@ -73,6 +78,7 @@ class GUI {    //<>//
 
   /**
    * Handle click event for buttons
+   * Ce qui arrive lorsque l'on clique sur le bouton
    */
   void buttonClickInteractions(int x, int y) {
     for (int i = 0; i < GUIButtons.length; i++) {
@@ -150,12 +156,14 @@ class GUI {    //<>//
 
   /**
    * Show main menu
+   * Affiche au menu principal
    */
   void showMenu() {
     this.flushButtons();
     this.flushInputs();
     background(#FFFFFF);
 
+    // this.addButton permet l'ajout de CE bouton au tableau de boutons
     this.addButton(new GUIButton(300, 30, 300, 40, "Bienvenue", 50, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
       }
@@ -193,6 +201,7 @@ class GUI {    //<>//
 
   /**
    * Show "New Game" menu
+   * Menu de choix des jeux
    */
   void showNewGame() {
     this.flushButtons();
@@ -211,23 +220,29 @@ class GUI {    //<>//
     }
     ));
 
+
     this.addButton(new GUIButton(50, 20, 20, 20, "←", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {
+        // bouton pour revenir en arrière
         gui.showMenu();
       }
     }
     ));
 
+
+    // affichages console ...
     println("GUI");
     println("escapologie", escapologiePatterns.length);
     println("bomberman", bombermanPatterns.length);
-    
+
     for (int i = 0; i < escapologiePatterns.length / 2; i++) {
       for (int j = 0; j < 10; j++) {
         if (i * 10 + j < escapologiePatterns.length) {
           this.mapNumber = i * 10 + j;
           int normalStrokeColor;
           println(mapNumber);
+
+          // affiche une couleur différente en fonction de la difficultée du niveau
           if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
             normalStrokeColor = 0xff00FF00;
           } else if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
@@ -337,6 +352,7 @@ class GUI {    //<>//
   }
 
   void askForUsernameMenu() {
+    // lorsqu'il n'y a pas encore de nom d'utilisateur
     background(255);
     this.addButton(new GUIButton(50, 0, 800, 140, "Bienvenue, aucun nom d'utilisateur n'a été détécté. \nMerci d'en saisir un puis de cliquer sur continuer", 30, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xffFFFFFF, 0xff000000, 0xff000000, new IGUIButton() {
       public void onClick() {

@@ -1,4 +1,5 @@
 public enum LevelDifficulty {
+  // donne les niveaux de difficulté
   EASY ("EASY"), 
     MEDIUM ("MEDIUM"), 
     HARD ("HARD");
@@ -15,21 +16,22 @@ public enum LevelDifficulty {
 }
 
 class Pattern {
-  int id;
-  boolean done;
-  int[][] pattern;
-  String game;
+  int id; // donne le nom du niveau
+  boolean done; // vérifie si le niveau a été fait ou non
+  int[][] pattern; // initialise un tableau de map
+  String game; // donne le nom du jeu
 
   LevelDifficulty levelDifficulty;
-
+  // initialisation des variables pour un niveau qui n'a pas encore été joué
   Pattern(int[][] pattern, int id, LevelDifficulty levelDifficulty, String game) {
     this.game = game;
-    this.done = false;
+    this.done = false; 
     this.levelDifficulty = levelDifficulty;
     this.pattern = pattern;
     this.id = id;
   }
 
+  // Intitialisation des variables pour un niveau joué
   Pattern(int[][] pattern, int id, LevelDifficulty levelDifficulty, String game, boolean done) {
     this.game = game;
     this.done = done;
@@ -38,7 +40,7 @@ class Pattern {
     this.id = id;
   }
 
-  int[][] getPattern() {
+  int[][] getPattern() { 
     int[][] _pattern = new int[this.pattern.length][this.pattern[0].length];
 
     for (int i = 0; i < this.pattern.length; i++) {
@@ -90,83 +92,84 @@ class Pattern {
   }
 }
 
-Pattern[] bombermanPatterns() {
-  Pattern[] patterns = new Pattern[0];
-    
+Pattern[] bombermanPatterns() { // tableau des niveaux de bomberman
+  Pattern[] patterns = new Pattern[0]; //Création du tableau de niveaux
+
   int[][] _pattern6 =  
     {  
-    {1, 1, 1, 1, 1, 1, 1},  
-    {1, 2, 0, 2, 0, -1, 1},  
-    {1, 0, 1, 0, 2, 0, 1},  
-    {1, 2, 2, 2, 1, 0, 1},  
-    {1, 0, 0, 1, 1, 2, 1},  
-    {1, 0, 2, 2, 0, 2, 1},  
-    {1, 3, 0, 2, 0, 0, 1},  
-    {1, 1, 1, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 2, 0, 2, 0, -1, 1}, 
+    {1, 0, 1, 0, 2, 0, 1}, 
+    {1, 2, 2, 2, 1, 0, 1}, 
+    {1, 0, 0, 1, 1, 2, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 3, 0, 2, 0, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
   }; 
-  Pattern pattern6 = new Pattern(_pattern6, patterns.length, LevelDifficulty.EASY, "bomberman"); 
-  patterns = (Pattern[])append(patterns, pattern6); 
- 
+  Pattern pattern6 = new Pattern(_pattern6, patterns.length, LevelDifficulty.EASY, "bomberman");
+  // donne le nom de la pattern, sa taille, son niveau de difficulté, le nom du jeu
+  patterns = (Pattern[])append(patterns, pattern6); // on ajoute ce niveau au tableau
+
   int[][] _pattern7 = 
     {  
-    {1, 1, 1, 1, 1, 1, 1},  
-    {1, 3, 0, 2, 0, 2, 1},  
-    {1, 0, 1, 0, 2, 0, 1},  
-    {1, 2, 2, 1, 1, 0, 1},  
-    {1, 0, 0, 1, 1, 0, 1},  
-    {1, 0, 2, 2, 0, 2, 1},  
-    {1, 0, 0, 2, 0, -1, 1},  
-    {1, 1, 1, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 3, 0, 2, 0, 2, 1}, 
+    {1, 0, 1, 0, 2, 0, 1}, 
+    {1, 2, 2, 1, 1, 0, 1}, 
+    {1, 0, 0, 1, 1, 0, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 0, 0, 2, 0, -1, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
   }; 
- 
+
   Pattern pattern7 = new Pattern(_pattern7, patterns.length, LevelDifficulty.MEDIUM, "bomberman"); 
   patterns = (Pattern[])append(patterns, pattern7); 
- 
+
   int[][] _pattern8 = 
- 
+
     { 
-    {1, 1, 1, 1, 1, 1, 1},  
-    {1, 2, 0, 2, 0, 2, 1},  
-    {1, 0, 1, 2, 1, 0, 1},  
-    {1, 2, 2, -1, 1, 0, 1},  
-    {1, 0, 1, 1, 1, 0, 1},  
-    {1, 0, 2, 2, 0, 2, 1},  
-    {1, 0, 2, 0, 3, 0, 1},  
-    {1, 1, 1, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 1}, 
+    {1, 2, 0, 2, 0, 2, 1}, 
+    {1, 0, 1, 2, 1, 0, 1}, 
+    {1, 2, 2, -1, 1, 0, 1}, 
+    {1, 0, 1, 1, 1, 0, 1}, 
+    {1, 0, 2, 2, 0, 2, 1}, 
+    {1, 0, 2, 0, 3, 0, 1}, 
+    {1, 1, 1, 1, 1, 1, 1}, 
   }; 
- 
+
   Pattern pattern8 = new Pattern(_pattern8, patterns.length, LevelDifficulty.EASY, "bomberman"); 
   patterns = (Pattern[])append(patterns, pattern8); 
- 
+
   int[][] _pattern9 =  
     { 
-    {  1, 1, 1, 1, 1, 1, 1  },  
-    {  1, 3, 0, 2, 0, 2, 1  },  
-    {  1, 0, 1, 0, 1, 0, 1  },  
-    {  1, 2, 2, 0, 2, 0, 1  },  
-    {  1, 0, 1, 0, 1, 0, 1  },  
-    {  1, 2, 2, 2, 0, 2, 1  },  
-    {  1, 0, 1, 2, 1, -1, 1 },  
-    {  1, 1, 1, 1, 1, 1, 1  },  
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+    {  1, 3, 0, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 0, 1, 0, 1  }, 
+    {  1, 2, 2, 0, 2, 0, 1  }, 
+    {  1, 0, 1, 0, 1, 0, 1  }, 
+    {  1, 2, 2, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 2, 1, -1, 1 }, 
+    {  1, 1, 1, 1, 1, 1, 1  }, 
   }; 
- 
+
   Pattern pattern9 = new Pattern(_pattern9, patterns.length, LevelDifficulty.EASY, "bomberman"); 
   patterns = (Pattern[])append(patterns, pattern9); 
- 
+
   int [][] _pattern10 = 
     { 
-    {  1, 1, 1, 1, 1, 1, 1  },  
-    {  1, 3, 0, 2, 0, 2, 1  },  
-    {  1, 0, 1, 0, 2, 0, 1  },  
-    {  1, 2, 2, 1, 1, 0, 1  },  
-    {  1, 0, 0, 1, 0, 0, 1  },  
-    {  1, 0, 2, 2, 0, 1, 1  },  
-    {  1, 1, 0, 2, 0, -1, 1  },  
-    {  1, 1, 1, 1, 1, 1, 1  },  
- 
- 
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+    {  1, 3, 0, 2, 0, 2, 1  }, 
+    {  1, 0, 1, 0, 2, 0, 1  }, 
+    {  1, 2, 2, 1, 1, 0, 1  }, 
+    {  1, 0, 0, 1, 0, 0, 1  }, 
+    {  1, 0, 2, 2, 0, 1, 1  }, 
+    {  1, 1, 0, 2, 0, -1, 1  }, 
+    {  1, 1, 1, 1, 1, 1, 1  }, 
+
+
   }; 
- 
+
   Pattern pattern10 = new Pattern(_pattern10, patterns.length, LevelDifficulty.EASY, "bomberman"); 
   patterns = (Pattern[])append(patterns, pattern10); 
 

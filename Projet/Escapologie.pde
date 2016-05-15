@@ -1,6 +1,6 @@
-interface onWinInterface {  //<>// //<>//
+interface onWinInterface {  //<>// //<>// //<>// //<>//
   void toDo();
-}  //<>// //<>//
+}  //<>//
 
 class Map {
   int[][] pattern;
@@ -10,8 +10,8 @@ class Map {
   int spaceY;
   int blocSize;
   boolean win = false;
-  boolean keyboardEvents = true;
-  boolean firstKeyPressed = false;
+  boolean keyboardEvents = true; // on peut utiliser le clavier
+  boolean firstKeyPressed = false; // le jeu attend pour déclancher le timer
   onWinInterface onWin;
   int mapID;
 
@@ -19,17 +19,17 @@ class Map {
 
   Map() {
     this.blocSize = 50;
-    this.speedX = this.speedY = 10;
+    this.speedX = this.speedY = 10; // vitesse de déplacement du bloc
     timer = new Timer();
   }  // La pseudo fonction pour initialiser la map
 
   Block[] movableBlocks = new Block[0]; // Tous les blocs qui peuvent bouger
   Gate[] gates = new Gate[0]; // Tous les blocs qui sont les portes de sortie
 
-  void init() { // Fonction pour dessiner la carte
+  void init() { // Fonction pour dessiner la carte et initialiser le jeu
     background(#FFFFFF);
     frameRate(60);
-    this.win = false;  //<>// //<>//
+    this.win = false; 
     this.timer.reset();
     this.keyboardEvents = true;
     this.firstKeyPressed = false;
@@ -50,7 +50,7 @@ class Map {
           pattern[i][j] = 0;
           gates = (Gate[])append(gates, _gate); // Augmente la taille du tableau
         } else if (pattern[i][j] != 0) {
-          Block block; // Sinon c'est un bloc déplaçable
+          Block block; // Sinon c'est un bloc déplaçable dont la couleur change selon le numéro sur la matrice
           if (pattern[i][j] == 2) {
             block = new Block(j * this.blocSize, i * this.blocSize, this.blocSize, 2, color(#FF0000));
           } else if (pattern[i][j] == 3) { 
@@ -59,7 +59,7 @@ class Map {
             block = new Block(j * this.blocSize, i * this.blocSize, this.blocSize, 4, color(#0000FF));
           }
 
-          movableBlocks = (Block[])append(movableBlocks, block);
+          movableBlocks = (Block[])append(movableBlocks, block); // on augmente la taille du tableau de bloc qui bougent
         }
       }
     }
@@ -86,15 +86,15 @@ class Map {
         noStroke();
         textSize(13);
         textAlign(LEFT);
-        text(record, pixelWidth / 2 + this.spaceX + 75, 70 + i * 20);
+        text(record, pixelWidth / 2 + this.spaceX + 75, 70 + i * 20); // affichage des scors
       }
     }
   }
 
   void setPattern(int pattern) {
-    this.pattern = null;
+    this.pattern = null; // nettoie le tableau de map
     this.pattern = escapologiePatterns[pattern].getPattern();
-    this.mapID = pattern;
+    this.mapID = pattern; // importe la bonne map
 
     this.spaceX = (pixelWidth - this.pattern[0].length * this.blocSize) / 2;
     this.spaceY = (pixelHeight - this.pattern.length * this.blocSize) / 2;
@@ -111,7 +111,9 @@ class Map {
   }
 
   void move(String direction) { 
+    // actions au clavier pour le mouvement
     if (!this.firstKeyPressed) {
+      // permet de lancer le timer au premmier mouvement
       firstKeyPressed = true;
       timer.start();
     }
@@ -147,8 +149,9 @@ class Map {
 
   void tick() {
     if (!this.win) {
+      // Si le joueur n'a pas gagné ...
       timer.tick();
-      
+
       fill(#FFFFFF);
       stroke(0);
       rect(this.spaceX / 2 - 40, 10, 80, 30);
@@ -159,10 +162,10 @@ class Map {
       text(String.format("%.3g%n", timer.getTime()), this.spaceX / 2, 30);
 
       for (int i = 0; i < gates.length; i++) {
-        gates[i].show();
+        gates[i].show(); // la porte est visible
       }
 
-      this.keyboardEvents = true;
+      this.keyboardEvents = true; // il est possible de bouger
 
       for (int i = 0; i < this.movableBlocks.length; i++) {   
         this.movableBlocks[i].move(this.speedX, this.speedY);
@@ -188,22 +191,25 @@ class Map {
     }
 
     if (win) {
-      escapologiePatterns[mapID].done = true;
-      timer.stop();
-      this.onWin.toDo();
+      escapologiePatterns[mapID].done = true;  // le niveau est sauvegardé
+      timer.stop(); // le timer s'arrette 
+      this.onWin.toDo(); // Ce qu'il faut afficher lors de la fin de la partie apparait
     }
   }
 
   void flushGates() {
-    this.gates = (Gate[])subset(this.gates, 0, 0);
+    this.gates = (Gate[])subset(this.gates, 0, 0); // les portes disparaissent
   }
 
   void flushBlocks() {
-    this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0);
+    this.movableBlocks = (Block[])subset(this.movableBlocks, 0, 0); // les blocs mobiles disparaissent
   }
 }
 
-class Block {  
+class Block {
+
+  // permet la construction des blocs mobiles ou non
+
   int size;
   int x;
   int y;

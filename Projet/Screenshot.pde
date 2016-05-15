@@ -1,6 +1,6 @@
 class Screenshot {
-  String extension = ".png";
-  
+  String extension = ".png"; // on aura des images en .png
+
   void take(String path) {
     if (fileExists(path + this.extension)) {
       screenshot.take(path, 1);
@@ -8,7 +8,7 @@ class Screenshot {
       save(path + this.extension);
     }
   }
-  
+
   void take(String path, int depth) {
     if (fileExists(path + "(" + depth + ")" + this.extension)) {
       screenshot.take(path, depth + 1);
