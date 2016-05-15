@@ -143,7 +143,7 @@ void mousePressed() { // action lors d'un clique de souris, se reporter au GUI
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-
+  // gui.Keyboard envoit les touches du clavier pressées au gui
   if (key == 27) { // Empèche le programme de se fermer lorsque l'on appuie sur ECHAP
     key = 0;
     gui.keyboard('!', ESC);

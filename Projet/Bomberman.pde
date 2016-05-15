@@ -85,7 +85,7 @@ class MapB { //<>// //<>//
 
           //sauvegarde
           bombermanPatterns[this.mapID].done = true; // la map jouée est sauvegardée en tant que niveau terminé
-          saveEscapologie(encrypt(patternsToJson())); // codage de la sauvegarde pour éviter la triche
+          saveEscapologie(encrypt(patternsToJson())); // cryptage de la sauvegarde pour éviter la triche
         } else if (this.win == "lose") {
           // ce qu'il se passe lorsque l'on perd : affichage du texte
           background(#000000);

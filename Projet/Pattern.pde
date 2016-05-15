@@ -40,7 +40,7 @@ class Pattern {
     this.id = id;
   }
 
-  int[][] getPattern() { 
+  int[][] getPattern() { // envoit une copie de la map
     int[][] _pattern = new int[this.pattern.length][this.pattern[0].length];
 
     for (int i = 0; i < this.pattern.length; i++) {
@@ -52,7 +52,7 @@ class Pattern {
     return _pattern;
   }
 
-  String toJson() {
+  String toJson() { // un certain format de données
     String _pattern = "";
 
     _pattern += "[";

@@ -265,7 +265,7 @@ class Block {
     this.toMoveY += y;
   }
 
-  Boolean mustMove() {
+  Boolean mustMove() { // vérifie si tous les blocs ont fini leur mouvement
     if (this.toMoveX == 0 && this.toMoveY == 0) {
       return false;
     } else {
