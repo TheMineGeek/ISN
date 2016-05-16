@@ -11,7 +11,7 @@ class Timer {
   void tick() { 
     // ce qu'il se passe lorsque le Timer est activé
     if (this.activated) {
-      time += 1/frameRate; // Calcul du nombre de secondes grace au frameRate
+      time += 1/frameRate; // Calcul du nombre de secondes grâce au frameRate
     }
   }
 

@@ -104,10 +104,10 @@ class MapB { //<>// //<>//
         timer.start();
         this.win = "";
       } else if (timer.getTime() > 2) {
-        surface.setSize(900, 500);
+        surface.setSize(900, 500); // redimensionne la fenêtre
         timer.reset(); // le timer se remet à Zéro
         game = ""; // on sort de Bomberman
-        gui.showNewGame(); // renvoit au menu
+        gui.showNewGame(); // renvoie au menu
       }
     }
   }
@@ -133,7 +133,7 @@ class BlockB {
     this.x = x;
     this.y = y;
 
-    // la couleur du bloc est donné selon son statut : cassable ou non
+    // la couleur du bloc est donnée selon son statut : cassable ou non
     if (cassable) { 
       couleur = #FEE193;
     } else {
@@ -176,7 +176,7 @@ class PorteB {
 class Personnage {
   /**
    * Permet la construction et l'affichage du personnage.
-   * Cette classe permet également de gerrer les mouvements et les collisions. 
+   * Cette classe permet également de gérer les mouvements et les collisions. 
    **/
   int x;
   int y;
@@ -196,7 +196,7 @@ class Personnage {
   void move (String direction) {
     /**
      * Cette fonction permet le déplacement du personnage.
-     * Elle permet également de gerrer les collisions
+     * Elle permet également de gérer les collisions
      **/
     int j = (this.x-20)/100; // Traduit les x en coordonnés i de la carte
     int i = (this.y-20)/100; // Traduit les y en coordonnées j de la carte
@@ -214,11 +214,11 @@ class Personnage {
       }
       if (mapb.pattern[i][j-1] == -1) {
         //println ("win");
-        mapb.win = "win"; // renvoit "gagné"
+        mapb.win = "win"; // renvoie "gagné"
       }
       if (mapb.pattern[i][j-1] == 6) {
         //println ("Lose");
-        mapb.win = "lose"; // renvoit "perdu"
+        mapb.win = "lose"; // renvoie "perdu"
       }
     } else if (direction == "right") {
       if (mapb.pattern[i][j+1] != 1 && mapb.pattern[i][j+1] != 2 && mapb.pattern[i][j+1] != 5 && mapb.pattern[i][j+1] != -1 && mapb.pattern[i][j+1] != 6) {
@@ -333,7 +333,7 @@ class Bombe {
     this.x = x;
     this.y = y;
     mapb.pattern[i][j] = 4; // la case la matrice prend la valeur 4 (personnage + bombe)
-    timer.start(); // Démmarre le timer
+    timer.start(); // Démarre le timer
   }
 
   void tick() { 

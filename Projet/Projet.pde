@@ -55,7 +55,7 @@ void mapSetup(int mapNumber) {
 
       saveEscapologie(encrypt(patternsToJson())); // permet la sauvegarde des données
 
-      gui.showNewGame(); // renvois au menu
+      gui.showNewGame(); // renvoie au menu
     }
   };
 }
@@ -88,9 +88,11 @@ void setup() {
   background(#FFFFFF);
   frameRate(60);
 
-  /* cette boucle vérifie la présence d'un nom d'utilisateur
-   S'il est inexistant, il faudra en entrer un
-   -- Prévision pour le multijoueur */
+  /**
+   * cette boucle vérifie la présence d'un nom d'utilisateur
+   * S'il est inexistant, il faudra en entrer un
+   * -- Prévision pour le multijoueur 
+   **/
 
   if (!existingUsername()) {
     gui.askForUsernameMenu();
@@ -98,9 +100,10 @@ void setup() {
     gui.showMenu();
   }
 
-  /*game = "bomberman";
-   surface.setSize(701,801);
-   mapb.init();*/
+  /**
+   * game = "bomberman";
+   * surface.setSize(701,801);
+   * mapb.init();*/
 }
 
 
@@ -143,7 +146,7 @@ void mousePressed() { // action lors d'un clique de souris, se reporter au GUI
 }
 
 void keyPressed() { // Ce qu'il se passe quand une touche est pressée
-  // gui.Keyboard envoit les touches du clavier pressées au gui
+  // gui.Keyboard envoie les touches du clavier pressées au gui
   if (key == 27) { // Empèche le programme de se fermer lorsque l'on appuie sur ECHAP
     key = 0;
     gui.keyboard('!', ESC);

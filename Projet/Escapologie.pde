@@ -113,7 +113,7 @@ class Map {
   void move(String direction) { 
     // actions au clavier pour le mouvement
     if (!this.firstKeyPressed) {
-      // permet de lancer le timer au premmier mouvement
+      // permet de lancer le timer au premier mouvement
       firstKeyPressed = true;
       timer.start();
     }
@@ -175,7 +175,7 @@ class Map {
     }
   }
 
-  void checkWin() { // Regarde si tous les blocs sont dans la sortie que leurs correspond
+  void checkWin() { // Regarde si tous les blocs sont dans la sortie qui leurs correspond
     boolean win = true;
     for (int i = 0; i < this.movableBlocks.length; i++) {
       if (this.movableBlocks[i].toMoveX != 0 || this.movableBlocks[i].toMoveY != 0) {
@@ -192,7 +192,7 @@ class Map {
 
     if (win) {
       escapologiePatterns[mapID].done = true;  // le niveau est sauvegardé
-      timer.stop(); // le timer s'arrette 
+      timer.stop(); // le timer s'arrête 
       this.onWin.toDo(); // Ce qu'il faut afficher lors de la fin de la partie apparait
     }
   }
@@ -299,7 +299,7 @@ class Gate { // Class pour les portes de sortie
     rect(this.x + map.spaceX, this.y + map.spaceY, this.size, this.size);
   }
 
-  boolean hasBlock(int[][] pattern) { // La porte à le bloc sur elle
+  boolean hasBlock(int[][] pattern) { // La porte a le bloc sur elle
     if (pattern[this.y/50][this.x/50] == this.id) {
       return true;
     }

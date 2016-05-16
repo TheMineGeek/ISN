@@ -17,14 +17,14 @@ static class Multiplayer {
       return get.getContent();
     }
 
-    static void sendStats(String username, Float score, int mapID) { // envoit les données au serveur
+    static void sendStats(String username, Float score, int mapID) { // envoie les données au serveur
       // println("here");
       PostRequest post = new PostRequest(Multiplayer.statServerAddress + "add");
       post.addData("map", str(mapID)  ); // donne le nom du niveau
       post.addData("username", username); // donne le nom du joueur
       post.addData("score", score.toString()); // donne le score
       post.addData("game", "escapologie"); // donne le nom du jeu
-      post.send(); // envoit les données
+      post.send(); // envoie les données
     }
   }
 

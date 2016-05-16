@@ -6,7 +6,7 @@ class GUI {    // class permettant de gérer l'affichage graphique //<>//
   int mapNumber;
 
   GUIButton[] GUIButtons = new GUIButton[0]; // tableau de boutons
-  GUIInput [] GUIInputs = new GUIInput[0]; // tableau des champs à completer
+  GUIInput [] GUIInputs = new GUIInput[0]; // tableau des champs a completer
 
   /* EVENT FUNCTIONS */
 
@@ -242,7 +242,7 @@ class GUI {    // class permettant de gérer l'affichage graphique //<>//
           int normalStrokeColor;
           println(mapNumber);
 
-          // affiche une couleur différente en fonction de la difficultée du niveau
+          // affiche une couleur différente en fonction de la difficulté du niveau
           if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.EASY) {
             normalStrokeColor = 0xff00FF00;
           } else if (escapologiePatterns[mapNumber].levelDifficulty == LevelDifficulty.MEDIUM ) {
