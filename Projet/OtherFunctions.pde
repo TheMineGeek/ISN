@@ -52,7 +52,7 @@ String patternsToJson() {
     _patterns += escapologiePatterns[i].toJson();
     if (i != escapologiePatterns.length - 1 || bombermanPatterns.length > 0) _patterns += ",\n";
   }
-  
+
   for (int i = 0; i < bombermanPatterns.length; i++) {    
     _patterns += bombermanPatterns[i].toJson();
     if (i != bombermanPatterns.length - 1) _patterns += ",\n";
@@ -103,29 +103,29 @@ void loadEscapologie() {
       e.printStackTrace();
       save = null;
     }
-    
+
     if (save != null) {      
       JSONArray values = JSONArray.parse(decrypt(save));
       println(values.size());
-      
+
       int escapologieCount = 0;
       int bombermanCount = 0;
-      
-      for(int i = 0; i < values.size(); i++) {
-        if("bomberman".equals(values.getJSONObject(i).getString("game"))) {
+
+      for (int i = 0; i < values.size(); i++) {
+        if ("bomberman".equals(values.getJSONObject(i).getString("game"))) {
           bombermanCount++;
-        } else if("escapologie".equals(values.getJSONObject(i).getString("game"))) {
+        } else if ("escapologie".equals(values.getJSONObject(i).getString("game"))) {
           escapologieCount++;
         }
       }
-      
+
       println("OtherFunctions");
       println("escapologie", escapologieCount);
       println("bomberman", bombermanCount);
-      
+
       escapologiePatterns = new Pattern[escapologieCount];
       bombermanPatterns = new Pattern[bombermanCount];
-      
+
       escapologieCount = 0;
       bombermanCount = 0;
 
@@ -152,21 +152,21 @@ void loadEscapologie() {
         }
 
         int[][] pattern = new int[object.getJSONArray("pattern").size()][object.getJSONArray("pattern").getJSONArray(0).size()];
-        
-        if(i == 4) {
+
+        if (i == 4) {
           println(object.getJSONArray("pattern").size(), object.getJSONArray("pattern").getJSONArray(0).size());
         }
-        
+
         for (int j = 0; j < object.getJSONArray("pattern").size(); j++) {
           for (int k = 0; k <  object.getJSONArray("pattern").getJSONArray(0).size(); k++) {
             pattern[j][k] = object.getJSONArray("pattern").getJSONArray(j).getInt(k);
           }
         }
-        
-        if("bomberman".equals(object.getString("game"))) {
+
+        if ("bomberman".equals(object.getString("game"))) {
           bombermanPatterns[bombermanCount] = new Pattern(pattern, id, levelDifficulty, "bomberman", done);
           bombermanCount++;
-        } else if("escapologie".equals(object.getString("game"))) {
+        } else if ("escapologie".equals(object.getString("game"))) {
           escapologiePatterns[escapologieCount] = new Pattern(pattern, id, levelDifficulty, "escapologie", done);
           escapologieCount++;
         }

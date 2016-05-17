@@ -103,7 +103,7 @@ class MapB { //<>// //<>//
 
         timer.start();
         this.win = "";
-      } else if (timer.getTime() > 2) {
+      } else if (timer.getTime() > 1) {
         surface.setSize(900, 500); // redimensionne la fenêtre
         timer.reset(); // le timer se remet à Zéro
         game = ""; // on sort de Bomberman
